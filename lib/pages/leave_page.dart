@@ -42,6 +42,7 @@ class _LeavePageState extends State<LeavePage> {
     final names = prefs.getStringList('leaveNames');
     final counts = prefs.getStringList('leaveCounts');
     final colors = prefs.getStringList('leaveColors');
+    final usedValues = prefs.getStringList('leaveUsedValues');
 
     setState(() {
       if (names != null && counts != null && colors != null) {
@@ -51,6 +52,7 @@ class _LeavePageState extends State<LeavePage> {
             name: names[i],
             count: double.parse(counts[i]),
             color: Color(int.parse(colors[i])),
+            used: usedValues != null && i < usedValues.length ? double.parse(usedValues[i]) : 0.0,
           ),
         );
       }
@@ -64,6 +66,8 @@ class _LeavePageState extends State<LeavePage> {
         'leaveCounts', leaveTypes.map((leave) => leave.count.toStringAsFixed(2)).toList());
     await prefs.setStringList(
         'leaveColors', leaveTypes.map((leave) => leave.color.value.toString()).toList());
+    await prefs.setStringList(
+        'leaveUsedValues', leaveTypes.map((leave) => leave.used.toStringAsFixed(2)).toList());
   }
 
   @override
@@ -115,98 +119,32 @@ class _LeavePageState extends State<LeavePage> {
                         itemCount: leaveTypes.length,
                         itemBuilder: (context, index) {
                           final leave = leaveTypes[index];
-                          return Card(
-                            elevation: 2,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () =>
-                                              isEditing ? _showEditNameDialog(leave) : null,
-                                          child: Text(
-                                            leave.name,
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              decoration: isEditing
-                                                  ? TextDecoration.underline
-                                                  : TextDecoration.none,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      if (isModifying)
-                                        IconButton(
-                                          icon: const Icon(Icons.delete, color: Colors.red),
-                                          onPressed: () {
-                                            setState(() {
-                                              leaveTypes.removeAt(index);
-                                            });
-                                            _saveLeaveData();
-                                          },
-                                        ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: leave.color.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(Icons.remove, color: Colors.white),
-                                          onPressed: () {
-                                            setState(() {
-                                              if (leave.count >= 0.25) {
-                                                leave.count = validateLeaveCount(leave.count - 1);
-                                                _saveLeaveData();
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        GestureDetector(
-                                          onTap: () => _showInputDialog(leave),
-                                          child: Text(
-                                            leave.count
-                                                    .toString()
-                                                    .replaceAll(RegExp(r'.\d+$'), '')
-                                                    .length >
-                                                10
-                                                ? leave.count.toStringAsExponential(2)
-                                                : leave.count.toStringAsFixed(2),
-                                            style: const TextStyle(
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.add, color: Colors.white),
-                                          onPressed: () {
-                                            setState(() {
-                                              leave.count =
-                                                  validateLeaveCount(leave.count + 0.5);
-                                              _saveLeaveData();
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          return LeaveCard(
+                            leave: leave,
+                            isEditing: isEditing,
+                            isModifying: isModifying,
+                            onEditName: () => _showEditNameDialog(leave),
+                            onDelete: () {
+                              setState(() {
+                                leaveTypes.removeAt(index);
+                              });
+                              _saveLeaveData();
+                            },
+                            onEditTotalCount: () => _showInputDialog(leave),
+                            onIncrementUsed: () {
+                              setState(() {
+                                leave.used = validateLeaveCount(leave.used + 0.5);
+                                if (leave.used > leave.count) leave.used = leave.count;
+                                _saveLeaveData();
+                              });
+                            },
+                            onDecrementUsed: () {
+                              setState(() {
+                                leave.used = validateLeaveCount(leave.used - 0.5);
+                                if (leave.used < 0) leave.used = 0;
+                                _saveLeaveData();
+                              });
+                            },
                           );
                         },
                       ),
@@ -374,6 +312,116 @@ class _LeavePageState extends State<LeavePage> {
           ],
         );
       },
+    );
+  }
+}
+
+class LeaveCard extends StatelessWidget {
+  final LeaveType leave;
+  final bool isEditing;
+  final bool isModifying;
+  final VoidCallback onEditName;
+  final VoidCallback onDelete;
+  final VoidCallback onEditTotalCount;
+  final VoidCallback onIncrementUsed;
+  final VoidCallback onDecrementUsed;
+
+  const LeaveCard({
+    super.key,
+    required this.leave,
+    required this.isEditing,
+    required this.isModifying,
+    required this.onEditName,
+    required this.onDelete,
+    required this.onEditTotalCount,
+    required this.onIncrementUsed,
+    required this.onDecrementUsed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: isEditing ? onEditName : null,
+                    child: Text(
+                      leave.name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        decoration: isEditing ? TextDecoration.underline : TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ),
+                if (isModifying)
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: onDelete,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                color: leave.color.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total: ${leave.count.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.white, size: 20),
+                    onPressed: onEditTotalCount,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Used: ${leave.used.toStringAsFixed(2)}', style: const TextStyle(fontSize: 16)),
+                    Text('Remaining: ${(leave.count - leave.used).toStringAsFixed(2)}', style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.remove_circle_outline),
+                      color: leave.used <= 0 ? Colors.grey : Theme.of(context).colorScheme.primary,
+                      onPressed: leave.used <= 0 ? null : onDecrementUsed,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add_circle_outline),
+                      color: leave.used >= leave.count ? Colors.grey : Theme.of(context).colorScheme.primary,
+                      onPressed: leave.used >= leave.count ? null : onIncrementUsed,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
