@@ -9,10 +9,7 @@
 ## **✨ Features**  
 
 - **Intuitive Interface** – Easy to use for everyone.  
-- **Leave Page** – Track your leave balances in one place.  
+- **Stats Page** – Track your leave balances in one place.  
 - **Calendar Page** – Log leave days, plan ahead, and manage multiple events.  
-- **About Page** – Stay updated with the latest changes.  
-- **Navigation Menu** – Quick access to all pages + app version info.  
-- **Dark Mode** – Smoothly animated light/dark mode toggle for customization.  
 
 ---
