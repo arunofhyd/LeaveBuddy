@@ -104,6 +104,7 @@
         .day-cell:not(.other-month):not(.today):hover {
             background-color: var(--bg-tertiary);
         }
+        /* No longer using .leave-indicator as the whole cell is colored.
         .leave-indicator {
             position: absolute;
             bottom: 4px;
@@ -117,6 +118,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        */
+        .day-cell.has-leave {
+            color: white; /* Ensure text is readable on colored backgrounds */
         }
         
         /* Modal and Picker Styles */
@@ -228,6 +233,11 @@
                 gap: 24px;
             }
         }
+        /* New half-day styling */
+        .day-cell.half-day {
+            background-image: linear-gradient(to right, var(--leave-color) 50%, var(--bg-secondary) 50%);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -274,9 +284,13 @@
                 </div>
                 <div id="calendar-grid" class="calendar-grid"></div>
                 <div class="calendar-legend">
-                    <div class="legend-item">
-                        <i class="fas fa-palette text-blue-500"></i>
-                        <span>Select a leave type above</span>
+                    <div class="legend-item flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                        <span>Full day</span>
+                    </div>
+                    <div class="legend-item flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-blue-500" style="background-image: linear-gradient(to right, #3C82F6 50%, #ffffff 50%);"></div>
+                        <span>Half day</span>
                     </div>
                     <div class="legend-item">
                         <i class="fas fa-mouse-pointer text-blue-500"></i>
@@ -341,7 +355,8 @@
                 currentTab: 'calendar',
                 focusedDate: new Date(),
                 leaveTypes: [], // [{ id, name, total, monthlyCredit, color, colorIndex }]
-                leaveRecords: {}, // { 'YYYY-MM-DD': 'leaveTypeId' }
+                // Updated leaveRecords to store objects for half-day support
+                leaveRecords: {}, // { 'YYYY-MM-DD': { typeId: 'leaveTypeId', isHalfDay: false } }
                 selectedLeaveType: null,
                 isDragging: false,
                 selectedDates: new Set(),
@@ -385,14 +400,20 @@
                     try {
                         const parsedState = JSON.parse(saved);
                         state.leaveTypes = parsedState.leaveTypes || [];
-                        state.leaveRecords = parsedState.leaveRecords || {};
+                        // Handle legacy data format by converting string IDs to objects
+                        if (parsedState.leaveRecords) {
+                            state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
+                                acc[date] = (typeof value === 'string') ? { typeId: value, isHalfDay: false } : value;
+                                return acc;
+                            }, {});
+                        }
                     } catch (e) {
                         console.error("Failed to load state from localStorage:", e);
                         localStorage.removeItem('leaveBuddyState');
                     }
                 }
             }
-
+            
             // --- RENDER FUNCTIONS ---
             function render() {
                 renderTabs();
@@ -465,15 +486,19 @@
                     if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
                     if (dayStr === todayStr) dayEl.classList.add('today');
 
-                    const leaveId = state.leaveRecords[dayStr];
-                    if (leaveId) {
-                        const leaveType = state.leaveTypes.find(lt => lt.id === leaveId);
+                    const leaveRecord = state.leaveRecords[dayStr];
+                    if (leaveRecord) {
+                        const leaveType = state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
                         if (leaveType) {
-                            const indicator = document.createElement('div');
-                            indicator.className = 'leave-indicator';
-                            indicator.textContent = leaveType.name;
-                            indicator.style.backgroundColor = leaveType.color;
-                            dayEl.appendChild(indicator);
+                            if (leaveRecord.isHalfDay) {
+                                // Apply half-day visualization
+                                dayEl.classList.add('half-day');
+                                dayEl.style.setProperty('--leave-color', leaveType.color);
+                            } else {
+                                // Apply full-day color
+                                dayEl.style.backgroundColor = leaveType.color;
+                                dayEl.classList.add('has-leave');
+                            }
                         }
                     }
                     calendarGrid.appendChild(dayEl);
@@ -491,7 +516,10 @@
                 emptyStatsState.classList.add('hidden');
 
                 state.leaveTypes.forEach(lt => {
-                    const usedDays = Object.values(state.leaveRecords).filter(id => id === lt.id).length;
+                    // Calculate used days with half-day logic
+                    const usedDays = Object.values(state.leaveRecords)
+                        .filter(record => record.typeId === lt.id)
+                        .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
                     
                     const totalDays = lt.total;
                     const remaining = Math.max(0, totalDays - usedDays);
@@ -589,8 +617,10 @@
 
                     dragStartCell = targetCell;
                     const dateStr = dragStartCell.dataset.date;
+                    const recordExists = state.leaveRecords[dateStr];
                     
-                    state.dragMode = state.leaveRecords[dateStr] ? 'remove' : 'add';
+                    // Determine drag mode: add if no leave exists, remove if leave of selected type exists
+                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType) ? 'remove' : 'add';
                     
                     state.selectedDates.add(dateStr);
                     updateDragVisuals();
@@ -656,18 +686,24 @@
                 if (state.selectedDates.size === 0) return;
                 
                 const datesToChange = Array.from(state.selectedDates).filter(dateStr => {
-                    const isAlreadyLeave = state.leaveRecords[dateStr] === state.selectedLeaveType;
+                    const record = state.leaveRecords[dateStr];
+                    const isAlreadyLeave = record && record.typeId === state.selectedLeaveType;
                     return (state.dragMode === 'add' && !isAlreadyLeave) || (state.dragMode === 'remove' && isAlreadyLeave);
                 });
                 
                 if (state.dragMode === 'add') {
                     const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
                     if (leaveType) {
-                        const usedDays = Object.values(state.leaveRecords).filter(id => id === leaveType.id).length;
-                        const totalDays = leaveType.total;
+                        // Recalculate used days for balance check, accounting for half days
+                        const currentUsed = Object.values(state.leaveRecords)
+                            .filter(record => record.typeId === leaveType.id)
+                            .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
+                        
+                        const isHalfDayLeave = leaveType.name.toLowerCase().includes('half');
+                        const daysToAdd = isHalfDayLeave ? datesToChange.length * 0.5 : datesToChange.length;
 
-                        if (usedDays + datesToChange.length > totalDays) {
-                            showToast(`Cannot add ${datesToChange.length} days. Not enough balance!`, 'error');
+                        if (currentUsed + daysToAdd > leaveType.total) {
+                            showToast(`Cannot add ${daysToAdd} days. Not enough balance!`, 'error');
                             return;
                         }
                     }
@@ -676,7 +712,9 @@
                 if(datesToChange.length > 0) {
                     datesToChange.forEach(dateStr => {
                         if (state.dragMode === 'add') {
-                            state.leaveRecords[dateStr] = state.selectedLeaveType;
+                            const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
+                            const isHalfDayLeave = leaveType.name.toLowerCase().includes('half');
+                            state.leaveRecords[dateStr] = { typeId: state.selectedLeaveType, isHalfDay: isHalfDayLeave };
                         } else {
                             delete state.leaveRecords[dateStr];
                         }
@@ -792,8 +830,9 @@
                     case 'confirm-delete-leave':
                         const leaveIdToDelete = target.dataset.id;
                         state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== leaveIdToDelete);
+                        // Filter out all leave records associated with the deleted leave type
                         state.leaveRecords = Object.fromEntries(
-                            Object.entries(state.leaveRecords).filter(([date, ltId]) => ltId !== leaveIdToDelete)
+                            Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== leaveIdToDelete)
                         );
                         hideModal();
                         saveState();
@@ -880,6 +919,23 @@
                     </div>
                 `);
             });
+            
+            modalContent.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-action]');
+                if (!target) return;
+
+                switch (target.dataset.action) {
+                    case 'confirm-reset':
+                        state.leaveTypes = [];
+                        state.leaveRecords = {};
+                        hideModal();
+                        saveState();
+                        render();
+                        showToast('All data has been reset!', 'success');
+                        break;
+                }
+            });
+
 
             function showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
@@ -900,7 +956,7 @@
                     <div class="space-y-6 p-4">
                         <div class="form-group">
                             <label for="leave-name" class="block text-sm font-medium text-gray-700">Leave Type Name</label>
-                            <input type="text" id="leave-name" value="${initialName}" class="mt-1 block w-full px-3 py-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base" placeholder="e.g., Annual Leave">
+                            <input type="text" id="leave-name" value="${initialName}" class="mt-1 block w-full px-3 py-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base" placeholder="e.g., Annual Leave or Half Day Sick Leave">
                         </div>
                         <div class="form-group">
                             <label for="leave-total" class="block text-sm font-medium text-gray-700">Total Days per Year</label>
