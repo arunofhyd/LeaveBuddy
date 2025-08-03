@@ -4,8 +4,6 @@
 
 **LeaveBuddy** is a simple, user-friendly tool for managing your leave balances effortlessly. No need to check work systems—track everything at your fingertips!  
 
-### **👨‍💻 Developed by Arun Thomas**  
-
 ---
 
 ## **✨ Features**  
