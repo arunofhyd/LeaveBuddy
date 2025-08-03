@@ -4,54 +4,973 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Buddy</title>
+
+    <!-- Preconnect to improve font loading speed -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Tailwind CSS and Inter Font -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PWA Meta Tags and Icons -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="assets/icon/abouticon.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/icon/abouticon.png">
     <meta name="theme-color" content="#ffffff">
+    
+    <!-- The user requested external stylesheet, but existing essential styles are inline for this artifact. -->
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-    <div class="app-container">
-        <header class="app-header">
-            <img src="assets/icon/abouticon.png" alt="Leave Buddy Logo" class="header-logo">
-            <h2>Leave Buddy</h2>
+    <style>
+        /* Base light theme properties */
+        :root {
+            --bg-primary: #f3f4f6;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .main-color-text {
+            color: #4f46e5;
+        }
+        .main-color-bg {
+            background-color: #4f46e5;
+        }
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        
+        .leave-type-pill.active {
+            outline: 2px solid #4f46e5;
+            outline-offset: 2px;
+        }
+
+        /* Calendar Specific Styles */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .day-cell {
+            transition: all 0.2s ease-in-out;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            background-color: var(--bg-secondary);
+        }
+        .day-cell.other-month {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .day-cell.today {
+            font-weight: bold;
+            color: var(--text-primary);
+            border: 2px solid #4f46e5;
+        }
+        .day-cell.today .day-number {
+            color: var(--text-primary);
+        }
+        .day-cell.weekend {
+            background-color: var(--bg-tertiary);
+        }
+        .day-cell.sunday .day-number {
+            color: #ef4444;
+        }
+        .day-cell.selected {
+            background-color: #bfdbfe;
+            border: 2px solid #3b82f6;
+        }
+        .day-cell.active-leave {
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+            transform: scale(1.05);
+        }
+        .day-cell:not(.other-month):not(.today):hover {
+            background-color: var(--bg-tertiary);
+        }
+        .leave-indicator {
+            position: absolute;
+            bottom: 4px;
+            width: 90%;
+            padding: 2px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 9999px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Modal and Picker Styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .modal-content {
+            padding: 2rem;
+        }
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .color-option {
+            width: 36px;
+            height: 36px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        .color-option.selected {
+            border-color: #4f46e5;
+            transform: scale(1.1);
+        }
+        .color-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .picker-cell {
+            padding: 12px 0;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .picker-cell:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Mobile-first adjustments */
+        @media (max-width: 640px) {
+            .app-container {
+                padding: 1rem;
+            }
+            .main-content > div {
+                padding: 1rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .stats-card, .setting-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .stats-card .leave-type-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .stats-card .stats-summary {
+                margin-top: 1rem;
+            }
+        }
+        .calendar-legend {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+        @media (min-width: 641px) {
+            .calendar-legend {
+                flex-direction: row;
+                justify-content: center;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="app-container max-w-xl mx-auto p-4 md:p-8">
+        <header class="app-header text-center my-6 flex justify-center items-center gap-3">
+            <img src="assets/icon/abouticon.png" alt="Leave Buddy Logo" class="header-logo w-12 h-12 rounded-full">
+            <h2 class="text-4xl font-bold main-color-text">Leave Buddy</h2>
         </header>
 
-        <nav class="app-tabs">
-            <button class="nav-button active" data-action="change-view" data-view="calendar">
-                <i class="fas fa-calendar-days"></i> Calendar
+        <nav class="flex justify-center bg-gray-200 rounded-lg p-1 mb-6">
+            <button data-tab="calendar" class="tab-btn flex-1 py-2 px-4 rounded-lg font-semibold transition-colors active">
+                <i class="fas fa-calendar-days mr-2"></i>Calendar
             </button>
-            <button class="nav-button" data-action="change-view" data-view="stats">
-                <i class="fas fa-chart-pie"></i> Stats
+            <button data-tab="stats" class="tab-btn flex-1 py-2 px-4 rounded-lg font-semibold transition-colors">
+                <i class="fas fa-chart-pie mr-2"></i>Stats
             </button>
-            <button class="nav-button" data-action="change-view" data-view="settings">
-                <i class="fas fa-cog"></i> Settings
+            <button data-tab="settings" class="tab-btn flex-1 py-2 px-4 rounded-lg font-semibold transition-colors">
+                <i class="fas fa-cog mr-2"></i>Settings
             </button>
         </nav>
 
-        <main id="main-content" class="main-content">
-            </main>
-
-        <footer class="app-footer">
-            <a href="mailto:arunthomas040402001@gmail.com">
-                <i class="fas fa-envelope"></i>
-                Reach out to the developer
-            </a>
-        </footer>
-    </div>
-
-    <div id="modal-overlay" class="modal-overlay">
-        <div id="modal-content" class="modal-content">
+        <div id="tab-content">
+            <!-- Calendar Tab -->
+            <div id="calendar-tab" class="tab-pane bg-white p-6 rounded-2xl shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <button id="prev-month-btn" class="p-2 rounded-full hover:bg-gray-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h2 id="month-year" class="text-xl font-semibold main-color-text cursor-pointer hover:underline"></h2>
+                    <button id="next-month-btn" class="p-2 rounded-full hover:bg-gray-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+                <div id="leave-type-selector" class="flex flex-wrap gap-2 justify-center mb-4"></div>
+                <div class="grid grid-cols-7 text-center font-medium text-gray-500 mb-2">
+                    <div class="text-red-500">Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <i class="fas fa-palette text-blue-500"></i>
+                        <span>Select a leave type above</span>
+                    </div>
+                    <div class="legend-item">
+                        <i class="fas fa-mouse-pointer text-blue-500"></i>
+                        <span>Click & drag to select days</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- Stats Tab -->
+            <div id="stats-tab" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-lg space-y-6">
+                <div id="stats-grid" class="grid grid-cols-1 gap-6"></div>
+                <div id="empty-stats-state" class="hidden text-center p-8 text-gray-500">
+                    <i class="fas fa-chart-line text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">No Leave Types Yet</h3>
+                    <p class="mb-4">Create your first leave type to start tracking your time off.</p>
+                </div>
+                <button id="add-leave-btn-stats" class="w-full flex items-center justify-center gap-2 px-6 py-3 main-color-bg text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-opacity">
+                    <i class="fas fa-plus"></i> Add New Leave Type
+                </button>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-lg space-y-6">
+                <!-- Backup & Reset -->
+                <section class="bg-gray-100 p-4 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-4 text-center main-color-text">Data Management</h3>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="export-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg hover:bg-gray-400 transition-colors">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button id="import-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 main-color-bg text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
+                            <i class="fas fa-upload"></i> Import
+                        </button>
+                        <input type="file" id="upload-data-input" class="hidden" accept=".json">
+                    </div>
+                    <div class="mt-4">
+                        <button id="reset-data-btn" class="w-full mt-4 bg-red-600 text-white font-semibold py-3 rounded-lg hover:bg-red-700 transition-colors">
+                            Reset All Data
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Footer Contact -->
+                <footer class="text-center mt-8 space-y-2 text-sm">
+                    <a href="mailto:arunthomas040402001@gmail.com" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors">
+                        <i class="fas fa-envelope"></i> Reach out to the developer
+                    </a>
+                </footer>
+            </div>
+        </div>
     </div>
 
-    <div id="toast-container"></div>
+    <!-- Modals -->
+    <div id="modal-container" class="hidden modal-backdrop">
+        <div id="modal-content" class="bg-white p-6 rounded-2xl shadow-2xl w-11/12 max-w-lg"></div>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE MANAGEMENT ---
+            let state = {
+                currentTab: 'calendar',
+                focusedDate: new Date(),
+                leaveTypes: [], // [{ id, name, total, monthlyCredit, color, colorIndex }]
+                leaveRecords: {}, // { 'YYYY-MM-DD': 'leaveTypeId' }
+                selectedLeaveType: null,
+                isDragging: false,
+                selectedDates: new Set(),
+                dragMode: null, // 'add' or 'remove'
+            };
+
+            const LEAVE_COLORS = [
+                '#20C65F', '#3C82F6', '#A955F7', '#F43F5F', '#F69E0C',
+                '#13B8A6', '#6366F1', '#EC4899'
+            ];
+
+            // --- DOM ELEMENTS ---
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            const calendarGrid = document.getElementById('calendar-grid');
+            const monthYearDisplay = document.getElementById('month-year');
+            const prevMonthBtn = document.getElementById('prev-month-btn');
+            const nextMonthBtn = document.getElementById('next-month-btn');
+            const leaveTypeSelector = document.getElementById('leave-type-selector');
+            const statsGrid = document.getElementById('stats-grid');
+            const emptyStatsState = document.getElementById('empty-stats-state');
+            const addLeaveBtnStats = document.getElementById('add-leave-btn-stats');
+            const modalContainer = document.getElementById('modal-container');
+            const modalContent = document.getElementById('modal-content');
+            const exportDataBtn = document.getElementById('export-data-btn');
+            const importDataBtn = document.getElementById('import-data-btn');
+            const uploadDataInput = document.getElementById('upload-data-input');
+            const resetDataBtn = document.getElementById('reset-data-btn');
+
+            // --- LOCAL STORAGE ---
+            function saveState() {
+                localStorage.setItem('leaveBuddyState', JSON.stringify({
+                    leaveTypes: state.leaveTypes,
+                    leaveRecords: state.leaveRecords,
+                }));
+            }
+
+            function loadState() {
+                const saved = localStorage.getItem('leaveBuddyState');
+                if (saved) {
+                    try {
+                        const parsedState = JSON.parse(saved);
+                        state.leaveTypes = parsedState.leaveTypes || [];
+                        state.leaveRecords = parsedState.leaveRecords || {};
+                    } catch (e) {
+                        console.error("Failed to load state from localStorage:", e);
+                        localStorage.removeItem('leaveBuddyState');
+                    }
+                }
+            }
+
+            // --- RENDER FUNCTIONS ---
+            function render() {
+                renderTabs();
+                switch (state.currentTab) {
+                    case 'calendar':
+                        renderCalendar();
+                        break;
+                    case 'stats':
+                        renderStats();
+                        break;
+                    case 'settings':
+                        // The settings tab doesn't have dynamic content, so no render function is needed.
+                        break;
+                }
+            }
+
+            function renderTabs() {
+                tabPanes.forEach(pane => pane.classList.add('hidden'));
+                document.getElementById(`${state.currentTab}-tab`).classList.remove('hidden');
+                tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === state.currentTab));
+            }
+
+            function renderCalendar() {
+                const year = state.focusedDate.getFullYear();
+                const month = state.focusedDate.getMonth();
+                monthYearDisplay.textContent = `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
+                
+                let leaveTypeHtml = state.leaveTypes.map(lt => `
+                    <button class="leave-type-pill text-sm py-1 px-4 rounded-full font-semibold transition-colors text-white shadow-sm hover:opacity-90 ${state.selectedLeaveType === lt.id ? 'active' : ''}"
+                            data-id="${lt.id}"
+                            style="background-color: ${lt.color};">
+                        ${lt.name}
+                    </button>
+                `).join('');
+                if (state.leaveTypes.length === 0) {
+                    leaveTypeHtml = `<p class="text-sm text-gray-500 italic text-center">Add a leave type in Stats to get started.</p>`;
+                }
+                leaveTypeSelector.innerHTML = leaveTypeHtml;
+                
+                renderCalendarGrid();
+                setupDragAndDrop();
+            }
+
+            function renderCalendarGrid() {
+                const year = state.focusedDate.getFullYear();
+                const month = state.focusedDate.getMonth();
+                const firstDayOfMonth = new Date(year, month, 1);
+                const lastDayOfMonth = new Date(year, month + 1, 0);
+                const firstDayIndex = firstDayOfMonth.getDay();
+                
+                calendarGrid.innerHTML = '';
+                
+                for (let i = 0; i < firstDayIndex; i++) {
+                    const emptyDiv = document.createElement('div');
+                    emptyDiv.className = 'day-cell other-month';
+                    calendarGrid.appendChild(emptyDiv);
+                }
+
+                const todayStr = toISODateString(new Date());
+
+                for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+                    const dayDate = new Date(year, month, i);
+                    const dayStr = toISODateString(dayDate);
+                    
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'day-cell cursor-pointer p-1';
+                    dayEl.innerHTML = `<span class="day-number text-sm font-semibold">${i}</span>`;
+                    dayEl.dataset.date = dayStr;
+
+                    if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
+                    if (dayStr === todayStr) dayEl.classList.add('today');
+
+                    const leaveId = state.leaveRecords[dayStr];
+                    if (leaveId) {
+                        const leaveType = state.leaveTypes.find(lt => lt.id === leaveId);
+                        if (leaveType) {
+                            const indicator = document.createElement('div');
+                            indicator.className = 'leave-indicator';
+                            indicator.textContent = leaveType.name;
+                            indicator.style.backgroundColor = leaveType.color;
+                            dayEl.appendChild(indicator);
+                        }
+                    }
+                    calendarGrid.appendChild(dayEl);
+                }
+            }
+            
+            function renderStats() {
+                statsGrid.innerHTML = '';
+                if (state.leaveTypes.length === 0) {
+                    statsGrid.classList.add('hidden');
+                    emptyStatsState.classList.remove('hidden');
+                    return;
+                }
+                statsGrid.classList.remove('hidden');
+                emptyStatsState.classList.add('hidden');
+
+                state.leaveTypes.forEach(lt => {
+                    const usedDays = Object.values(state.leaveRecords).filter(id => id === lt.id).length;
+                    
+                    const totalDays = lt.total;
+                    const remaining = Math.max(0, totalDays - usedDays);
+                    const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-2xl shadow-lg border border-gray-200';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-4 h-4 rounded-full" style="background-color: ${lt.color};"></div>
+                                <h3 class="font-bold text-lg">${lt.name}</h3>
+                            </div>
+                            <button class="text-gray-400 hover:text-blue-600" data-action="edit-leave-type-stats" data-id="${lt.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2.5 mb-2">
+                            <div class="h-2.5 rounded-full" style="width: ${percentage}%; background-color: ${lt.color};"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mb-4">
+                            <span>${usedDays} Used</span>
+                            <span>${remaining.toFixed(1)} Remaining</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-center text-sm">
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="font-medium text-gray-600">Current Balance</p>
+                                <p class="text-xl font-bold main-color-text">${remaining.toFixed(1)}</p>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="font-medium text-gray-600">Total Days</p>
+                                <p class="text-xl font-bold main-color-text">${lt.total}</p>
+                            </div>
+                        </div>
+                    `;
+                    statsGrid.appendChild(card);
+                });
+            }
+
+            // --- UTILITY FUNCTIONS ---
+            function toISODateString(date) {
+                const pad = (num) => (num < 10 ? '0' : '') + num;
+                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+            }
+
+            function showModal(title, content) {
+                modalContainer.classList.remove('hidden');
+                modalContent.innerHTML = `
+                    <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold main-color-text">${title}</h2>
+                        <button id="close-modal-btn" data-action="close-modal" class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    ${content}
+                `;
+            }
+
+            function hideModal() {
+                modalContainer.classList.add('hidden');
+                modalContent.innerHTML = '';
+            }
+
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-lg flex items-center gap-2 transform translate-x-full transition-transform duration-300 ${type === 'success' ? 'bg-green-500 text-white' : type === 'error' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`;
+                toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i><span>${message}</span>`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.classList.remove('translate-x-full'), 10);
+                setTimeout(() => {
+                    toast.classList.add('translate-x-full');
+                    toast.addEventListener('transitionend', () => toast.remove());
+                }, 3000);
+            }
+
+            // --- CORE LOGIC FUNCTIONS ---
+            function setupDragAndDrop() {
+                let isMouseDown = false;
+                let dragStartCell = null;
+                
+                calendarGrid.onmousedown = (e) => {
+                    const targetCell = e.target.closest('.day-cell');
+                    if (!targetCell || targetCell.classList.contains('other-month')) return;
+                    
+                    if (!state.selectedLeaveType) {
+                        showToast('Please select a leave type first!', 'info');
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    isMouseDown = true;
+                    state.selectedDates.clear();
+                    
+                    document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('active-leave'));
+
+                    dragStartCell = targetCell;
+                    const dateStr = dragStartCell.dataset.date;
+                    
+                    state.dragMode = state.leaveRecords[dateStr] ? 'remove' : 'add';
+                    
+                    state.selectedDates.add(dateStr);
+                    updateDragVisuals();
+                };
+                
+                calendarGrid.onmouseover = (e) => {
+                    if (!isMouseDown) return;
+                    const targetCell = e.target.closest('.day-cell');
+                    if (!targetCell || targetCell.classList.contains('other-month')) return;
+                    
+                    state.selectedDates.clear();
+                    const dates = getDatesBetween(dragStartCell.dataset.date, targetCell.dataset.date);
+                    dates.forEach(d => state.selectedDates.add(d));
+                    
+                    updateDragVisuals();
+                };
+                
+                document.onmouseup = () => {
+                    if (isMouseDown) {
+                        applySelectedDates();
+                    }
+                    isMouseDown = false;
+                    state.selectedDates.clear();
+                    updateDragVisuals();
+                };
+                
+                calendarGrid.onclick = (e) => {
+                    const targetCell = e.target.closest('.day-cell');
+                    if (!targetCell || targetCell.classList.contains('other-month')) return;
+                    
+                    const dateStr = targetCell.dataset.date;
+                    if (state.leaveRecords[dateStr]) {
+                         document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('active-leave'));
+                         targetCell.classList.add('active-leave');
+                    } else {
+                         document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('active-leave'));
+                    }
+                };
+            }
+            
+            function getDatesBetween(startStr, endStr) {
+                const dates = [];
+                let start = new Date(startStr);
+                let end = new Date(endStr);
+                if (start > end) [start, end] = [end, start];
+                
+                let current = new Date(start);
+                while (current <= end) {
+                    dates.push(toISODateString(current));
+                    current.setDate(current.getDate() + 1);
+                }
+                return dates;
+            }
+            
+            function updateDragVisuals() {
+                document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
+                    const dateStr = cell.dataset.date;
+                    cell.classList.toggle('selected', state.selectedDates.has(dateStr));
+                });
+            }
+            
+            function applySelectedDates() {
+                if (state.selectedDates.size === 0) return;
+                
+                const datesToChange = Array.from(state.selectedDates).filter(dateStr => {
+                    const isAlreadyLeave = state.leaveRecords[dateStr] === state.selectedLeaveType;
+                    return (state.dragMode === 'add' && !isAlreadyLeave) || (state.dragMode === 'remove' && isAlreadyLeave);
+                });
+                
+                if (state.dragMode === 'add') {
+                    const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
+                    if (leaveType) {
+                        const usedDays = Object.values(state.leaveRecords).filter(id => id === leaveType.id).length;
+                        const totalDays = leaveType.total;
+
+                        if (usedDays + datesToChange.length > totalDays) {
+                            showToast(`Cannot add ${datesToChange.length} days. Not enough balance!`, 'error');
+                            return;
+                        }
+                    }
+                }
+                
+                if(datesToChange.length > 0) {
+                    datesToChange.forEach(dateStr => {
+                        if (state.dragMode === 'add') {
+                            state.leaveRecords[dateStr] = state.selectedLeaveType;
+                        } else {
+                            delete state.leaveRecords[dateStr];
+                        }
+                    });
+                    
+                    saveState();
+                    renderCalendar();
+                    const action = state.dragMode === 'add' ? 'added' : 'removed';
+                    showToast(`${datesToChange.length} day${datesToChange.length > 1 ? 's' : ''} ${action}!`, 'success');
+                }
+            }
+            
+            // --- EVENT LISTENERS ---
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.currentTab = btn.dataset.tab;
+                    render();
+                });
+            });
+
+            leaveTypeSelector.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (btn && btn.dataset.id) {
+                    state.selectedLeaveType = btn.dataset.id;
+                    document.querySelectorAll('.leave-type-pill').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    showToast(`Selected: ${btn.textContent.trim()}`, 'info');
+                }
+            });
+
+            prevMonthBtn.addEventListener('click', () => {
+                state.focusedDate.setMonth(state.focusedDate.getMonth() - 1);
+                renderCalendar();
+            });
+
+            nextMonthBtn.addEventListener('click', () => {
+                state.focusedDate.setMonth(state.focusedDate.getMonth() + 1);
+                renderCalendar();
+            });
+            
+            monthYearDisplay.addEventListener('click', () => {
+                showMonthYearPickerModal();
+            });
+
+            addLeaveBtnStats.addEventListener('click', () => {
+                showLeaveTypeModal();
+            });
+            
+            statsGrid.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-action="edit-leave-type-stats"]');
+                if(target) {
+                    const id = target.dataset.id;
+                    const leaveType = state.leaveTypes.find(lt => lt.id === id);
+                    if (leaveType) {
+                        showLeaveTypeModal(leaveType);
+                    }
+                }
+            });
+
+            modalContent.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-action]');
+                if (!target) return;
+
+                switch (target.dataset.action) {
+                    case 'save-leave-type':
+                        const id = target.dataset.id;
+                        const name = document.getElementById('leave-name').value.trim();
+                        const totalInput = document.getElementById('leave-total').value;
+                        const total = totalInput ? parseInt(totalInput) : 0;
+                        const selectedColorBtn = document.querySelector('.color-option.selected');
+                        const colorIndex = selectedColorBtn ? parseInt(selectedColorBtn.dataset.colorIndex) : 0;
+                        const color = LEAVE_COLORS[colorIndex];
+
+                        if (!name || !total || !selectedColorBtn) {
+                            showToast('Please fill all required fields.', 'error');
+                            return;
+                        }
+                        
+                        // Check if we are editing an existing leave type or adding a new one
+                        if (id) {
+                            const lt = state.leaveTypes.find(l => l.id === id);
+                            if (lt) {
+                                lt.name = name;
+                                lt.total = total;
+                                lt.monthlyCredit = 0; // Removed accrual
+                                lt.color = color;
+                            }
+                        } else {
+                            // This is a new leave type, generate a new ID
+                            const newId = `lt_${Date.now()}`;
+                            state.leaveTypes.push({ id: newId, name, total, monthlyCredit: 0, color, colorIndex });
+                        }
+
+                        hideModal();
+                        saveState();
+                        renderStats();
+                        renderCalendar();
+                        break;
+                    
+                    case 'delete-leave-type':
+                        const deleteId = target.dataset.id;
+                        showModal('Confirm Deletion', `
+                            <div class="space-y-4 pt-4">
+                                <p class="text-sm text-gray-600">Are you sure you want to delete this leave type? This action cannot be undone and will remove all recorded leave days of this type.</p>
+                            </div>
+                            <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
+                                <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+                                <button data-action="confirm-delete-leave" data-id="${deleteId}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Delete</button>
+                            </div>
+                        `);
+                        break;
+                    
+                    case 'confirm-delete-leave':
+                        const leaveIdToDelete = target.dataset.id;
+                        state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== leaveIdToDelete);
+                        state.leaveRecords = Object.fromEntries(
+                            Object.entries(state.leaveRecords).filter(([date, ltId]) => ltId !== leaveIdToDelete)
+                        );
+                        hideModal();
+                        saveState();
+                        renderStats();
+                        renderCalendar();
+                        showToast('Leave type deleted successfully!', 'success');
+                        break;
+                    
+                    case 'select-color':
+                        document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
+                        target.classList.add('selected');
+                        break;
+
+                    case 'picker-prev-year':
+                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() - 1);
+                        updateMonthYearPickerDisplay();
+                        break;
+                    case 'picker-next-year':
+                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() + 1);
+                        updateMonthYearPickerDisplay();
+                        break;
+                    case 'select-month-from-picker':
+                        state.focusedDate.setMonth(parseInt(target.dataset.month));
+                        hideModal();
+                        renderCalendar();
+                        break;
+                    case 'close-modal':
+                        hideModal();
+                        break;
+                }
+            });
+
+            exportDataBtn.addEventListener('click', () => {
+                const dataStr = JSON.stringify({ leaveTypes: state.leaveTypes, leaveRecords: state.leaveRecords }, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('Data exported successfully!', 'success');
+            });
+
+            importDataBtn.addEventListener('click', () => {
+                uploadDataInput.click();
+            });
+
+            uploadDataInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        if (data.leaveTypes && data.leaveRecords) {
+                            state.leaveTypes = data.leaveTypes;
+                            state.leaveRecords = data.leaveRecords;
+                            saveState();
+                            render();
+                            showToast('Data imported successfully!', 'success');
+                        } else {
+                            throw new Error('Invalid file format.');
+                        }
+                    } catch (error) {
+                        showToast('Failed to import data.', 'error');
+                        console.error('Import error:', error);
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            resetDataBtn.addEventListener('click', () => {
+                showModal('Confirm Reset', `
+                    <div class="space-y-4 pt-4">
+                        <p class="text-sm text-gray-600">Are you sure you want to reset all data? This action cannot be undone and will permanently delete all your leave types and records.</p>
+                    </div>
+                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
+                        <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+                        <button data-action="confirm-reset" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Reset All Data</button>
+                    </div>
+                `);
+            });
+
+            function showLeaveTypeModal(leaveType = null) {
+                const isEditing = !!leaveType;
+                const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
+                const initialName = leaveType ? leaveType.name : '';
+                const initialTotal = leaveType ? leaveType.total : '';
+                const initialColorIndex = leaveType ? LEAVE_COLORS.indexOf(leaveType.color) : 0;
+                
+                const colorOptions = LEAVE_COLORS.map((color, index) => `
+                    <button type="button" class="color-option ${index === initialColorIndex ? 'selected' : ''}"
+                            data-color-index="${index}"
+                            data-action="select-color"
+                            style="background-color: ${color};">
+                    </button>
+                `).join('');
+
+                showModal(modalTitle, `
+                    <div class="space-y-6 p-4">
+                        <div class="form-group">
+                            <label for="leave-name" class="block text-sm font-medium text-gray-700">Leave Type Name</label>
+                            <input type="text" id="leave-name" value="${initialName}" class="mt-1 block w-full px-3 py-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base" placeholder="e.g., Annual Leave">
+                        </div>
+                        <div class="form-group">
+                            <label for="leave-total" class="block text-sm font-medium text-gray-700">Total Days per Year</label>
+                            <input type="number" id="leave-total" value="${initialTotal}" class="mt-1 block w-full px-3 py-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base" placeholder="e.g., 20">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Choose Color</label>
+                            <div id="color-picker" class="color-picker">
+                                ${colorOptions}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
+                        ${isEditing ? `<button data-action="delete-leave-type" data-id="${leaveType.id}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Delete</button>` : ''}
+                        <button data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}" type="button" class="px-4 py-2 text-sm font-medium text-white main-color-bg rounded-md hover:opacity-90">Save</button>
+                    </div>
+                `);
+            }
+            
+            function showMonthYearPickerModal() {
+                const currentYear = state.focusedDate.getFullYear();
+                const currentMonth = state.focusedDate.getMonth();
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                const monthGrid = monthNames.map((name, index) => `
+                    <button class="picker-cell ${index === currentMonth ? 'bg-blue-200 text-blue-800' : ''}" data-action="select-month-from-picker" data-month="${index}">
+                        ${name}
+                    </button>
+                `).join('');
+
+                showModal(`Select Month & Year`, `
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-center justify-between">
+                            <button data-action="picker-prev-year" class="p-2 rounded-full hover:bg-gray-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+                            <span id="picker-year-display" class="text-lg font-semibold">${currentYear}</span>
+                            <button data-action="picker-next-year" class="p-2 rounded-full hover:bg-gray-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                        <div class="picker-grid">
+                            ${monthGrid}
+                        </div>
+                    </div>
+                `);
+            }
+            
+            function updateMonthYearPickerDisplay() {
+                const currentYear = state.focusedDate.getFullYear();
+                const currentMonth = state.focusedDate.getMonth();
+                const pickerYearDisplay = document.getElementById('picker-year-display');
+                if (pickerYearDisplay) {
+                    pickerYearDisplay.textContent = currentYear;
+                }
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const monthGrid = document.querySelector('.picker-grid');
+                if (monthGrid) {
+                     monthGrid.innerHTML = monthNames.map((name, index) => `
+                        <button class="picker-cell ${index === currentMonth ? 'bg-blue-200 text-blue-800' : ''}" data-action="select-month-from-picker" data-month="${index}">
+                            ${name}
+                        </button>
+                    `).join('');
+                }
+            }
+            
+            // --- INITIALIZATION ---
+            loadState();
+            render();
+        });
+    </script>
 </body>
 </html>
