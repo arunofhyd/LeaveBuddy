@@ -18,20 +18,33 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="assets/icon/abouticon.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/icon/abouticon.png">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1e293b">
     
-    <!-- The user requested external stylesheet, but existing essential styles are inline for this artifact. -->
-    <link rel="stylesheet" href="style.css">
-
     <style>
-        /* Base light theme properties */
+        /* New Dark & Muted Theme (Default) */
         :root {
-            --bg-primary: #f3f4f6;
+            --bg-primary: #1e293b;
+            --bg-secondary: #2d3b55;
+            --bg-tertiary: #475569;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: #475569;
+            --main-color: #6366f1; /* Indigo */
+            --main-color-dark: #4338ca;
+            --main-color-light: #a5b4fc;
+        }
+
+        /* Light Theme Variables (Applied via JS) */
+        body.light-theme {
+            --bg-primary: #f1f5f9;
             --bg-secondary: #ffffff;
-            --bg-tertiary: #e5e7eb;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --border-color: #d1d5db;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #cbd5e1;
+            --main-color: #6366f1; /* Keep accent color consistent */
+            --main-color-dark: #4338ca;
+            --main-color-light: #4338ca;
         }
 
         body {
@@ -39,24 +52,36 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.3s, color 0.3s;
-        }
-        .main-color-text {
-            color: #4f46e5;
-        }
-        .main-color-bg {
-            background-color: #4f46e5;
-        }
-        .tab-btn.active {
-            background-color: #4f46e5;
-            color: white;
+            /* Updated layout to support footer */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
         }
         
-        .leave-type-pill.active {
-            outline: 2px solid #4f46e5;
-            outline-offset: 2px;
+        /* Main Layout */
+        .app-card {
+            background-color: var(--bg-secondary);
+            border-radius: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
         }
 
-        /* Calendar Specific Styles */
+        /* Header */
+        .app-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .app-header .title-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        /* Calendar */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -72,209 +97,219 @@
             border-radius: 8px;
             text-align: center;
             position: relative;
-            background-color: var(--bg-secondary);
+            background-color: var(--bg-primary);
+            border: 1px solid transparent;
+            color: var(--text-primary);
+            font-weight: 500;
         }
         .day-cell.other-month {
-            opacity: 0.4;
+            opacity: 0.3;
             pointer-events: none;
         }
         .day-cell.today {
             font-weight: bold;
-            color: var(--text-primary);
-            border: 2px solid #4f46e5;
-        }
-        .day-cell.today .day-number {
-            color: var(--text-primary);
+            border: 2px solid var(--main-color);
         }
         .day-cell.weekend {
             background-color: var(--bg-tertiary);
         }
         .day-cell.sunday .day-number {
-            color: #ef4444;
+            color: #f87171;
         }
         .day-cell.selected {
-            background-color: #bfdbfe;
-            border: 2px solid #3b82f6;
+            background-color: var(--main-color-light);
+            color: var(--text-primary);
+            border: 2px solid var(--main-color);
         }
-        .day-cell.active-leave {
-            border: 2px solid #ef4444;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-            transform: scale(1.05);
-        }
-        .day-cell:not(.other-month):not(.today):hover {
+        .day-cell:not(.other-month):hover {
             background-color: var(--bg-tertiary);
         }
-        /* No longer using .leave-indicator as the whole cell is colored.
-        .leave-indicator {
-            position: absolute;
-            bottom: 4px;
-            width: 90%;
-            padding: 2px;
-            font-size: 0.65rem;
-            font-weight: 500;
-            color: white;
-            border-radius: 9999px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        */
-        .day-cell.has-leave {
-            color: white; /* Ensure text is readable on colored backgrounds */
-        }
         
-        /* Modal and Picker Styles */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
+        /* New Leave Type Selector */
+        .leave-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+        .leave-type-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px; /* Pill shape */
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            color: white;
+            font-weight: 600;
+        }
+        .leave-type-pill:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        /* Updated active state for pills */
+        .leave-type-pill.active {
+            box-shadow: 0 0 0 2px var(--text-primary), 0 2px 4px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+            opacity: 1;
+        }
+        .light-theme .leave-type-pill.active {
+            box-shadow: 0 0 0 2px var(--text-primary), 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Leave Visualization */
+        .day-cell.has-leave {
+            color: white;
+        }
+        .day-cell.half-day {
+            background-image: linear-gradient(to right, var(--leave-color) 50%, var(--bg-primary) 50%);
+            color: var(--text-primary);
+        }
+        .day-cell.half-day::after {
+            content: '';
+            position: absolute;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 50;
-            transition: opacity 0.2s ease-in-out;
-        }
-        .modal-content {
-            padding: 2rem;
-        }
-        .color-picker {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin-top: 8px;
-        }
-        .color-option {
-            width: 36px;
-            height: 36px;
-            border: 2px solid transparent;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            position: relative;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        .color-option:hover {
-            transform: scale(1.1);
-        }
-        .color-option.selected {
-            border-color: #4f46e5;
-            transform: scale(1.1);
-        }
-        .color-option.selected::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        .picker-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        .picker-cell {
-            padding: 12px 0;
-            text-align: center;
             border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
         }
-        .picker-cell:hover {
+        .day-cell:not(.half-day).has-leave::after {
+             content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+        .light-theme .day-cell.half-day {
+            background-image: linear-gradient(to right, var(--leave-color) 50%, var(--bg-primary) 50%);
+        }
+        .light-theme .day-cell.half-day::after,
+        .light-theme .day-cell:not(.half-day).has-leave::after {
+            box-shadow: none;
+        }
+        
+        /* Stats Panel */
+        .stats-panel {
+            background-color: var(--bg-primary);
+            border-radius: 1rem;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            padding: 0; /* Changed from 1.5rem to 0 */
+        }
+        .stats-panel.open {
+            max-height: 500px; /* A large enough value to show content */
+            padding: 1.5rem; /* Now only adds padding when open */
+        }
+        .stats-panel-toggle-btn {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+        .stats-panel-toggle-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        /* Revised stats card styling */
+        .stats-card {
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            color: var(--text-primary); /* Use theme-based primary text color */
+            border-left: 6px solid var(--card-color); /* New colored border */
+        }
+        .stats-card h3 {
+            color: var(--text-primary);
+        }
+        .stats-card .stats-text-secondary {
+            color: var(--text-secondary);
+        }
+        .stats-card .stats-edit-btn {
+            color: var(--text-secondary);
+        }
+        .stats-card .stats-edit-btn:hover {
+            color: var(--text-primary);
+        }
+        .progress-bar-bg {
             background-color: var(--bg-tertiary);
         }
 
-        /* Mobile-first adjustments */
-        @media (max-width: 640px) {
-            .app-container {
-                padding: 1rem;
-            }
-            .main-content > div {
-                padding: 1rem;
-            }
-            .modal-content {
-                padding: 1.5rem;
-            }
-            .stats-card, .setting-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            .stats-card .leave-type-info {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .stats-card .stats-summary {
-                margin-top: 1rem;
-            }
+        /* Modals and forms */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.7);
         }
-        .calendar-legend {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
+        /* The modal and its internal elements now use theme-aware variables */
+        .modal-content {
+            background-color: var(--bg-secondary);
+            border-radius: 1.5rem;
         }
-        @media (min-width: 641px) {
-            .calendar-legend {
-                flex-direction: row;
-                justify-content: center;
-                gap: 24px;
-            }
-        }
-        /* New half-day styling */
-        .day-cell.half-day {
-            background-image: linear-gradient(to right, var(--leave-color) 50%, var(--bg-secondary) 50%);
+        input, select {
+            background-color: var(--bg-primary);
+            border-color: var(--border-color);
             color: var(--text-primary);
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--main-color);
+        }
+        .color-option.selected {
+             outline: 2px solid var(--main-color);
+             outline-offset: 2px;
+        }
+        .light-theme .modal-content {
+             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <div class="app-container max-w-xl mx-auto p-4 md:p-8">
-        <header class="app-header text-center my-6 flex justify-center items-center gap-3">
-            <img src="assets/icon/abouticon.png" alt="Leave Buddy Logo" class="header-logo w-12 h-12 rounded-full">
-            <h2 class="text-4xl font-bold main-color-text">Leave Buddy</h2>
+    <div class="app-card">
+        <!-- Header -->
+        <header class="app-header flex items-center justify-between pb-6">
+            <div class="flex-grow flex items-center justify-center gap-3">
+                <img src="assets/icon/abouticon.png" alt="Leave Buddy Logo" class="w-10 h-10 rounded-full">
+                <h1 class="text-3xl font-bold" style="color: var(--main-color);">Leave Buddy</h1>
+            </div>
+            <button id="theme-toggle-btn" class="text-xl text-slate-400 hover:text-slate-200 transition-colors">
+                <i class="fas fa-sun"></i>
+            </button>
         </header>
 
-        <nav class="flex justify-center bg-gray-200 rounded-lg p-1 mb-6">
-            <button data-tab="calendar" class="tab-btn flex-1 py-2 px-4 rounded-lg font-semibold transition-colors active">
-                <i class="fas fa-calendar-days mr-2"></i>Calendar
-            </button>
-            <button data-tab="stats" class="tab-btn flex-1 py-2 px-4 rounded-lg font-semibold transition-colors">
-                <i class="fas fa-chart-pie mr-2"></i>Stats
-            </button>
-            <button data-tab="settings" class="tab-btn flex-1 py-2 px-4 rounded-lg font-semibold transition-colors">
-                <i class="fas fa-cog mr-2"></i>Settings
-            </button>
-        </nav>
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <!-- Removed the shaded box (calendar-nav-controls) -->
+            <div class="flex items-center justify-between px-2 pt-2 mb-4">
+                <button id="prev-month-btn" class="p-2 rounded-full hover:bg-slate-700 transition-colors">
+                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <h2 id="month-year" class="text-xl font-semibold cursor-pointer hover:underline" style="color: var(--main-color);"></h2>
+                <button id="next-month-btn" class="p-2 rounded-full hover:bg-slate-700 transition-colors">
+                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
 
-        <div id="tab-content">
-            <!-- Calendar Tab -->
-            <div id="calendar-tab" class="tab-pane bg-white p-6 rounded-2xl shadow-lg">
-                <div class="flex items-center justify-between mb-4">
-                    <button id="prev-month-btn" class="p-2 rounded-full hover:bg-gray-100">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <h2 id="month-year" class="text-xl font-semibold main-color-text cursor-pointer hover:underline"></h2>
-                    <button id="next-month-btn" class="p-2 rounded-full hover:bg-gray-100">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                </div>
-                <div id="leave-type-selector" class="flex flex-wrap gap-2 justify-center mb-4"></div>
-                <div class="grid grid-cols-7 text-center font-medium text-gray-500 mb-2">
-                    <div class="text-red-500">Sun</div>
+            <div class="leave-type-selector flex justify-center flex-wrap gap-4 mt-6">
+                <div id="leave-type-pill-container" class="flex flex-wrap gap-4 justify-center"></div>
+                <button id="add-leave-btn-plus" class="flex items-center justify-center w-10 h-10 border-2 border-slate-600 rounded-full text-slate-400 hover:bg-slate-700 transition-all">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <div class="calendar-grid-wrapper mt-6">
+                <div class="grid grid-cols-7 text-center font-medium text-slate-400 mb-2">
+                    <div class="text-red-400">Sun</div>
                     <div>Mon</div>
                     <div>Tue</div>
                     <div>Wed</div>
@@ -283,114 +318,101 @@
                     <div>Sat</div>
                 </div>
                 <div id="calendar-grid" class="calendar-grid"></div>
-                <div class="calendar-legend">
-                    <div class="legend-item flex items-center gap-2">
-                        <div class="w-4 h-4 rounded-full bg-blue-500"></div>
-                        <span>Full day</span>
-                    </div>
-                    <div class="legend-item flex items-center gap-2">
-                        <div class="w-4 h-4 rounded-full bg-blue-500" style="background-image: linear-gradient(to right, #3C82F6 50%, #ffffff 50%);"></div>
-                        <span>Half day</span>
-                    </div>
-                    <div class="legend-item">
-                        <i class="fas fa-mouse-pointer text-blue-500"></i>
-                        <span>Click & drag to select days</span>
-                    </div>
-                </div>
             </div>
+        </div>
 
-            <!-- Stats Tab -->
-            <div id="stats-tab" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-lg space-y-6">
-                <div id="stats-grid" class="grid grid-cols-1 gap-6"></div>
-                <div id="empty-stats-state" class="hidden text-center p-8 text-gray-500">
-                    <i class="fas fa-chart-line text-6xl text-gray-300 mb-4"></i>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">No Leave Types Yet</h3>
-                    <p class="mb-4">Create your first leave type to start tracking your time off.</p>
+        <!-- Stats Panel -->
+        <div class="flex justify-center mt-6">
+            <button id="toggle-stats-btn" class="stats-panel-toggle-btn flex items-center gap-2">
+                <span id="toggle-text">Show Stats</span>
+                <i id="toggle-icon" class="fas fa-chevron-down text-sm transition-transform"></i>
+            </button>
+        </div>
+        <div id="stats-panel" class="stats-panel">
+            <div id="stats-grid" class="flex flex-col gap-4"></div>
+            <div id="empty-stats-state" class="hidden text-center p-8 text-slate-500">
+                <h3 class="text-xl font-semibold text-slate-400 mb-2">No Leave Types Yet</h3>
+                <p class="mb-4">Click the '+' button above to add your first leave type.</p>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-slate-700">
+                <h3 class="text-lg font-semibold mb-4 text-center text-slate-300">Data Management</h3>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button id="export-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-slate-700 text-slate-200 font-semibold rounded-full hover:bg-slate-600 transition-colors shadow-sm">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button id="import-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-main-color text-white font-semibold rounded-full shadow-md hover:opacity-90 transition-opacity" style="background-color: var(--main-color);">
+                        <i class="fas fa-upload"></i> Import
+                    </button>
+                    <input type="file" id="upload-data-input" class="hidden" accept=".json">
                 </div>
-                <button id="add-leave-btn-stats" class="w-full flex items-center justify-center gap-2 px-6 py-3 main-color-bg text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-opacity">
-                    <i class="fas fa-plus"></i> Add New Leave Type
+                <button id="reset-data-btn" class="w-full mt-4 bg-red-600 text-white font-semibold py-3 rounded-full hover:bg-red-700 transition-colors shadow-md">
+                    Reset All Data
                 </button>
-            </div>
-
-            <!-- Settings Tab -->
-            <div id="settings-tab" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-lg space-y-6">
-                <!-- Backup & Reset -->
-                <section class="bg-gray-100 p-4 rounded-xl">
-                    <h3 class="text-lg font-semibold mb-4 text-center main-color-text">Data Management</h3>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <button id="export-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg hover:bg-gray-400 transition-colors">
-                            <i class="fas fa-download"></i> Export
-                        </button>
-                        <button id="import-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 main-color-bg text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
-                            <i class="fas fa-upload"></i> Import
-                        </button>
-                        <input type="file" id="upload-data-input" class="hidden" accept=".json">
-                    </div>
-                    <div class="mt-4">
-                        <button id="reset-data-btn" class="w-full mt-4 bg-red-600 text-white font-semibold py-3 rounded-lg hover:bg-red-700 transition-colors">
-                            Reset All Data
-                        </button>
-                    </div>
-                </section>
-                
-                <!-- Footer Contact -->
-                <footer class="text-center mt-8 space-y-2 text-sm">
-                    <a href="mailto:arunthomas040402001@gmail.com" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors">
-                        <i class="fas fa-envelope"></i> Reach out to the developer
-                    </a>
-                </footer>
             </div>
         </div>
     </div>
 
+    <!-- Footer for developer contact -->
+    <footer class="mt-8 text-center text-sm text-slate-400">
+        <a href="mailto:arunthomas04042001@gmail.com" class="hover:underline flex items-center justify-center gap-2">
+            <i class="fas fa-envelope"></i>
+            Reach out to the developer
+        </a>
+    </footer>
+
     <!-- Modals -->
-    <div id="modal-container" class="hidden modal-backdrop">
-        <div id="modal-content" class="bg-white p-6 rounded-2xl shadow-2xl w-11/12 max-w-lg"></div>
+    <div id="modal-container" class="hidden fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 modal-backdrop">
+        <div id="modal-content" class="p-8 rounded-3xl shadow-2xl w-11/12 max-w-lg"></div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- STATE MANAGEMENT ---
             let state = {
-                currentTab: 'calendar',
                 focusedDate: new Date(),
-                leaveTypes: [], // [{ id, name, total, monthlyCredit, color, colorIndex }]
-                // Updated leaveRecords to store objects for half-day support
+                leaveTypes: [], // [{ id, name, total, color }]
                 leaveRecords: {}, // { 'YYYY-MM-DD': { typeId: 'leaveTypeId', isHalfDay: false } }
                 selectedLeaveType: null,
                 isDragging: false,
                 selectedDates: new Set(),
                 dragMode: null, // 'add' or 'remove'
+                statsPanelOpen: false,
+                theme: 'dark' // New theme state
             };
 
             const LEAVE_COLORS = [
-                '#20C65F', '#3C82F6', '#A955F7', '#F43F5F', '#F69E0C',
-                '#13B8A6', '#6366F1', '#EC4899'
+                '#6366f1', '#fcd34d', '#F43F5F', '#10B981', '#A955F7', 
+                '#3C82F6', '#EC4899', '#f87171'
             ];
 
             // --- DOM ELEMENTS ---
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabPanes = document.querySelectorAll('.tab-pane');
             const calendarGrid = document.getElementById('calendar-grid');
             const monthYearDisplay = document.getElementById('month-year');
             const prevMonthBtn = document.getElementById('prev-month-btn');
             const nextMonthBtn = document.getElementById('next-month-btn');
-            const leaveTypeSelector = document.getElementById('leave-type-selector');
+            const leaveTypePillContainer = document.getElementById('leave-type-pill-container');
+            const addLeaveBtnPlus = document.getElementById('add-leave-btn-plus');
             const statsGrid = document.getElementById('stats-grid');
             const emptyStatsState = document.getElementById('empty-stats-state');
-            const addLeaveBtnStats = document.getElementById('add-leave-btn-stats');
             const modalContainer = document.getElementById('modal-container');
             const modalContent = document.getElementById('modal-content');
             const exportDataBtn = document.getElementById('export-data-btn');
             const importDataBtn = document.getElementById('import-data-btn');
             const uploadDataInput = document.getElementById('upload-data-input');
             const resetDataBtn = document.getElementById('reset-data-btn');
+            const statsPanel = document.getElementById('stats-panel');
+            const toggleStatsBtn = document.getElementById('toggle-stats-btn');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
 
             // --- LOCAL STORAGE ---
             function saveState() {
                 localStorage.setItem('leaveBuddyState', JSON.stringify({
                     leaveTypes: state.leaveTypes,
                     leaveRecords: state.leaveRecords,
+                    theme: state.theme,
                 }));
             }
 
@@ -400,13 +422,14 @@
                     try {
                         const parsedState = JSON.parse(saved);
                         state.leaveTypes = parsedState.leaveTypes || [];
-                        // Handle legacy data format by converting string IDs to objects
                         if (parsedState.leaveRecords) {
                             state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
                                 acc[date] = (typeof value === 'string') ? { typeId: value, isHalfDay: false } : value;
                                 return acc;
                             }, {});
                         }
+                        // Load saved theme preference
+                        state.theme = parsedState.theme || 'dark';
                     } catch (e) {
                         console.error("Failed to load state from localStorage:", e);
                         localStorage.removeItem('leaveBuddyState');
@@ -414,26 +437,26 @@
                 }
             }
             
-            // --- RENDER FUNCTIONS ---
-            function render() {
-                renderTabs();
-                switch (state.currentTab) {
-                    case 'calendar':
-                        renderCalendar();
-                        break;
-                    case 'stats':
-                        renderStats();
-                        break;
-                    case 'settings':
-                        // The settings tab doesn't have dynamic content, so no render function is needed.
-                        break;
-                }
+            // --- THEME LOGIC ---
+            function toggleTheme() {
+                state.theme = state.theme === 'dark' ? 'light' : 'dark';
+                applyTheme();
+                saveState();
             }
 
-            function renderTabs() {
-                tabPanes.forEach(pane => pane.classList.add('hidden'));
-                document.getElementById(`${state.currentTab}-tab`).classList.remove('hidden');
-                tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === state.currentTab));
+            function applyTheme() {
+                document.body.classList.toggle('light-theme', state.theme === 'light');
+                const toggleIconClass = state.theme === 'light' ? 'fa-moon' : 'fa-sun';
+                themeToggleBtn.innerHTML = `<i class="fas ${toggleIconClass}"></i>`;
+
+                // Update theme color for PWA
+                document.querySelector('meta[name="theme-color"]').content = state.theme === 'light' ? '#f1f5f9' : '#1e293b';
+            }
+
+            // --- RENDER FUNCTIONS ---
+            function render() {
+                renderCalendar();
+                renderStats();
             }
 
             function renderCalendar() {
@@ -441,17 +464,27 @@
                 const month = state.focusedDate.getMonth();
                 monthYearDisplay.textContent = `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
                 
-                let leaveTypeHtml = state.leaveTypes.map(lt => `
-                    <button class="leave-type-pill text-sm py-1 px-4 rounded-full font-semibold transition-colors text-white shadow-sm hover:opacity-90 ${state.selectedLeaveType === lt.id ? 'active' : ''}"
-                            data-id="${lt.id}"
-                            style="background-color: ${lt.color};">
-                        ${lt.name}
-                    </button>
-                `).join('');
-                if (state.leaveTypes.length === 0) {
-                    leaveTypeHtml = `<p class="text-sm text-gray-500 italic text-center">Add a leave type in Stats to get started.</p>`;
+                let leaveTypeHtml = state.leaveTypes.map(lt => {
+                    const isSelected = state.selectedLeaveType === lt.id;
+                    return `
+                        <button class="leave-type-pill text-sm py-1 px-4 rounded-full font-semibold transition-colors text-white shadow-sm hover:opacity-90 ${isSelected ? 'active' : ''}"
+                                data-id="${lt.id}"
+                                style="background-color: ${lt.color};">
+                            ${lt.name}
+                        </button>
+                    `;
+                }).join('');
+                leaveTypePillContainer.innerHTML = leaveTypeHtml;
+                
+                if (state.leaveTypes.length > 0) {
+                    if (!state.selectedLeaveType) {
+                        state.selectedLeaveType = state.leaveTypes[0].id;
+                    }
+                    const activePill = document.querySelector(`.leave-type-pill[data-id="${state.selectedLeaveType}"]`);
+                    if(activePill) activePill.classList.add('active');
+                } else {
+                     state.selectedLeaveType = null;
                 }
-                leaveTypeSelector.innerHTML = leaveTypeHtml;
                 
                 renderCalendarGrid();
                 setupDragAndDrop();
@@ -491,11 +524,9 @@
                         const leaveType = state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
                         if (leaveType) {
                             if (leaveRecord.isHalfDay) {
-                                // Apply half-day visualization
                                 dayEl.classList.add('half-day');
                                 dayEl.style.setProperty('--leave-color', leaveType.color);
                             } else {
-                                // Apply full-day color
                                 dayEl.style.backgroundColor = leaveType.color;
                                 dayEl.classList.add('has-leave');
                             }
@@ -516,7 +547,6 @@
                 emptyStatsState.classList.add('hidden');
 
                 state.leaveTypes.forEach(lt => {
-                    // Calculate used days with half-day logic
                     const usedDays = Object.values(state.leaveRecords)
                         .filter(record => record.typeId === lt.id)
                         .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
@@ -526,33 +556,24 @@
                     const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
                     
                     const card = document.createElement('div');
-                    card.className = 'bg-white p-6 rounded-2xl shadow-lg border border-gray-200';
+                    card.className = 'stats-card';
+                    // Set the custom property for the border color
+                    card.style.setProperty('--card-color', lt.color);
                     card.innerHTML = `
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-3">
-                                <div class="w-4 h-4 rounded-full" style="background-color: ${lt.color};"></div>
                                 <h3 class="font-bold text-lg">${lt.name}</h3>
                             </div>
-                            <button class="text-gray-400 hover:text-blue-600" data-action="edit-leave-type-stats" data-id="${lt.id}">
+                            <button class="stats-edit-btn" data-action="edit-leave-type-stats" data-id="${lt.id}">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </div>
-                        <div class="bg-gray-200 rounded-full h-2.5 mb-2">
-                            <div class="h-2.5 rounded-full" style="width: ${percentage}%; background-color: ${lt.color};"></div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray-500 mb-4">
+                        <div class="flex justify-between text-xs stats-text-secondary mb-2">
                             <span>${usedDays} Used</span>
                             <span>${remaining.toFixed(1)} Remaining</span>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 text-center text-sm">
-                            <div class="bg-gray-100 p-3 rounded-lg">
-                                <p class="font-medium text-gray-600">Current Balance</p>
-                                <p class="text-xl font-bold main-color-text">${remaining.toFixed(1)}</p>
-                            </div>
-                            <div class="bg-gray-100 p-3 rounded-lg">
-                                <p class="font-medium text-gray-600">Total Days</p>
-                                <p class="text-xl font-bold main-color-text">${lt.total}</p>
-                            </div>
+                        <div class="progress-bar-bg rounded-full h-2.5">
+                            <div class="h-2.5 rounded-full" style="width: ${percentage}%; background-color: ${lt.color};"></div>
                         </div>
                     `;
                     statsGrid.appendChild(card);
@@ -568,24 +589,30 @@
             function showModal(title, content) {
                 modalContainer.classList.remove('hidden');
                 modalContent.innerHTML = `
-                    <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-200">
-                        <h2 class="text-2xl font-bold main-color-text">${title}</h2>
-                        <button id="close-modal-btn" data-action="close-modal" class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                    <div class="flex items-center justify-between mb-4 pb-2 border-b border-[var(--border-color)]">
+                        <h2 class="text-2xl font-bold" style="color: var(--main-color);">${title}</h2>
+                        <button id="close-modal-btn" data-action="close-modal" class="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     ${content}
                 `;
+                // Add theme-aware classes to the modal content container itself
+                modalContent.classList.add('bg-[var(--bg-secondary)]');
+                modalContent.classList.add('light-theme:shadow-lg');
             }
 
             function hideModal() {
                 modalContainer.classList.add('hidden');
                 modalContent.innerHTML = '';
+                 // Clean up theme-aware classes
+                modalContent.classList.remove('bg-[var(--bg-secondary)]');
+                modalContent.classList.remove('light-theme:shadow-lg');
             }
 
             function showToast(message, type = 'info') {
                 const toast = document.createElement('div');
-                toast.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-lg flex items-center gap-2 transform translate-x-full transition-transform duration-300 ${type === 'success' ? 'bg-green-500 text-white' : type === 'error' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`;
+                toast.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-lg flex items-center gap-2 transform translate-x-full transition-transform duration-300 ${type === 'success' ? 'bg-emerald-500 text-white' : type === 'error' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`;
                 toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i><span>${message}</span>`;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.classList.remove('translate-x-full'), 10);
@@ -613,13 +640,10 @@
                     isMouseDown = true;
                     state.selectedDates.clear();
                     
-                    document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('active-leave'));
-
                     dragStartCell = targetCell;
                     const dateStr = dragStartCell.dataset.date;
                     const recordExists = state.leaveRecords[dateStr];
                     
-                    // Determine drag mode: add if no leave exists, remove if leave of selected type exists
                     state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType) ? 'remove' : 'add';
                     
                     state.selectedDates.add(dateStr);
@@ -653,10 +677,7 @@
                     
                     const dateStr = targetCell.dataset.date;
                     if (state.leaveRecords[dateStr]) {
-                         document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('active-leave'));
-                         targetCell.classList.add('active-leave');
-                    } else {
-                         document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('active-leave'));
+                        // Handle a single click to possibly change half/full day status
                     }
                 };
             }
@@ -694,7 +715,6 @@
                 if (state.dragMode === 'add') {
                     const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
                     if (leaveType) {
-                        // Recalculate used days for balance check, accounting for half days
                         const currentUsed = Object.values(state.leaveRecords)
                             .filter(record => record.typeId === leaveType.id)
                             .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
@@ -722,26 +742,19 @@
                     
                     saveState();
                     renderCalendar();
+                    renderStats();
                     const action = state.dragMode === 'add' ? 'added' : 'removed';
                     showToast(`${datesToChange.length} day${datesToChange.length > 1 ? 's' : ''} ${action}!`, 'success');
                 }
             }
             
             // --- EVENT LISTENERS ---
-            tabButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    state.currentTab = btn.dataset.tab;
-                    render();
-                });
-            });
-
-            leaveTypeSelector.addEventListener('click', (e) => {
+            leaveTypePillContainer.addEventListener('click', (e) => {
                 const btn = e.target.closest('button');
                 if (btn && btn.dataset.id) {
                     state.selectedLeaveType = btn.dataset.id;
                     document.querySelectorAll('.leave-type-pill').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    showToast(`Selected: ${btn.textContent.trim()}`, 'info');
                 }
             });
 
@@ -759,9 +772,21 @@
                 showMonthYearPickerModal();
             });
 
-            addLeaveBtnStats.addEventListener('click', () => {
+            addLeaveBtnPlus.addEventListener('click', () => {
                 showLeaveTypeModal();
             });
+
+            // Toggle stats panel
+            toggleStatsBtn.addEventListener('click', () => {
+                state.statsPanelOpen = !state.statsPanelOpen;
+                statsPanel.classList.toggle('open', state.statsPanelOpen);
+                toggleText.textContent = state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
+                toggleIcon.classList.toggle('fa-chevron-down', !state.statsPanelOpen);
+                toggleIcon.classList.toggle('fa-chevron-up', state.statsPanelOpen);
+            });
+
+            // Toggle theme
+            themeToggleBtn.addEventListener('click', toggleTheme);
             
             statsGrid.addEventListener('click', (e) => {
                 const target = e.target.closest('[data-action="edit-leave-type-stats"]');
@@ -785,27 +810,23 @@
                         const totalInput = document.getElementById('leave-total').value;
                         const total = totalInput ? parseInt(totalInput) : 0;
                         const selectedColorBtn = document.querySelector('.color-option.selected');
-                        const colorIndex = selectedColorBtn ? parseInt(selectedColorBtn.dataset.colorIndex) : 0;
-                        const color = LEAVE_COLORS[colorIndex];
+                        const color = selectedColorBtn ? selectedColorBtn.dataset.color : LEAVE_COLORS[0];
 
-                        if (!name || !total || !selectedColorBtn) {
+                        if (!name || !total) {
                             showToast('Please fill all required fields.', 'error');
                             return;
                         }
                         
-                        // Check if we are editing an existing leave type or adding a new one
                         if (id) {
                             const lt = state.leaveTypes.find(l => l.id === id);
                             if (lt) {
                                 lt.name = name;
                                 lt.total = total;
-                                lt.monthlyCredit = 0; // Removed accrual
                                 lt.color = color;
                             }
                         } else {
-                            // This is a new leave type, generate a new ID
                             const newId = `lt_${Date.now()}`;
-                            state.leaveTypes.push({ id: newId, name, total, monthlyCredit: 0, color, colorIndex });
+                            state.leaveTypes.push({ id: newId, name, total, color });
                         }
 
                         hideModal();
@@ -818,10 +839,10 @@
                         const deleteId = target.dataset.id;
                         showModal('Confirm Deletion', `
                             <div class="space-y-4 pt-4">
-                                <p class="text-sm text-gray-600">Are you sure you want to delete this leave type? This action cannot be undone and will remove all recorded leave days of this type.</p>
+                                <p class="text-sm text-[var(--text-secondary)]">Are you sure you want to delete this leave type? This action cannot be undone and will remove all recorded leave days of this type.</p>
                             </div>
-                            <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
-                                <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+                            <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[var(--border-color)]">
+                                <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-[var(--text-primary)] bg-[var(--bg-tertiary)] rounded-md hover:bg-[var(--bg-primary)]">Cancel</button>
                                 <button data-action="confirm-delete-leave" data-id="${deleteId}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Delete</button>
                             </div>
                         `);
@@ -830,7 +851,6 @@
                     case 'confirm-delete-leave':
                         const leaveIdToDelete = target.dataset.id;
                         state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== leaveIdToDelete);
-                        // Filter out all leave records associated with the deleted leave type
                         state.leaveRecords = Object.fromEntries(
                             Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== leaveIdToDelete)
                         );
@@ -842,6 +862,7 @@
                         break;
                     
                     case 'select-color':
+                        // Fix: The selected class is now correctly applied and removed
                         document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
                         target.classList.add('selected');
                         break;
@@ -866,7 +887,7 @@
             });
 
             exportDataBtn.addEventListener('click', () => {
-                const dataStr = JSON.stringify({ leaveTypes: state.leaveTypes, leaveRecords: state.leaveRecords }, null, 2);
+                const dataStr = JSON.stringify({ leaveTypes: state.leaveTypes, leaveRecords: state.leaveRecords, theme: state.theme }, null, 2);
                 const blob = new Blob([dataStr], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -894,6 +915,10 @@
                         if (data.leaveTypes && data.leaveRecords) {
                             state.leaveTypes = data.leaveTypes;
                             state.leaveRecords = data.leaveRecords;
+                            if (data.theme) {
+                                state.theme = data.theme;
+                                applyTheme();
+                            }
                             saveState();
                             render();
                             showToast('Data imported successfully!', 'success');
@@ -911,10 +936,10 @@
             resetDataBtn.addEventListener('click', () => {
                 showModal('Confirm Reset', `
                     <div class="space-y-4 pt-4">
-                        <p class="text-sm text-gray-600">Are you sure you want to reset all data? This action cannot be undone and will permanently delete all your leave types and records.</p>
+                        <p class="text-sm text-[var(--text-secondary)]">Are you sure you want to reset all data? This action cannot be undone and will permanently delete all your leave types and records.</p>
                     </div>
-                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
-                        <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[var(--border-color)]">
+                        <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-[var(--text-primary)] bg-[var(--bg-tertiary)] rounded-md hover:bg-[var(--bg-primary)]">Cancel</button>
                         <button data-action="confirm-reset" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Reset All Data</button>
                     </div>
                 `);
@@ -936,17 +961,16 @@
                 }
             });
 
-
             function showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
                 const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
                 const initialName = leaveType ? leaveType.name : '';
                 const initialTotal = leaveType ? leaveType.total : '';
-                const initialColorIndex = leaveType ? LEAVE_COLORS.indexOf(leaveType.color) : 0;
+                const initialColor = leaveType ? leaveType.color : LEAVE_COLORS[0];
                 
-                const colorOptions = LEAVE_COLORS.map((color, index) => `
-                    <button type="button" class="color-option ${index === initialColorIndex ? 'selected' : ''}"
-                            data-color-index="${index}"
+                const colorOptions = LEAVE_COLORS.map(color => `
+                    <button type="button" class="w-10 h-10 border-2 border-[var(--border-color)] rounded-full cursor-pointer transition-transform hover:scale-110 color-option ${color === initialColor ? 'selected' : ''}"
+                            data-color="${color}"
                             data-action="select-color"
                             style="background-color: ${color};">
                     </button>
@@ -955,23 +979,23 @@
                 showModal(modalTitle, `
                     <div class="space-y-6 p-4">
                         <div class="form-group">
-                            <label for="leave-name" class="block text-sm font-medium text-gray-700">Leave Type Name</label>
-                            <input type="text" id="leave-name" value="${initialName}" class="mt-1 block w-full px-3 py-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base" placeholder="e.g., Annual Leave or Half Day Sick Leave">
+                            <label for="leave-name" class="block text-sm font-medium text-[var(--text-secondary)]">Leave Type Name</label>
+                            <input type="text" id="leave-name" value="${initialName}" class="mt-1 block w-full px-4 py-2 rounded-lg border-[var(--border-color)] shadow-sm focus:ring-[var(--main-color)] focus:border-[var(--main-color)] text-base" placeholder="e.g., Annual Leave or Half Day Sick Leave">
                         </div>
                         <div class="form-group">
-                            <label for="leave-total" class="block text-sm font-medium text-gray-700">Total Days per Year</label>
-                            <input type="number" id="leave-total" value="${initialTotal}" class="mt-1 block w-full px-3 py-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base" placeholder="e.g., 20">
+                            <label for="leave-total" class="block text-sm font-medium text-[var(--text-secondary)]">Total Days per Year</label>
+                            <input type="number" id="leave-total" value="${initialTotal}" class="mt-1 block w-full px-4 py-2 rounded-lg border-[var(--border-color)] shadow-sm focus:ring-[var(--main-color)] focus:border-[var(--main-color)] text-base" placeholder="e.g., 20">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Choose Color</label>
-                            <div id="color-picker" class="color-picker">
+                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">Choose Color</label>
+                            <div id="color-picker" class="flex flex-wrap gap-3">
                                 ${colorOptions}
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
-                        ${isEditing ? `<button data-action="delete-leave-type" data-id="${leaveType.id}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Delete</button>` : ''}
-                        <button data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}" type="button" class="px-4 py-2 text-sm font-medium text-white main-color-bg rounded-md hover:opacity-90">Save</button>
+                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[var(--border-color)]">
+                        ${isEditing ? `<button data-action="delete-leave-type" data-id="${leaveType.id}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-full hover:bg-red-700">Delete</button>` : ''}
+                        <button data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}" type="button" class="px-4 py-2 text-sm font-medium text-white rounded-full bg-[var(--main-color)] hover:opacity-90" style="background-color: var(--main-color);">Save</button>
                     </div>
                 `);
             }
@@ -982,7 +1006,7 @@
                 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
                 const monthGrid = monthNames.map((name, index) => `
-                    <button class="picker-cell ${index === currentMonth ? 'bg-blue-200 text-blue-800' : ''}" data-action="select-month-from-picker" data-month="${index}">
+                    <button class="w-full py-3 text-center transition-colors rounded-lg bg-[var(--bg-tertiary)] hover:bg-[var(--bg-secondary)] ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}" data-action="select-month-from-picker" data-month="${index}">
                         ${name}
                     </button>
                 `).join('');
@@ -990,15 +1014,15 @@
                 showModal(`Select Month & Year`, `
                     <div class="space-y-4 pt-4">
                         <div class="flex items-center justify-between">
-                            <button data-action="picker-prev-year" class="p-2 rounded-full hover:bg-gray-200">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            <button data-action="picker-prev-year" class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]">
+                                <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                             </button>
                             <span id="picker-year-display" class="text-lg font-semibold">${currentYear}</span>
-                            <button data-action="picker-next-year" class="p-2 rounded-full hover:bg-gray-200">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <button data-action="picker-next-year" class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]">
+                                <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </button>
                         </div>
-                        <div class="picker-grid">
+                        <div class="grid grid-cols-4 gap-2 mt-4">
                             ${monthGrid}
                         </div>
                     </div>
@@ -1016,7 +1040,7 @@
                 const monthGrid = document.querySelector('.picker-grid');
                 if (monthGrid) {
                      monthGrid.innerHTML = monthNames.map((name, index) => `
-                        <button class="picker-cell ${index === currentMonth ? 'bg-blue-200 text-blue-800' : ''}" data-action="select-month-from-picker" data-month="${index}">
+                        <button class="w-full py-3 text-center transition-colors rounded-lg bg-[var(--bg-tertiary)] hover:bg-[var(--bg-secondary)] ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}" data-action="select-month-from-picker" data-month="${index}">
                             ${name}
                         </button>
                     `).join('');
@@ -1025,6 +1049,7 @@
             
             // --- INITIALIZATION ---
             loadState();
+            applyTheme(); // Apply theme on initial load
             render();
         });
     </script>
