@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Tailwind CSS and Inter Font -->
+    <!-- Tailwind CSS, Inter Font, and Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,22 +19,28 @@
     <link rel="icon" href="assets/icon/abouticon.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/icon/abouticon.png">
     <meta name="theme-color" content="#1e293b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <style>
-        /* New Dark & Muted Theme (Default) */
+        /* ===== CSS CUSTOM PROPERTIES ===== */
         :root {
+            /* Dark theme variables (default) */
             --bg-primary: #1e293b;
             --bg-secondary: #2d3b55;
             --bg-tertiary: #475569;
             --text-primary: #e2e8f0;
             --text-secondary: #94a3b8;
             --border-color: #475569;
-            --main-color: #6366f1; /* Indigo */
+            --main-color: #6366f1;
             --main-color-dark: #4338ca;
             --main-color-light: #a5b4fc;
+            --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            --shadow-secondary: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Light Theme Variables (Applied via JS) */
+        /* Light theme variables */
         body.light-theme {
             --bg-primary: #f1f5f9;
             --bg-secondary: #ffffff;
@@ -42,402 +48,1104 @@
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --border-color: #cbd5e1;
-            --main-color: #6366f1; /* Keep accent color consistent */
-            --main-color-dark: #4338ca;
-            --main-color-light: #4338ca;
+            --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            --shadow-secondary: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ===== BASE STYLES ===== */
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
-            transition: background-color 0.3s, color 0.3s;
-            /* Updated layout to support footer */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 2rem;
-        }
-        
-        /* Main Layout */
-        .app-card {
-            background-color: var(--bg-secondary);
-            border-radius: 2rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-            padding: 2.5rem;
-            max-width: 600px;
-            width: 100%;
         }
 
-        /* Header */
+        /* ===== LAYOUT COMPONENTS ===== */
+        .app-container {
+            width: 100%;
+            max-width: 44rem;
+            padding-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                padding-top: 2rem;
+            }
+        }
+
+        /* ===== ORIGINAL HEADER STYLES (Adapted) ===== */
         .app-header {
-            border-bottom: 1px solid var(--border-color);
-        }
-        .app-header .title-logo-container {
+            position: relative;
+            width: 100%;
+            z-index: 20;
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        /* Calendar */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-        .day-cell {
-            transition: all 0.2s ease-in-out;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            text-align: center;
-            position: relative;
-            background-color: var(--bg-primary);
-            border: 1px solid transparent;
-            color: var(--text-primary);
-            font-weight: 500;
+            padding: 2.5rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary); /* Use a solid color for simplicity */
+            gap: 1rem;
         }
-        .day-cell.other-month {
-            opacity: 0.3;
-            pointer-events: none;
+
+        .app-header-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-grow: 1;
         }
-        .day-cell.today {
-            font-weight: bold;
-            border: 2px solid var(--main-color);
-        }
-        .day-cell.weekend {
-            background-color: var(--bg-tertiary);
-        }
-        .day-cell.sunday .day-number {
-            color: #f87171;
-        }
-        .day-cell.selected {
-            background-color: var(--main-color-light);
-            color: var(--text-primary);
-            border: 2px solid var(--main-color);
-        }
-        .day-cell:not(.other-month):hover {
-            background-color: var(--bg-tertiary);
+
+        .app-header-title img {
+            width: 2.5rem; /* Slightly smaller size for simplicity */
+            height: 2.5rem;
+            border-radius: 9999px; /* Pill shape */
+            box-shadow: var(--shadow-soft);
         }
         
-        /* New Leave Type Selector */
+        .app-header-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--main-color);
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        .app-header-toggle {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .theme-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem; /* Adjusted size */
+            height: 2.5rem;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            font-size: 1.25rem;
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--main-color);
+            transform: scale(1.1);
+        }
+
+
+        /* ===== IMPROVED CALENDAR STYLES ===== */
+        .calendar-section {
+            width: 100%;
+            max-width: 44rem;
+            background: var(--bg-secondary);
+            border-radius: 2rem;
+            box-shadow: var(--shadow-primary);
+            padding: 2rem;
+            /* Remove fixed margin to allow for proper centering on all screen sizes */
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            margin-top: 2rem; /* Add spacing below the header */
+        }
+
+        @media (min-width: 640px) {
+            .calendar-section {
+                padding: 2.5rem;
+            }
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        .calendar-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .calendar-nav-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--main-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .month-year-display {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--main-color);
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, transparent 0%, var(--bg-tertiary) 100%);
+        }
+
+        .month-year-display:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* ===== IMPROVED LEAVE TYPE SELECTOR ===== */
         .leave-type-selector {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 1rem;
-            padding: 1rem;
-            border-radius: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .leave-type-pill {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px; /* Pill shape */
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-            color: white;
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 2rem;
+            font-size: 0.875rem;
             font-weight: 600;
-        }
-        .leave-type-pill:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-        /* Updated active state for pills */
-        .leave-type-pill.active {
-            box-shadow: 0 0 0 2px var(--text-primary), 0 2px 4px rgba(0,0,0,0.2);
-            transform: scale(1.02);
-            opacity: 1;
-        }
-        .light-theme .leave-type-pill.active {
-            box-shadow: 0 0 0 2px var(--text-primary), 0 2px 4px rgba(0,0,0,0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Leave Visualization */
+        .leave-type-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .leave-type-pill:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .leave-type-pill:hover::before {
+            left: 100%;
+        }
+
+        .leave-type-pill.active {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), var(--shadow-secondary);
+            transform: scale(1.05);
+        }
+
+        .add-leave-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-leave-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--main-color);
+            border-color: var(--main-color);
+            transform: scale(1.1);
+        }
+
+        /* ===== IMPROVED CALENDAR GRID ===== */
+        .calendar-grid-wrapper {
+            margin-top: 2rem;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding: 0 0.25rem;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .calendar-weekdays div:first-child {
+            color: #f87171;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day-cell {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            text-align: center;
+            position: relative;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        .day-cell:not(.other-month):hover {
+            background: var(--bg-tertiary);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .day-cell.other-month {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .day-cell.today {
+            font-weight: 700;
+            border: 2px solid var(--main-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), var(--shadow-soft);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .day-cell.sunday .day-number {
+            color: #fca5a5;
+        }
+
+        .light-theme .day-cell.sunday .day-number {
+            color: #f87171;
+        }
+
+        .day-cell.selected {
+            background: var(--main-color-light);
+            color: var(--text-primary);
+            border: 2px solid var(--main-color);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-secondary);
+        }
+
         .day-cell.has-leave {
             color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-soft);
         }
+
         .day-cell.half-day {
-            background-image: linear-gradient(to right, var(--leave-color) 50%, var(--bg-primary) 50%);
-            color: var(--text-primary);
+            position: relative;
+            background: var(--bg-primary);
         }
-        .day-cell.half-day::after {
+
+        .day-cell.half-day::before {
             content: '';
             position: absolute;
             left: 0;
             top: 0;
-            width: 100%;
+            width: 50%;
             height: 100%;
-            border-radius: 8px;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
-        }
-        .day-cell:not(.half-day).has-leave::after {
-             content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
-        }
-        .light-theme .day-cell.half-day {
-            background-image: linear-gradient(to right, var(--leave-color) 50%, var(--bg-primary) 50%);
-        }
-        .light-theme .day-cell.half-day::after,
-        .light-theme .day-cell:not(.half-day).has-leave::after {
-            box-shadow: none;
-        }
-        
-        /* Stats Panel */
-        .stats-panel {
-            background-color: var(--bg-primary);
-            border-radius: 1rem;
-            margin-top: 1.5rem;
-            transition: all 0.3s ease-in-out;
-            max-height: 0;
-            overflow: hidden;
-            padding: 0; /* Changed from 1.5rem to 0 */
-        }
-        .stats-panel.open {
-            max-height: 500px; /* A large enough value to show content */
-            padding: 1.5rem; /* Now only adds padding when open */
-        }
-        .stats-panel-toggle-btn {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-        }
-        .stats-panel-toggle-btn:hover {
-            background-color: var(--bg-tertiary);
-        }
-        
-        /* Revised stats card styling */
-        .stats-card {
-            background-color: var(--bg-secondary);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            color: var(--text-primary); /* Use theme-based primary text color */
-            border-left: 6px solid var(--card-color); /* New colored border */
-        }
-        .stats-card h3 {
-            color: var(--text-primary);
-        }
-        .stats-card .stats-text-secondary {
-            color: var(--text-secondary);
-        }
-        .stats-card .stats-edit-btn {
-            color: var(--text-secondary);
-        }
-        .stats-card .stats-edit-btn:hover {
-            color: var(--text-primary);
-        }
-        .progress-bar-bg {
-            background-color: var(--bg-tertiary);
+            background: var(--leave-color);
+            border-radius: 1rem 0 0 1rem;
+            z-index: 0;
         }
 
-        /* Modals and forms */
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.7);
+        .day-cell.half-day .day-number {
+            position: relative;
+            z-index: 1;
         }
-        /* The modal and its internal elements now use theme-aware variables */
-        .modal-content {
-            background-color: var(--bg-secondary);
-            border-radius: 1.5rem;
+
+        /* ===== IMPROVED STATS PANEL ===== */
+        .stats-toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
         }
-        input, select {
-            background-color: var(--bg-primary);
-            border-color: var(--border-color);
+
+        .stats-panel-toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            background: var(--bg-secondary);
             color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: var(--shadow-soft);
         }
-        input:focus {
+
+        .stats-panel-toggle-btn:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .stats-panel {
+            background: var(--bg-secondary);
+            border-radius: 1.5rem;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+            padding: 0;
+            box-shadow: var(--shadow-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .stats-panel.open {
+            max-height: 60rem;
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .stats-card {
+            background: var(--bg-secondary);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            color: var(--text-primary);
+            border-left: 6px solid var(--card-color);
+            box-shadow: var(--shadow-secondary);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .stats-card h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .progress-bar-bg {
+            background: var(--bg-tertiary);
+            border-radius: 2rem;
+            height: 0.75rem;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 2rem;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* ===== IMPROVED MODAL STYLES ===== */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 2rem;
+            box-shadow: var(--shadow-primary);
+            width: 100%;
+            max-width: 32rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--main-color);
+        }
+
+        .close-modal-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        /* ===== IMPROVED FORM STYLES ===== */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .form-input:focus {
             outline: none;
             border-color: var(--main-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), var(--shadow-secondary);
+            transform: translateY(-2px);
         }
+
+        .color-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .color-option {
+            width: 3rem;
+            height: 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-secondary);
+        }
+
         .color-option.selected {
-             outline: 2px solid var(--main-color);
-             outline-offset: 2px;
+            border-color: var(--main-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            transform: scale(1.1);
         }
-        .light-theme .modal-content {
-             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+        .color-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== IMPROVED BUTTON STYLES ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        /* ===== FOOTER STYLES ===== */
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+        }
+
+        .footer a:hover {
+            color: var(--main-color);
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* ===== IMPROVED TOAST STYLES ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-primary);
+            font-weight: 600;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+        }
+
+        .toast-error {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .toast-info {
+            background: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
+            color: white;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 640px) {
+            .app-header {
+                padding: 2rem 1rem;
+            }
+
+            .app-header-title h1 {
+                font-size: 1.5rem;
+            }
+
+            .app-header-title img {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .calendar-section {
+                border-radius: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+                border-radius: 1.5rem;
+            }
+
+            .day-cell {
+                font-size: 0.8rem;
+            }
+
+            .month-year-display {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== UTILITIES ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ===== ADDITIONAL ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calendar-section {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .stats-panel {
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        /* ===== SCROLL IMPROVEMENTS ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 1rem;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--main-color);
         }
     </style>
 </head>
 <body>
-
-    <div class="app-card">
-        <!-- Header -->
-        <header class="app-header flex items-center justify-between pb-6">
-            <div class="flex-grow flex items-center justify-center gap-3">
-                <img src="assets/icon/abouticon.png" alt="Leave Buddy Logo" class="w-10 h-10 rounded-full">
-                <h1 class="text-3xl font-bold" style="color: var(--main-color);">Leave Buddy</h1>
-            </div>
-            <button id="theme-toggle-btn" class="text-xl text-slate-400 hover:text-slate-200 transition-colors">
-                <i class="fas fa-sun"></i>
+    <!-- Header: Preserving the simple design from the original code -->
+    <header class="app-header" role="banner">
+        <div class="app-header-title">
+            <!-- Using the local icon from the original request -->
+            <img src="assets/icon/abouticon.png" alt="Leave Buddy Logo" class="w-10 h-10 rounded-full">
+            <h1 class="text-3xl font-bold" style="color: var(--main-color);">Leave Buddy</h1>
+        </div>
+        <div class="app-header-toggle">
+            <button id="theme-toggle-btn"
+                    class="theme-toggle-btn"
+                    aria-label="Toggle theme"
+                    title="Toggle between light and dark theme">
+                <i class="fas fa-sun" aria-hidden="true"></i>
             </button>
-        </header>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="app-container w-full max-w-4xl px-4 md:px-6 mx-auto" role="main">
         <!-- Calendar Section -->
-        <div class="calendar-section">
-            <!-- Removed the shaded box (calendar-nav-controls) -->
-            <div class="flex items-center justify-between px-2 pt-2 mb-4">
-                <button id="prev-month-btn" class="p-2 rounded-full hover:bg-slate-700 transition-colors">
-                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        <section class="calendar-section w-full bg-[var(--bg-secondary)] rounded-2xl shadow-xl p-4 sm:p-6" aria-label="Leave calendar">
+            <!-- Calendar Header -->
+            <div class="calendar-header">
+                <button id="prev-month-btn"
+                        class="calendar-nav-btn"
+                        aria-label="Previous month"
+                        title="Go to previous month">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
                 </button>
-                <h2 id="month-year" class="text-xl font-semibold cursor-pointer hover:underline" style="color: var(--main-color);"></h2>
-                <button id="next-month-btn" class="p-2 rounded-full hover:bg-slate-700 transition-colors">
-                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                
+                <h2 id="month-year"
+                    class="month-year-display"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Current month and year, click to change"
+                    title="Click to select month and year"></h2>
+                
+                <button id="next-month-btn"
+                        class="calendar-nav-btn"
+                        aria-label="Next month"
+                        title="Go to next month">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </button>
             </div>
 
-            <div class="leave-type-selector flex justify-center flex-wrap gap-4 mt-6">
+            <!-- Leave Type Selector -->
+            <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
                 <div id="leave-type-pill-container" class="flex flex-wrap gap-4 justify-center"></div>
-                <button id="add-leave-btn-plus" class="flex items-center justify-center w-10 h-10 border-2 border-slate-600 rounded-full text-slate-400 hover:bg-slate-700 transition-all">
-                    <i class="fas fa-plus"></i>
+                <button id="add-leave-btn-plus"
+                        class="add-leave-btn"
+                        aria-label="Add new leave type"
+                        title="Add new leave type">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
                 </button>
             </div>
 
-            <div class="calendar-grid-wrapper mt-6">
-                <div class="grid grid-cols-7 text-center font-medium text-slate-400 mb-2">
-                    <div class="text-red-400">Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
+            <!-- Calendar Grid -->
+            <div class="calendar-grid-wrapper">
+                <div class="calendar-weekdays" role="row">
+                    <div role="columnheader">Sun</div>
+                    <div role="columnheader">Mon</div>
+                    <div role="columnheader">Tue</div>
+                    <div role="columnheader">Wed</div>
+                    <div role="columnheader">Thu</div>
+                    <div role="columnheader">Fri</div>
+                    <div role="columnheader">Sat</div>
                 </div>
-                <div id="calendar-grid" class="calendar-grid"></div>
+                <div id="calendar-grid"
+                     class="calendar-grid"
+                     role="grid"
+                     aria-label="Calendar days">
+                </div>
             </div>
+        </section>
+
+        <!-- Stats Panel Toggle -->
+        <div class="stats-toggle-container">
+            <button id="toggle-stats-btn"
+                    class="stats-panel-toggle-btn"
+                    aria-expanded="false"
+                    aria-controls="stats-panel">
+                <span id="toggle-text">Show Stats</span>
+                <i id="toggle-icon"
+                   class="fas fa-chevron-down text-sm transition-transform"
+                   aria-hidden="true"></i>
+            </button>
         </div>
 
         <!-- Stats Panel -->
-        <div class="flex justify-center mt-6">
-            <button id="toggle-stats-btn" class="stats-panel-toggle-btn flex items-center gap-2">
-                <span id="toggle-text">Show Stats</span>
-                <i id="toggle-icon" class="fas fa-chevron-down text-sm transition-transform"></i>
-            </button>
-        </div>
-        <div id="stats-panel" class="stats-panel">
-            <div id="stats-grid" class="flex flex-col gap-4"></div>
-            <div id="empty-stats-state" class="hidden text-center p-8 text-slate-500">
-                <h3 class="text-xl font-semibold text-slate-400 mb-2">No Leave Types Yet</h3>
+        <section id="stats-panel"
+                 class="stats-panel"
+                 aria-label="Leave statistics">
+            <div id="stats-grid" class="stats-grid"></div>
+            
+            <div id="empty-stats-state" class="hidden text-center p-8 text-[var(--text-secondary)]">
+                <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
                 <p class="mb-4">Click the '+' button above to add your first leave type.</p>
             </div>
             
-            <div class="mt-8 pt-6 border-t border-slate-700">
-                <h3 class="text-lg font-semibold mb-4 text-center text-slate-300">Data Management</h3>
+            <!-- Data Management Section -->
+            <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
+                <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
+                    Data Management
+                </h3>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <button id="export-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-slate-700 text-slate-200 font-semibold rounded-full hover:bg-slate-600 transition-colors shadow-sm">
-                        <i class="fas fa-download"></i> Export
+                    <button id="export-data-btn"
+                            class="btn btn-secondary flex-1"
+                            title="Export your leave data">
+                        <i class="fas fa-download" aria-hidden="true"></i>
+                        Export Data
                     </button>
-                    <button id="import-data-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-main-color text-white font-semibold rounded-full shadow-md hover:opacity-90 transition-opacity" style="background-color: var(--main-color);">
-                        <i class="fas fa-upload"></i> Import
+                    <button id="import-data-btn"
+                            class="btn btn-primary flex-1"
+                            title="Import leave data from file">
+                        <i class="fas fa-upload" aria-hidden="true"></i>
+                        Import Data
                     </button>
-                    <input type="file" id="upload-data-input" class="hidden" accept=".json">
+                    <input type="file"
+                           id="upload-data-input"
+                           class="hidden"
+                           accept=".json"
+                           aria-label="Select file to import">
                 </div>
-                <button id="reset-data-btn" class="w-full mt-4 bg-red-600 text-white font-semibold py-3 rounded-full hover:bg-red-700 transition-colors shadow-md">
+                <button id="reset-data-btn"
+                        class="btn btn-danger w-full mt-4"
+                        title="Reset all leave data">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
                     Reset All Data
                 </button>
             </div>
-        </div>
-    </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <a href="mailto:arunthomas04042001@gmail.com"
+               title="Contact the developer">
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                Reach out to the developer
+            </a>
+        </footer>
+    </main>
 
-    <!-- Footer for developer contact -->
-    <footer class="mt-8 text-center text-sm text-slate-400">
-        <a href="mailto:arunthomas04042001@gmail.com" class="hover:underline flex items-center justify-center gap-2">
-            <i class="fas fa-envelope"></i>
-            Reach out to the developer
-        </a>
-    </footer>
-
-    <!-- Modals -->
-    <div id="modal-container" class="hidden fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 modal-backdrop">
-        <div id="modal-content" class="p-8 rounded-3xl shadow-2xl w-11/12 max-w-lg"></div>
+    <!-- Modal Container -->
+    <div id="modal-container"
+         class="modal-backdrop hidden"
+         role="dialog"
+         aria-modal="true"
+         aria-hidden="true">
+        <div id="modal-content" class="modal-content"></div>
     </div>
 
     <script>
+        'use strict';
+
+        /**
+         * Leave Buddy Application
+         * A comprehensive leave management system
+         */
         document.addEventListener('DOMContentLoaded', () => {
-            // --- STATE MANAGEMENT ---
-            let state = {
+            // ===== APPLICATION STATE =====
+            const state = {
                 focusedDate: new Date(),
-                leaveTypes: [], // [{ id, name, total, color }]
-                leaveRecords: {}, // { 'YYYY-MM-DD': { typeId: 'leaveTypeId', isHalfDay: false } }
+                leaveTypes: [],
+                leaveRecords: {},
                 selectedLeaveType: null,
                 isDragging: false,
                 selectedDates: new Set(),
-                dragMode: null, // 'add' or 'remove'
+                dragMode: null,
                 statsPanelOpen: false,
-                theme: 'dark' // New theme state
+                theme: 'dark'
             };
 
+            // ===== CONSTANTS =====
             const LEAVE_COLORS = [
-                '#6366f1', '#fcd34d', '#F43F5F', '#10B981', '#A955F7', 
-                '#3C82F6', '#EC4899', '#f87171'
+                '#6366f1', '#fcd34d', '#F43F5F', '#10B981',
+                '#A955F7', '#3C82F6', '#EC4899', '#f87171'
             ];
 
-            // --- DOM ELEMENTS ---
-            const calendarGrid = document.getElementById('calendar-grid');
-            const monthYearDisplay = document.getElementById('month-year');
-            const prevMonthBtn = document.getElementById('prev-month-btn');
-            const nextMonthBtn = document.getElementById('next-month-btn');
-            const leaveTypePillContainer = document.getElementById('leave-type-pill-container');
-            const addLeaveBtnPlus = document.getElementById('add-leave-btn-plus');
-            const statsGrid = document.getElementById('stats-grid');
-            const emptyStatsState = document.getElementById('empty-stats-state');
-            const modalContainer = document.getElementById('modal-container');
-            const modalContent = document.getElementById('modal-content');
-            const exportDataBtn = document.getElementById('export-data-btn');
-            const importDataBtn = document.getElementById('import-data-btn');
-            const uploadDataInput = document.getElementById('upload-data-input');
-            const resetDataBtn = document.getElementById('reset-data-btn');
-            const statsPanel = document.getElementById('stats-panel');
-            const toggleStatsBtn = document.getElementById('toggle-stats-btn');
-            const toggleText = document.getElementById('toggle-text');
-            const toggleIcon = document.getElementById('toggle-icon');
-            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const STORAGE_KEY = 'leaveBuddyState';
 
-            // --- LOCAL STORAGE ---
+            // ===== DOM ELEMENTS =====
+            const elements = {
+                calendarGrid: document.getElementById('calendar-grid'),
+                monthYearDisplay: document.getElementById('month-year'),
+                prevMonthBtn: document.getElementById('prev-month-btn'),
+                nextMonthBtn: document.getElementById('next-month-btn'),
+                leaveTypePillContainer: document.getElementById('leave-type-pill-container'),
+                addLeaveBtnPlus: document.getElementById('add-leave-btn-plus'),
+                statsGrid: document.getElementById('stats-grid'),
+                emptyStatsState: document.getElementById('empty-stats-state'),
+                modalContainer: document.getElementById('modal-container'),
+                modalContent: document.getElementById('modal-content'),
+                exportDataBtn: document.getElementById('export-data-btn'),
+                importDataBtn: document.getElementById('import-data-btn'),
+                uploadDataInput: document.getElementById('upload-data-input'),
+                resetDataBtn: document.getElementById('reset-data-btn'),
+                statsPanel: document.getElementById('stats-panel'),
+                toggleStatsBtn: document.getElementById('toggle-stats-btn'),
+                toggleText: document.getElementById('toggle-text'),
+                toggleIcon: document.getElementById('toggle-icon'),
+                themeToggleBtn: document.getElementById('theme-toggle-btn')
+            };
+
+            // ===== UTILITY FUNCTIONS =====
+            function toISODateString(date) {
+                const pad = num => (num < 10 ? '0' : '') + num;
+                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+            }
+
+            function generateId() {
+                return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            }
+
+            // ===== LOCAL STORAGE FUNCTIONS =====
             function saveState() {
-                localStorage.setItem('leaveBuddyState', JSON.stringify({
-                    leaveTypes: state.leaveTypes,
-                    leaveRecords: state.leaveRecords,
-                    theme: state.theme,
-                }));
+                try {
+                    const dataToSave = {
+                        leaveTypes: state.leaveTypes,
+                        leaveRecords: state.leaveRecords,
+                        theme: state.theme,
+                        version: '1.0'
+                    };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+                } catch (error) {
+                    console.error('Failed to save state:', error);
+                    showToast('Failed to save data', 'error');
+                }
             }
 
             function loadState() {
-                const saved = localStorage.getItem('leaveBuddyState');
-                if (saved) {
-                    try {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
                         const parsedState = JSON.parse(saved);
+                        
                         state.leaveTypes = parsedState.leaveTypes || [];
+                        
+                        // Handle legacy format
                         if (parsedState.leaveRecords) {
                             state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
-                                acc[date] = (typeof value === 'string') ? { typeId: value, isHalfDay: false } : value;
+                                acc[date] = typeof value === 'string'
+                                    ? { typeId: value, isHalfDay: false }
+                                    : value;
                                 return acc;
                             }, {});
                         }
-                        // Load saved theme preference
+                        
                         state.theme = parsedState.theme || 'dark';
-                    } catch (e) {
-                        console.error("Failed to load state from localStorage:", e);
-                        localStorage.removeItem('leaveBuddyState');
                     }
+                } catch (error) {
+                    console.error('Failed to load state:', error);
+                    localStorage.removeItem(STORAGE_KEY);
+                    showToast('Failed to load saved data', 'error');
                 }
             }
-            
-            // --- THEME LOGIC ---
+
+            // ===== THEME FUNCTIONS =====
             function toggleTheme() {
                 state.theme = state.theme === 'dark' ? 'light' : 'dark';
                 applyTheme();
@@ -446,14 +1154,80 @@
 
             function applyTheme() {
                 document.body.classList.toggle('light-theme', state.theme === 'light');
-                const toggleIconClass = state.theme === 'light' ? 'fa-moon' : 'fa-sun';
-                themeToggleBtn.innerHTML = `<i class="fas ${toggleIconClass}"></i>`;
-
-                // Update theme color for PWA
-                document.querySelector('meta[name="theme-color"]').content = state.theme === 'light' ? '#f1f5f9' : '#1e293b';
+                
+                const icon = state.theme === 'light' ? 'fa-moon' : 'fa-sun';
+                elements.themeToggleBtn.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i>`;
+                
+                // Update PWA theme color
+                const themeColor = state.theme === 'light' ? '#f1f5f9' : '#1e293b';
+                document.querySelector('meta[name="theme-color"]').content = themeColor;
             }
 
-            // --- RENDER FUNCTIONS ---
+            // ===== TOAST NOTIFICATIONS =====
+            function showToast(message, type = 'info') {
+                const existingToast = document.querySelector('.toast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const iconMap = {
+                    success: 'fa-check-circle',
+                    error: 'fa-exclamation-triangle',
+                    info: 'fa-info-circle'
+                };
+
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.innerHTML = `
+                    <i class="fas ${iconMap[type]}" aria-hidden="true"></i>
+                    <span>${message}</span>
+                `;
+
+                document.body.appendChild(toast);
+                
+                // Show toast
+                requestAnimationFrame(() => {
+                    toast.classList.add('show');
+                });
+
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // ===== MODAL FUNCTIONS =====
+            function showModal(title, content) {
+                elements.modalContainer.classList.remove('hidden');
+                elements.modalContainer.setAttribute('aria-hidden', 'false');
+                
+                elements.modalContent.innerHTML = `
+                    <div class="modal-header">
+                        <h2>${title}</h2>
+                        <button class="close-modal-btn"
+                                data-action="close-modal"
+                                aria-label="Close modal">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    ${content}
+                `;
+
+                // Focus management
+                const firstFocusable = elements.modalContent.querySelector('input, button, select, textarea');
+                if (firstFocusable) {
+                    firstFocusable.focus();
+                }
+            }
+
+            function hideModal() {
+                elements.modalContainer.classList.add('hidden');
+                elements.modalContainer.setAttribute('aria-hidden', 'true');
+                elements.modalContent.innerHTML = '';
+            }
+
+            // ===== RENDER FUNCTIONS =====
             function render() {
                 renderCalendar();
                 renderStats();
@@ -462,32 +1236,42 @@
             function renderCalendar() {
                 const year = state.focusedDate.getFullYear();
                 const month = state.focusedDate.getMonth();
-                monthYearDisplay.textContent = `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
                 
-                let leaveTypeHtml = state.leaveTypes.map(lt => {
+                // Update month/year display
+                elements.monthYearDisplay.textContent =
+                    `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
+                
+                // Render leave type pills
+                renderLeaveTypePills();
+                
+                // Render calendar grid
+                renderCalendarGrid();
+                
+                // Setup drag and drop
+                setupDragAndDrop();
+            }
+
+            function renderLeaveTypePills() {
+                const pillsHtml = state.leaveTypes.map(lt => {
                     const isSelected = state.selectedLeaveType === lt.id;
                     return `
-                        <button class="leave-type-pill text-sm py-1 px-4 rounded-full font-semibold transition-colors text-white shadow-sm hover:opacity-90 ${isSelected ? 'active' : ''}"
+                        <button class="leave-type-pill ${isSelected ? 'active' : ''}"
                                 data-id="${lt.id}"
-                                style="background-color: ${lt.color};">
+                                style="background-color: ${lt.color};"
+                                role="radio"
+                                aria-checked="${isSelected}"
+                                title="Select ${lt.name}">
                             ${lt.name}
                         </button>
                     `;
                 }).join('');
-                leaveTypePillContainer.innerHTML = leaveTypeHtml;
                 
-                if (state.leaveTypes.length > 0) {
-                    if (!state.selectedLeaveType) {
-                        state.selectedLeaveType = state.leaveTypes[0].id;
-                    }
-                    const activePill = document.querySelector(`.leave-type-pill[data-id="${state.selectedLeaveType}"]`);
-                    if(activePill) activePill.classList.add('active');
-                } else {
-                     state.selectedLeaveType = null;
+                elements.leaveTypePillContainer.innerHTML = pillsHtml;
+                
+                // Auto-select first leave type if none selected
+                if (state.leaveTypes.length > 0 && !state.selectedLeaveType) {
+                    state.selectedLeaveType = state.leaveTypes[0].id;
                 }
-                
-                renderCalendarGrid();
-                setupDragAndDrop();
             }
 
             function renderCalendarGrid() {
@@ -496,29 +1280,36 @@
                 const firstDayOfMonth = new Date(year, month, 1);
                 const lastDayOfMonth = new Date(year, month + 1, 0);
                 const firstDayIndex = firstDayOfMonth.getDay();
-                
-                calendarGrid.innerHTML = '';
-                
+                const todayStr = toISODateString(new Date());
+
+                elements.calendarGrid.innerHTML = '';
+
+                // Empty cells for days before month starts
                 for (let i = 0; i < firstDayIndex; i++) {
                     const emptyDiv = document.createElement('div');
                     emptyDiv.className = 'day-cell other-month';
-                    calendarGrid.appendChild(emptyDiv);
+                    emptyDiv.setAttribute('aria-hidden', 'true');
+                    elements.calendarGrid.appendChild(emptyDiv);
                 }
 
-                const todayStr = toISODateString(new Date());
-
+                // Days of the month
                 for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                     const dayDate = new Date(year, month, i);
                     const dayStr = toISODateString(dayDate);
                     
                     const dayEl = document.createElement('div');
-                    dayEl.className = 'day-cell cursor-pointer p-1';
-                    dayEl.innerHTML = `<span class="day-number text-sm font-semibold">${i}</span>`;
+                    dayEl.className = 'day-cell';
+                    dayEl.innerHTML = `<span class="day-number">${i}</span>`;
                     dayEl.dataset.date = dayStr;
+                    dayEl.setAttribute('role', 'gridcell');
+                    dayEl.setAttribute('tabindex', '0');
+                    dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()}`);
 
+                    // Add CSS classes
                     if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
                     if (dayStr === todayStr) dayEl.classList.add('today');
 
+                    // Apply leave styling
                     const leaveRecord = state.leaveRecords[dayStr];
                     if (leaveRecord) {
                         const leaveType = state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
@@ -526,25 +1317,31 @@
                             if (leaveRecord.isHalfDay) {
                                 dayEl.classList.add('half-day');
                                 dayEl.style.setProperty('--leave-color', leaveType.color);
+                                dayEl.setAttribute('aria-label',
+                                    `${dayDate.toLocaleDateString()} - Half day ${leaveType.name}`);
                             } else {
                                 dayEl.style.backgroundColor = leaveType.color;
                                 dayEl.classList.add('has-leave');
+                                dayEl.setAttribute('aria-label',
+                                    `${dayDate.toLocaleDateString()} - Full day ${leaveType.name}`);
                             }
                         }
                     }
-                    calendarGrid.appendChild(dayEl);
+
+                    elements.calendarGrid.appendChild(dayEl);
                 }
             }
-            
+
             function renderStats() {
-                statsGrid.innerHTML = '';
                 if (state.leaveTypes.length === 0) {
-                    statsGrid.classList.add('hidden');
-                    emptyStatsState.classList.remove('hidden');
+                    elements.statsGrid.classList.add('hidden');
+                    elements.emptyStatsState.classList.remove('hidden');
                     return;
                 }
-                statsGrid.classList.remove('hidden');
-                emptyStatsState.classList.add('hidden');
+
+                elements.statsGrid.classList.remove('hidden');
+                elements.emptyStatsState.classList.add('hidden');
+                elements.statsGrid.innerHTML = '';
 
                 state.leaveTypes.forEach(lt => {
                     const usedDays = Object.values(state.leaveRecords)
@@ -557,77 +1354,42 @@
                     
                     const card = document.createElement('div');
                     card.className = 'stats-card';
-                    // Set the custom property for the border color
                     card.style.setProperty('--card-color', lt.color);
                     card.innerHTML = `
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <h3 class="font-bold text-lg">${lt.name}</h3>
-                            </div>
-                            <button class="stats-edit-btn" data-action="edit-leave-type-stats" data-id="${lt.id}">
-                                <i class="fas fa-edit"></i>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3>${lt.name}</h3>
+                            <button class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                                    data-action="edit-leave-type-stats"
+                                    data-id="${lt.id}"
+                                    aria-label="Edit ${lt.name}"
+                                    title="Edit leave type">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <div class="flex justify-between text-xs stats-text-secondary mb-2">
+                        <div class="flex justify-between text-sm text-[var(--text-secondary)] mb-2">
                             <span>${usedDays} Used</span>
                             <span>${remaining.toFixed(1)} Remaining</span>
                         </div>
-                        <div class="progress-bar-bg rounded-full h-2.5">
-                            <div class="h-2.5 rounded-full" style="width: ${percentage}%; background-color: ${lt.color};"></div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar"
+                                 style="width: ${percentage}%; background-color: ${lt.color};"
+                                 role="progressbar"
+                                 aria-valuenow="${usedDays}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="${totalDays}">
+                            </div>
                         </div>
                     `;
-                    statsGrid.appendChild(card);
+                    elements.statsGrid.appendChild(card);
                 });
             }
 
-            // --- UTILITY FUNCTIONS ---
-            function toISODateString(date) {
-                const pad = (num) => (num < 10 ? '0' : '') + num;
-                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-            }
-
-            function showModal(title, content) {
-                modalContainer.classList.remove('hidden');
-                modalContent.innerHTML = `
-                    <div class="flex items-center justify-between mb-4 pb-2 border-b border-[var(--border-color)]">
-                        <h2 class="text-2xl font-bold" style="color: var(--main-color);">${title}</h2>
-                        <button id="close-modal-btn" data-action="close-modal" class="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    ${content}
-                `;
-                // Add theme-aware classes to the modal content container itself
-                modalContent.classList.add('bg-[var(--bg-secondary)]');
-                modalContent.classList.add('light-theme:shadow-lg');
-            }
-
-            function hideModal() {
-                modalContainer.classList.add('hidden');
-                modalContent.innerHTML = '';
-                 // Clean up theme-aware classes
-                modalContent.classList.remove('bg-[var(--bg-secondary)]');
-                modalContent.classList.remove('light-theme:shadow-lg');
-            }
-
-            function showToast(message, type = 'info') {
-                const toast = document.createElement('div');
-                toast.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-lg flex items-center gap-2 transform translate-x-full transition-transform duration-300 ${type === 'success' ? 'bg-emerald-500 text-white' : type === 'error' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`;
-                toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i><span>${message}</span>`;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.classList.remove('translate-x-full'), 10);
-                setTimeout(() => {
-                    toast.classList.add('translate-x-full');
-                    toast.addEventListener('transitionend', () => toast.remove());
-                }, 3000);
-            }
-
-            // --- CORE LOGIC FUNCTIONS ---
+            // ===== DRAG AND DROP FUNCTIONALITY =====
             function setupDragAndDrop() {
                 let isMouseDown = false;
                 let dragStartCell = null;
                 
-                calendarGrid.onmousedown = (e) => {
+                elements.calendarGrid.addEventListener('mousedown', (e) => {
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
                     
@@ -644,14 +1406,16 @@
                     const dateStr = dragStartCell.dataset.date;
                     const recordExists = state.leaveRecords[dateStr];
                     
-                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType) ? 'remove' : 'add';
+                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
+                        ? 'remove' : 'add';
                     
                     state.selectedDates.add(dateStr);
                     updateDragVisuals();
-                };
+                });
                 
-                calendarGrid.onmouseover = (e) => {
+                elements.calendarGrid.addEventListener('mouseover', (e) => {
                     if (!isMouseDown) return;
+                    
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
                     
@@ -660,32 +1424,46 @@
                     dates.forEach(d => state.selectedDates.add(d));
                     
                     updateDragVisuals();
-                };
+                });
                 
-                document.onmouseup = () => {
+                document.addEventListener('mouseup', () => {
                     if (isMouseDown) {
                         applySelectedDates();
                     }
                     isMouseDown = false;
                     state.selectedDates.clear();
                     updateDragVisuals();
-                };
-                
-                calendarGrid.onclick = (e) => {
+                });
+
+                // Keyboard support
+                elements.calendarGrid.addEventListener('keydown', (e) => {
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    
-                    const dateStr = targetCell.dataset.date;
-                    if (state.leaveRecords[dateStr]) {
-                        // Handle a single click to possibly change half/full day status
+
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (!state.selectedLeaveType) {
+                            showToast('Please select a leave type first!', 'info');
+                            return;
+                        }
+                        
+                        const dateStr = targetCell.dataset.date;
+                        const recordExists = state.leaveRecords[dateStr];
+                        state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
+                            ? 'remove' : 'add';
+                        
+                        state.selectedDates.clear();
+                        state.selectedDates.add(dateStr);
+                        applySelectedDates();
                     }
-                };
+                });
             }
             
             function getDatesBetween(startStr, endStr) {
                 const dates = [];
                 let start = new Date(startStr);
                 let end = new Date(endStr);
+                
                 if (start > end) [start, end] = [end, start];
                 
                 let current = new Date(start);
@@ -693,6 +1471,7 @@
                     dates.push(toISODateString(current));
                     current.setDate(current.getDate() + 1);
                 }
+                
                 return dates;
             }
             
@@ -709,7 +1488,8 @@
                 const datesToChange = Array.from(state.selectedDates).filter(dateStr => {
                     const record = state.leaveRecords[dateStr];
                     const isAlreadyLeave = record && record.typeId === state.selectedLeaveType;
-                    return (state.dragMode === 'add' && !isAlreadyLeave) || (state.dragMode === 'remove' && isAlreadyLeave);
+                    return (state.dragMode === 'add' && !isAlreadyLeave) ||
+                               (state.dragMode === 'remove' && isAlreadyLeave);
                 });
                 
                 if (state.dragMode === 'add') {
@@ -729,12 +1509,15 @@
                     }
                 }
                 
-                if(datesToChange.length > 0) {
+                if (datesToChange.length > 0) {
                     datesToChange.forEach(dateStr => {
                         if (state.dragMode === 'add') {
                             const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
                             const isHalfDayLeave = leaveType.name.toLowerCase().includes('half');
-                            state.leaveRecords[dateStr] = { typeId: state.selectedLeaveType, isHalfDay: isHalfDayLeave };
+                            state.leaveRecords[dateStr] = {
+                                typeId: state.selectedLeaveType,
+                                isHalfDay: isHalfDayLeave
+                            };
                         } else {
                             delete state.leaveRecords[dateStr];
                         }
@@ -743,224 +1526,13 @@
                     saveState();
                     renderCalendar();
                     renderStats();
+                    
                     const action = state.dragMode === 'add' ? 'added' : 'removed';
                     showToast(`${datesToChange.length} day${datesToChange.length > 1 ? 's' : ''} ${action}!`, 'success');
                 }
             }
-            
-            // --- EVENT LISTENERS ---
-            leaveTypePillContainer.addEventListener('click', (e) => {
-                const btn = e.target.closest('button');
-                if (btn && btn.dataset.id) {
-                    state.selectedLeaveType = btn.dataset.id;
-                    document.querySelectorAll('.leave-type-pill').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                }
-            });
 
-            prevMonthBtn.addEventListener('click', () => {
-                state.focusedDate.setMonth(state.focusedDate.getMonth() - 1);
-                renderCalendar();
-            });
-
-            nextMonthBtn.addEventListener('click', () => {
-                state.focusedDate.setMonth(state.focusedDate.getMonth() + 1);
-                renderCalendar();
-            });
-            
-            monthYearDisplay.addEventListener('click', () => {
-                showMonthYearPickerModal();
-            });
-
-            addLeaveBtnPlus.addEventListener('click', () => {
-                showLeaveTypeModal();
-            });
-
-            // Toggle stats panel
-            toggleStatsBtn.addEventListener('click', () => {
-                state.statsPanelOpen = !state.statsPanelOpen;
-                statsPanel.classList.toggle('open', state.statsPanelOpen);
-                toggleText.textContent = state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
-                toggleIcon.classList.toggle('fa-chevron-down', !state.statsPanelOpen);
-                toggleIcon.classList.toggle('fa-chevron-up', state.statsPanelOpen);
-            });
-
-            // Toggle theme
-            themeToggleBtn.addEventListener('click', toggleTheme);
-            
-            statsGrid.addEventListener('click', (e) => {
-                const target = e.target.closest('[data-action="edit-leave-type-stats"]');
-                if(target) {
-                    const id = target.dataset.id;
-                    const leaveType = state.leaveTypes.find(lt => lt.id === id);
-                    if (leaveType) {
-                        showLeaveTypeModal(leaveType);
-                    }
-                }
-            });
-
-            modalContent.addEventListener('click', (e) => {
-                const target = e.target.closest('[data-action]');
-                if (!target) return;
-
-                switch (target.dataset.action) {
-                    case 'save-leave-type':
-                        const id = target.dataset.id;
-                        const name = document.getElementById('leave-name').value.trim();
-                        const totalInput = document.getElementById('leave-total').value;
-                        const total = totalInput ? parseInt(totalInput) : 0;
-                        const selectedColorBtn = document.querySelector('.color-option.selected');
-                        const color = selectedColorBtn ? selectedColorBtn.dataset.color : LEAVE_COLORS[0];
-
-                        if (!name || !total) {
-                            showToast('Please fill all required fields.', 'error');
-                            return;
-                        }
-                        
-                        if (id) {
-                            const lt = state.leaveTypes.find(l => l.id === id);
-                            if (lt) {
-                                lt.name = name;
-                                lt.total = total;
-                                lt.color = color;
-                            }
-                        } else {
-                            const newId = `lt_${Date.now()}`;
-                            state.leaveTypes.push({ id: newId, name, total, color });
-                        }
-
-                        hideModal();
-                        saveState();
-                        renderStats();
-                        renderCalendar();
-                        break;
-                    
-                    case 'delete-leave-type':
-                        const deleteId = target.dataset.id;
-                        showModal('Confirm Deletion', `
-                            <div class="space-y-4 pt-4">
-                                <p class="text-sm text-[var(--text-secondary)]">Are you sure you want to delete this leave type? This action cannot be undone and will remove all recorded leave days of this type.</p>
-                            </div>
-                            <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[var(--border-color)]">
-                                <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-[var(--text-primary)] bg-[var(--bg-tertiary)] rounded-md hover:bg-[var(--bg-primary)]">Cancel</button>
-                                <button data-action="confirm-delete-leave" data-id="${deleteId}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Delete</button>
-                            </div>
-                        `);
-                        break;
-                    
-                    case 'confirm-delete-leave':
-                        const leaveIdToDelete = target.dataset.id;
-                        state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== leaveIdToDelete);
-                        state.leaveRecords = Object.fromEntries(
-                            Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== leaveIdToDelete)
-                        );
-                        hideModal();
-                        saveState();
-                        renderStats();
-                        renderCalendar();
-                        showToast('Leave type deleted successfully!', 'success');
-                        break;
-                    
-                    case 'select-color':
-                        // Fix: The selected class is now correctly applied and removed
-                        document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
-                        target.classList.add('selected');
-                        break;
-
-                    case 'picker-prev-year':
-                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() - 1);
-                        updateMonthYearPickerDisplay();
-                        break;
-                    case 'picker-next-year':
-                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() + 1);
-                        updateMonthYearPickerDisplay();
-                        break;
-                    case 'select-month-from-picker':
-                        state.focusedDate.setMonth(parseInt(target.dataset.month));
-                        hideModal();
-                        renderCalendar();
-                        break;
-                    case 'close-modal':
-                        hideModal();
-                        break;
-                }
-            });
-
-            exportDataBtn.addEventListener('click', () => {
-                const dataStr = JSON.stringify({ leaveTypes: state.leaveTypes, leaveRecords: state.leaveRecords, theme: state.theme }, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showToast('Data exported successfully!', 'success');
-            });
-
-            importDataBtn.addEventListener('click', () => {
-                uploadDataInput.click();
-            });
-
-            uploadDataInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const data = JSON.parse(event.target.result);
-                        if (data.leaveTypes && data.leaveRecords) {
-                            state.leaveTypes = data.leaveTypes;
-                            state.leaveRecords = data.leaveRecords;
-                            if (data.theme) {
-                                state.theme = data.theme;
-                                applyTheme();
-                            }
-                            saveState();
-                            render();
-                            showToast('Data imported successfully!', 'success');
-                        } else {
-                            throw new Error('Invalid file format.');
-                        }
-                    } catch (error) {
-                        showToast('Failed to import data.', 'error');
-                        console.error('Import error:', error);
-                    }
-                };
-                reader.readAsText(file);
-            });
-
-            resetDataBtn.addEventListener('click', () => {
-                showModal('Confirm Reset', `
-                    <div class="space-y-4 pt-4">
-                        <p class="text-sm text-[var(--text-secondary)]">Are you sure you want to reset all data? This action cannot be undone and will permanently delete all your leave types and records.</p>
-                    </div>
-                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[var(--border-color)]">
-                        <button data-action="close-modal" class="px-4 py-2 text-sm font-medium text-[var(--text-primary)] bg-[var(--bg-tertiary)] rounded-md hover:bg-[var(--bg-primary)]">Cancel</button>
-                        <button data-action="confirm-reset" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Reset All Data</button>
-                    </div>
-                `);
-            });
-            
-            modalContent.addEventListener('click', (e) => {
-                const target = e.target.closest('[data-action]');
-                if (!target) return;
-
-                switch (target.dataset.action) {
-                    case 'confirm-reset':
-                        state.leaveTypes = [];
-                        state.leaveRecords = {};
-                        hideModal();
-                        saveState();
-                        render();
-                        showToast('All data has been reset!', 'success');
-                        break;
-                }
-            });
-
+            // ===== MODAL CONTENT GENERATORS =====
             function showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
                 const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
@@ -969,88 +1541,509 @@
                 const initialColor = leaveType ? leaveType.color : LEAVE_COLORS[0];
                 
                 const colorOptions = LEAVE_COLORS.map(color => `
-                    <button type="button" class="w-10 h-10 border-2 border-[var(--border-color)] rounded-full cursor-pointer transition-transform hover:scale-110 color-option ${color === initialColor ? 'selected' : ''}"
+                    <button type="button"
+                            class="color-option ${color === initialColor ? 'selected' : ''}"
                             data-color="${color}"
                             data-action="select-color"
-                            style="background-color: ${color};">
+                            style="background-color: ${color};"
+                            aria-label="Select color ${color}"
+                            title="Select this color">
                     </button>
                 `).join('');
 
                 showModal(modalTitle, `
-                    <div class="space-y-6 p-4">
+                    <form class="space-y-6">
                         <div class="form-group">
-                            <label for="leave-name" class="block text-sm font-medium text-[var(--text-secondary)]">Leave Type Name</label>
-                            <input type="text" id="leave-name" value="${initialName}" class="mt-1 block w-full px-4 py-2 rounded-lg border-[var(--border-color)] shadow-sm focus:ring-[var(--main-color)] focus:border-[var(--main-color)] text-base" placeholder="e.g., Annual Leave or Half Day Sick Leave">
+                            <label for="leave-name" class="form-label">Leave Type Name *</label>
+                            <input type="text"
+                                   id="leave-name"
+                                   class="form-input"
+                                   value="${initialName}"
+                                   placeholder="e.g., Annual Leave or Half Day Sick Leave"
+                                   required
+                                   aria-describedby="name-help">
+                            <div id="name-help" class="text-xs text-[var(--text-secondary)] mt-1">
+                                Include "half" in the name for half-day leave types
+                            </div>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="leave-total" class="block text-sm font-medium text-[var(--text-secondary)]">Total Days per Year</label>
-                            <input type="number" id="leave-total" value="${initialTotal}" class="mt-1 block w-full px-4 py-2 rounded-lg border-[var(--border-color)] shadow-sm focus:ring-[var(--main-color)] focus:border-[var(--main-color)] text-base" placeholder="e.g., 20">
+                            <label for="leave-total" class="form-label">Total Days per Year *</label>
+                            <input type="number"
+                                   id="leave-total"
+                                   class="form-input"
+                                   value="${initialTotal}"
+                                   placeholder="e.g., 20"
+                                   min="0"
+                                   step="0.5"
+                                   required>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">Choose Color</label>
-                            <div id="color-picker" class="flex flex-wrap gap-3">
+                        
+                        <div class="form-group">
+                            <label class="form-label">Choose Color *</label>
+                            <div class="color-picker">
                                 ${colorOptions}
                             </div>
                         </div>
-                    </div>
-                    <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[var(--border-color)]">
-                        ${isEditing ? `<button data-action="delete-leave-type" data-id="${leaveType.id}" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-full hover:bg-red-700">Delete</button>` : ''}
-                        <button data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}" type="button" class="px-4 py-2 text-sm font-medium text-white rounded-full bg-[var(--main-color)] hover:opacity-90" style="background-color: var(--main-color);">Save</button>
-                    </div>
+                        
+                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
+                            ${isEditing ? `
+                                <button type="button"
+                                        class="btn btn-danger"
+                                        data-action="delete-leave-type"
+                                        data-id="${leaveType.id}">
+                                    <i class="fas fa-trash" aria-hidden="true"></i>
+                                    Delete
+                                </button>
+                            ` : ''}
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-action="close-modal">
+                                Cancel
+                            </button>
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    data-action="save-leave-type"
+                                    data-id="${isEditing ? leaveType.id : ''}">
+                                <i class="fas fa-save" aria-hidden="true"></i>
+                                Save
+                            </button>
+                        </div>
+                    </form>
                 `);
             }
             
             function showMonthYearPickerModal() {
                 const currentYear = state.focusedDate.getFullYear();
                 const currentMonth = state.focusedDate.getMonth();
-                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
 
                 const monthGrid = monthNames.map((name, index) => `
-                    <button class="w-full py-3 text-center transition-colors rounded-lg bg-[var(--bg-tertiary)] hover:bg-[var(--bg-secondary)] ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}" data-action="select-month-from-picker" data-month="${index}">
-                        ${name}
+                    <button type="button"
+                            class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
+                            data-action="select-month-from-picker"
+                            data-month="${index}"
+                            aria-pressed="${index === currentMonth}">
+                        ${name.substr(0, 3)}
                     </button>
                 `).join('');
 
-                showModal(`Select Month & Year`, `
-                    <div class="space-y-4 pt-4">
+                showModal('Select Month & Year', `
+                    <div class="space-y-6">
                         <div class="flex items-center justify-between">
-                            <button data-action="picker-prev-year" class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]">
-                                <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-action="picker-prev-year"
+                                    aria-label="Previous year">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i>
                             </button>
-                            <span id="picker-year-display" class="text-lg font-semibold">${currentYear}</span>
-                            <button data-action="picker-next-year" class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]">
-                                <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <span id="picker-year-display"
+                                  class="text-xl font-bold text-[var(--main-color)]">
+                                ${currentYear}
+                            </span>
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-action="picker-next-year"
+                                    aria-label="Next year">
+                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <div class="grid grid-cols-4 gap-2 mt-4">
+                        
+                        <div class="grid grid-cols-3 gap-2">
                             ${monthGrid}
                         </div>
                     </div>
                 `);
             }
-            
+
             function updateMonthYearPickerDisplay() {
-                const currentYear = state.focusedDate.getFullYear();
-                const currentMonth = state.focusedDate.getMonth();
                 const pickerYearDisplay = document.getElementById('picker-year-display');
                 if (pickerYearDisplay) {
-                    pickerYearDisplay.textContent = currentYear;
+                    pickerYearDisplay.textContent = state.focusedDate.getFullYear();
                 }
-                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                const monthGrid = document.querySelector('.picker-grid');
-                if (monthGrid) {
-                     monthGrid.innerHTML = monthNames.map((name, index) => `
-                        <button class="w-full py-3 text-center transition-colors rounded-lg bg-[var(--bg-tertiary)] hover:bg-[var(--bg-secondary)] ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}" data-action="select-month-from-picker" data-month="${index}">
-                            ${name}
-                        </button>
-                    `).join('');
+                const monthButtons = document.querySelectorAll('[data-action="select-month-from-picker"]');
+                const currentMonth = state.focusedDate.getMonth();
+                monthButtons.forEach((btn, index) => {
+                    btn.classList.toggle('ring-2', index === currentMonth);
+                    btn.classList.toggle('ring-[var(--main-color)]', index === currentMonth);
+                    btn.setAttribute('aria-pressed', index === currentMonth);
+                });
+            }
+
+            // ===== EVENT LISTENERS =====
+            function setupEventListeners() {
+                // Leave type selection
+                elements.leaveTypePillContainer.addEventListener('click', (e) => {
+                    const btn = e.target.closest('button');
+                    if (btn && btn.dataset.id) {
+                        state.selectedLeaveType = btn.dataset.id;
+                        renderLeaveTypePills();
+                    }
+                });
+
+                // Calendar navigation
+                elements.prevMonthBtn.addEventListener('click', () => {
+                    state.focusedDate.setMonth(state.focusedDate.getMonth() - 1);
+                    renderCalendar();
+                });
+
+                elements.nextMonthBtn.addEventListener('click', () => {
+                    state.focusedDate.setMonth(state.focusedDate.getMonth() + 1);
+                    renderCalendar();
+                });
+                
+                elements.monthYearDisplay.addEventListener('click', showMonthYearPickerModal);
+                elements.monthYearDisplay.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        showMonthYearPickerModal();
+                    }
+                });
+
+                elements.addLeaveBtnPlus.addEventListener('click', () => showLeaveTypeModal());
+
+                // Stats panel toggle
+                elements.toggleStatsBtn.addEventListener('click', () => {
+                    state.statsPanelOpen = !state.statsPanelOpen;
+                    elements.statsPanel.classList.toggle('open', state.statsPanelOpen);
+                    elements.toggleText.textContent = state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
+                    elements.toggleIcon.classList.toggle('fa-chevron-down', !state.statsPanelOpen);
+                    elements.toggleIcon.classList.toggle('fa-chevron-up', state.statsPanelOpen);
+                    elements.toggleStatsBtn.setAttribute('aria-expanded', state.statsPanelOpen);
+                });
+
+                // Theme toggle
+                elements.themeToggleBtn.addEventListener('click', toggleTheme);
+                
+                // Stats actions
+                elements.statsGrid.addEventListener('click', (e) => {
+                    const target = e.target.closest('[data-action="edit-leave-type-stats"]');
+                    if (target) {
+                        const id = target.dataset.id;
+                        const leaveType = state.leaveTypes.find(lt => lt.id === id);
+                        if (leaveType) {
+                            showLeaveTypeModal(leaveType);
+                        }
+                    }
+                });
+
+                // Data management
+                elements.exportDataBtn.addEventListener('click', exportData);
+                elements.importDataBtn.addEventListener('click', () => elements.uploadDataInput.click());
+                elements.uploadDataInput.addEventListener('change', importData);
+                elements.resetDataBtn.addEventListener('click', showResetConfirmation);
+
+                // Modal event delegation
+                elements.modalContent.addEventListener('click', handleModalActions);
+
+                // ESC key to close modal
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !elements.modalContainer.classList.contains('hidden')) {
+                        hideModal();
+                    }
+                });
+
+                // Click outside modal to close
+                elements.modalContainer.addEventListener('click', (e) => {
+                    if (e.target === elements.modalContainer) {
+                        hideModal();
+                    }
+                });
+            }
+
+            // ===== MODAL ACTION HANDLER =====
+            function handleModalActions(e) {
+                const target = e.target.closest('[data-action]');
+                if (!target) return;
+
+                const action = target.dataset.action;
+                const id = target.dataset.id;
+
+                switch (action) {
+                    case 'save-leave-type':
+                        saveLeaveType(id);
+                        break;
+                    
+                    case 'delete-leave-type':
+                        showDeleteConfirmation(id);
+                        break;
+                    
+                    case 'confirm-delete-leave':
+                        deleteLeaveType(id);
+                        break;
+                    
+                    case 'select-color':
+                        selectColor(target);
+                        break;
+
+                    case 'picker-prev-year':
+                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() - 1);
+                        updateMonthYearPickerDisplay();
+                        break;
+                        
+                    case 'picker-next-year':
+                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() + 1);
+                        updateMonthYearPickerDisplay();
+                        break;
+                        
+                    case 'select-month-from-picker':
+                        state.focusedDate.setMonth(parseInt(target.dataset.month));
+                        hideModal();
+                        renderCalendar();
+                        break;
+                        
+                    case 'confirm-reset':
+                        resetAllData();
+                        break;
+                        
+                    case 'close-modal':
+                        hideModal();
+                        break;
                 }
             }
-            
-            // --- INITIALIZATION ---
-            loadState();
-            applyTheme(); // Apply theme on initial load
-            render();
+
+            // ===== LEAVE TYPE MANAGEMENT =====
+            function saveLeaveType(id) {
+                const nameInput = document.getElementById('leave-name');
+                const totalInput = document.getElementById('leave-total');
+                const selectedColorBtn = document.querySelector('.color-option.selected');
+
+                if (!nameInput || !totalInput || !selectedColorBtn) {
+                    showToast('Please fill all required fields.', 'error');
+                    return;
+                }
+
+                const name = nameInput.value.trim();
+                const total = parseFloat(totalInput.value);
+                const color = selectedColorBtn.dataset.color;
+
+                if (!name) {
+                    showToast('Please enter a leave type name.', 'error');
+                    nameInput.focus();
+                    return;
+                }
+
+                if (isNaN(total) || total <= 0) {
+                    showToast('Please enter a valid number of days.', 'error');
+                    totalInput.focus();
+                    return;
+                }
+                
+                if (id) {
+                    // Edit existing
+                    const leaveType = state.leaveTypes.find(lt => lt.id === id);
+                    if (leaveType) {
+                        leaveType.name = name;
+                        leaveType.total = total;
+                        leaveType.color = color;
+                        showToast('Leave type updated successfully!', 'success');
+                    }
+                } else {
+                    // Create new
+                    const newId = generateId();
+                    state.leaveTypes.push({ id: newId, name, total, color });
+                    showToast('Leave type created successfully!', 'success');
+                }
+
+                hideModal();
+                saveState();
+                render();
+            }
+
+            function selectColor(target) {
+                document.querySelectorAll('.color-option').forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.setAttribute('aria-selected', 'false');
+                });
+                target.classList.add('selected');
+                target.setAttribute('aria-selected', 'true');
+            }
+
+            function showDeleteConfirmation(id) {
+                const leaveType = state.leaveTypes.find(lt => lt.id === id);
+                if (!leaveType) return;
+
+                showModal('Confirm Deletion', `
+                    <div class="space-y-4">
+                        <div class="text-center">
+                            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
+                            <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
+                            <p class="text-sm text-[var(--text-secondary)]">
+                                This action cannot be undone and will remove all recorded leave days of this type.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
+                            <button type="button" class="btn btn-secondary" data-action="close-modal">
+                                Cancel
+                            </button>
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    data-action="confirm-delete-leave"
+                                    data-id="${id}">
+                                <i class="fas fa-trash" aria-hidden="true"></i>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                `);
+            }
+
+            function deleteLeaveType(id) {
+                state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== id);
+                state.leaveRecords = Object.fromEntries(
+                    Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== id)
+                );
+                
+                // Reset selected leave type if it was deleted
+                if (state.selectedLeaveType === id) {
+                    state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
+                }
+                
+                hideModal();
+                saveState();
+                render();
+                showToast('Leave type deleted successfully!', 'success');
+            }
+
+            // ===== DATA MANAGEMENT =====
+            function exportData() {
+                try {
+                    const dataToExport = {
+                        leaveTypes: state.leaveTypes,
+                        leaveRecords: state.leaveRecords,
+                        theme: state.theme,
+                        exportDate: new Date().toISOString(),
+                        version: '1.0'
+                    };
+
+                    const dataStr = JSON.stringify(dataToExport, null, 2);
+                    const blob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
+                    a.style.display = 'none';
+                    
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    URL.revokeObjectURL(url);
+                    showToast('Data exported successfully!', 'success');
+                } catch (error) {
+                    console.error('Export error:', error);
+                    showToast('Failed to export data', 'error');
+                }
+            }
+
+            function importData(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        
+                        if (!data.leaveTypes || !Array.isArray(data.leaveTypes)) {
+                            throw new Error('Invalid file format: leaveTypes missing or invalid');
+                        }
+                        
+                        if (!data.leaveRecords || typeof data.leaveRecords !== 'object') {
+                            throw new Error('Invalid file format: leaveRecords missing or invalid');
+                        }
+                        
+                        // Validate data structure
+                        for (const leaveType of data.leaveTypes) {
+                            if (!leaveType.id || !leaveType.name || typeof leaveType.total !== 'number') {
+                                throw new Error('Invalid leave type data structure');
+                            }
+                        }
+
+                        state.leaveTypes = data.leaveTypes;
+                        state.leaveRecords = data.leaveRecords;
+                        
+                        if (data.theme) {
+                            state.theme = data.theme;
+                            applyTheme();
+                        }
+                        
+                        // Reset selected leave type
+                        state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
+                        
+                        saveState();
+                        render();
+                        showToast('Data imported successfully!', 'success');
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        showToast('Failed to import data. Please check the file format.', 'error');
+                    }
+                };
+                
+                reader.onerror = () => {
+                    showToast('Failed to read the file', 'error');
+                };
+                
+                reader.readAsText(file);
+                
+                // Reset file input
+                e.target.value = '';
+            }
+
+            function showResetConfirmation() {
+                showModal('Confirm Reset', `
+                    <div class="space-y-4">
+                        <div class="text-center">
+                            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
+                            <p class="text-lg font-semibold mb-2">Reset All Data?</p>
+                            <p class="text-sm text-[var(--text-secondary)]">
+                                This action cannot be undone and will permanently delete all your leave types and records.
+                                Consider exporting your data first.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
+                            <button type="button" class="btn btn-secondary" data-action="close-modal">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn btn-danger" data-action="confirm-reset">
+                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                Reset All Data
+                            </button>
+                        </div>
+                    </div>
+                `);
+            }
+
+            function resetAllData() {
+                state.leaveTypes = [];
+                state.leaveRecords = {};
+                state.selectedLeaveType = null;
+                
+                hideModal();
+                saveState();
+                render();
+                showToast('All data has been reset!', 'success');
+            }
+
+            // ===== INITIALIZATION =====
+            function init() {
+                loadState();
+                applyTheme();
+                setupEventListeners();
+                render();
+                
+                // Set initial focus for accessibility
+                elements.monthYearDisplay.focus();
+                
+                console.log('Leave Buddy initialized successfully!');
+            }
+
+            // Start the application
+            init();
         });
     </script>
 </body>
