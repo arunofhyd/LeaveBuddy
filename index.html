@@ -440,15 +440,16 @@
             margin-top: 2rem;
             transition: all 0.3s ease;
             max-height: 0;
-            overflow: hidden;
+            overflow: hidden; /* Keep hidden when closed */
             padding: 0;
             box-shadow: var(--shadow-primary);
             border: 1px solid var(--border-color);
         }
 
         .stats-panel.open {
-            max-height: 60rem;
+            max-height: 60rem; /* Sufficiently large height for content, adjust if needed */
             padding: 2rem;
+            overflow-y: auto; /* ADDED: Enable vertical scrolling when open */
         }
 
         .stats-grid {
