@@ -170,6 +170,485 @@
         .app-header-title {
             display: flex;
             align-items: center;
+            gap: 8px; /* Reduced gap */
+        }
+
+        .app-header-title img {
+            width: 32px; /* Reduced width */
+            height: 32px; /* Reduced height */
+            border-radius: 50%;
+            box-shadow: var(--shadow-soft);
+            object-fit: cover;
+        }
+        
+        .app-header-title h1 {
+            font-size: 20px; /* Reduced font size */
+            font-weight: 700;
+            color: var(--main-color);
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        .theme-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .theme-toggle-btn:hover,
+        .theme-toggle-btn:active {
+            background: var(--main-color);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        /* ===== ENHANCED CALENDAR SECTION ===== */
+        .calendar-section {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: var(--shadow-glass);
+            padding: 28px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Increase calendar section padding for PC */
+        @media (min-width: 1024px) {
+            .calendar-section {
+                padding: 40px; /* More padding for the calendar section */
+            }
+        }
+        @media (min-width: 1280px) {
+            .calendar-section {
+                padding: 50px; /* Even more padding */
+            }
+        }
+
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding: 0 8px;
+        }
+
+        /* Increase calendar header margin for PC */
+        @media (min-width: 1024px) {
+            .calendar-header {
+                margin-bottom: 40px; /* More space below header */
+                padding: 0 12px;
+            }
+        }
+
+        .calendar-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            font-size: 20px;
+        }
+
+        /* Larger nav buttons for PC */
+        @media (min-width: 1024px) {
+            .calendar-nav-btn {
+                width: 56px;
+                height: 56px;
+                font-size: 24px;
+                border-radius: 18px;
+            }
+        }
+
+        .calendar-nav-btn:hover,
+        .calendar-nav-btn:active {
+            background: var(--main-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+            border-color: var(--main-color);
+        }
+
+        .month-year-display {
+            font-weight: 700;
+            color: var(--main-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.025em;
+            /* Removed background, border, and shadow for a cleaner look */
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+            /* Default for all screen sizes, will be overridden by media queries */
+            font-size: 22px; /* Default larger font for PC */
+            padding: 12px 20px; /* Default padding for PC */
+            min-width: 180px; /* Default min-width for PC */
+        }
+
+        /* Mobile specific font size adjustment for month-year-display */
+        @media (max-width: 767px) {
+            .month-year-display {
+                font-size: 1.125rem; /* Reduced font size to 18px to prevent two lines */
+                padding: 0.5rem 0.75rem; /* Adjusted padding for smaller font */
+                min-width: auto; /* Allow width to shrink on mobile */
+            }
+        }
+
+        /* Larger month/year display for PC */
+        @media (min-width: 1024px) {
+            .month-year-display {
+                font-size: 28px;
+                padding: 16px 28px;
+                min-width: 240px;
+            }
+        }
+
+        .month-year-display:hover,
+        .month-year-display:active {
+            background: var(--bg-tertiary); /* Keep hover effect */
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        /* ===== HORIZONTAL SCROLLING LEAVE TYPE SELECTOR ===== */
+        .leave-type-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0 32px 0;
+            padding: 20px;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Larger leave type selector for PC */
+        @media (min-width: 1024px) {
+            .leave-type-selector {
+                gap: 20px;
+                margin: 32px 0 40px 0;
+                padding: 24px;
+                border-radius: 24px;
+            }
+        }
+
+        .add-leave-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 2px dashed var(--border-color);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Larger add leave button for PC */
+        @media (min-width: 1024px) {
+            .add-leave-btn {
+                width: 52px;
+                height: 52px;
+                font-size: 24px;
+            }
+        }
+
+        .add-leave-btn:hover,
+        .add-leave-btn:active {
+            background: var(--bg-tertiary);
+            color: var(--main-color);
+            border-color: var(--main-color);
+            transform: scale(1.1);
+        }
+
+        .leave-type-pills-container {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 0;
+            flex: 1;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        /* Larger gap for pills on PC */
+        @media (min-width: 1024px) {
+            .leave-type-pills-container {
+                gap: 16px;
+            }
+        }
+
+        .leave-type-pills-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .leave-type-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Larger pills for PC */
+        @media (min-width: 1024px) {
+            .leave-type-pill {
+                padding: 14px 22px;
+                font-size: 16px;
+                min-height: 50px;
+                border-radius: 22px;
+            }
+        }
+
+        .leave-type-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .leave-type-pill:hover::before,
+        .leave-type-pill:active::before {
+            left: 100%;
+        }
+
+        .leave-type-pill:hover,
+        .leave-type-pill:active {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .leave-type-pill.active {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4), var(--shadow-secondary);
+            transform: scale(1.05);
+        }
+
+        /* ===== PERFECT SQUARE CALENDAR GRID ===== */
+        .calendar-grid-wrapper {
+            margin-top: 24px;
+        }
+
+        /* Adjust calendar grid wrapper margin for PC */
+        @media (min-width: 1024px) {
+            .calendar-grid-wrapper {
+                margin-top: 32px;
+            }
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px; /* Default gap */
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            padding: 0 4px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
+
+        /* PC specific weekday header styles */
+        @media (min-width: 1024px) { /* Large screens (lg) */
+            .calendar-weekdays {
+                font-size: 1.1em; /* Slightly larger font for weekday names */
+                padding: 1rem 0.5rem; /* More padding */
+                margin-bottom: 20px; /* More space below weekday names */
+            }
+        }
+
+        .calendar-weekdays div:first-child {
+            color: var(--error-color);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px; /* Default gap */
+            padding: 4px;
+        }
+
+        /* Mobile specific calendar grid gap */
+        @media (max-width: 767px) {
+            .calendar-grid {
+                gap: 0.5rem; /* Increased gap to 8px for better spacing */
+                padding: 2px; /* Keep existing padding */
+            }
+        }
+
+        /* PC specific calendar grid gap */
+        @media (min-width: 1024px) { /* Large screens (lg) */
+            .calendar-grid {
+                gap: 1.5rem; /* Increase gap between calendar cells (24px) */
+            }
+        }
+
+        @media (min-width: 1280px) { /* Extra large screens (xl) */
+            .calendar-grid {
+                gap: 2rem; /* Even larger gap (32px) */
+            }
+        }
+
+        .day-cell {
+            aspect-ratio: 1; /* Keep this to ensure square shape */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            text-align: center;
+            position: relative;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: clamp(14px, 3.5vw, 18px); /* Mobile responsive font size */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            overflow: hidden; /* Important for content within a fixed aspect ratio */
+            box-shadow: var(--shadow-soft);
+            /* min-height: 0; -- Removed for larger screens to ensure aspect-ratio holds */
+        }
+
+        /* Mobile specific day cell font size and activity indicator size */
+        @media (max-width: 767px) {
+            .day-cell {
+                font-size: clamp(12px, 3.5vw, 16px); /* Adjusted font size for mobile */
+                padding: 8px; /* Adjusted padding for mobile */
+            }
+            .day-cell .day-number {
+                font-size: 0.9em; /* Slightly larger day number for mobile */
+            }
+            /* Activity indicator styles for mobile */
+            .day-cell.has-leave .activity-indicator { /* Target the indicator directly */
+                width: 8px; /* Increased size for mobile activity indicator */
+                height: 8px; /* Increased size for mobile activity indicator */
+                margin-top: 4px; /* Adjusted margin for better spacing */
+                background-color: white; /* Ensure it's visible on colored leave days */
+                border-radius: 50%;
+            }
+        }
+
+        /* PC specific day cell styles */
+        @media (min-width: 768px) {
+            .day-cell {
+                padding: 12px; /* Keep existing padding for tablet */
+            }
+        }
+
+        @media (min-width: 1024px) { /* Large screens (lg) */
+            .day-cell {
+                padding: 16px; /* More padding inside cells */
+                font-size: 1.6em; /* Slightly adjusted font size to fit better */
+                border-radius: 20px; /* Slightly larger border-radius */
+            }
+            /* Activity indicator styles for PC */
+            .day-cell.has-leave .activity-indicator {
+                width: 10px; /*            .app-container {
+                max-width: 768px; /* Tablet size */
+                padding: 0 24px 40px 24px; /* Slightly more padding */
+            }
+        }
+
+        @media (min-width: 1024px) { /* Large screens (lg) */
+            .app-container {
+                max-width: 1024px; /* Equivalent to Tailwind's max-w-4xl */
+                padding: 0 3rem 4rem 3rem; /* Increase overall padding for the main card */
+            }
+        }
+
+        @media (min-width: 1280px) { /* Extra large screens (xl) */
+            .app-container {
+                max-width: 1280px; /* Even wider */
+                padding: 0 4rem 5rem 4rem; /* Even more padding for the main card */
+            }
+        }
+
+        /* ===== MODERN HEADER ===== */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 20px;
+            margin: 0 -20px 24px -20px;
+        }
+
+        .app-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Adjust header content width for larger screens */
+        @media (min-width: 768px) {
+            .app-header-content {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .app-header-content {
+                max-width: 1024px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .app-header-content {
+                max-width: 1280px;
+            }
+        }
+
+
+        .app-header-title {
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
