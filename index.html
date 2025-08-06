@@ -346,7 +346,8 @@
             align-items: center;
             gap: 16px;
             margin: 24px 0 32px 0;
-            padding: 20px;
+            /* Adjusted padding */
+            padding: 16px; /* Reduced from 20px */
             border-radius: 20px;
             background: var(--bg-secondary); /* Ensure this is the solid background for the selector */
             border: 1px solid var(--border-color);
@@ -362,7 +363,8 @@
             top: 0;
             left: 0;
             /* Width of the fade area: button width + button margin-right + selector padding-left */
-            width: calc(44px + 16px + 20px); 
+            /* Updated calculation for new padding and margin */
+            width: calc(44px + 10px + 16px); 
             height: 100%;
             /* Gradient from the background color to transparent */
             background: linear-gradient(to right, var(--bg-secondary) 60%, transparent 100%);
@@ -375,12 +377,13 @@
             .leave-type-selector {
                 gap: 20px;
                 margin: 32px 0 40px 0;
-                padding: 24px;
+                /* Adjusted padding */
+                padding: 20px; /* Reduced from 24px */
                 border-radius: 24px;
             }
             .leave-type-selector::before {
-                /* Adjusted for larger button and gap on PC */
-                width: calc(52px + 20px + 24px); 
+                /* Updated calculation for new padding and margin on PC */
+                width: calc(52px + 14px + 20px); 
             }
         }
 
@@ -400,7 +403,8 @@
             flex-shrink: 0;
             position: relative; /* For z-index */
             z-index: 2; /* Ensure it's above the gradient */
-            margin-right: 16px; /* Space between button and pills */
+            /* Adjusted margin */
+            margin-right: 10px; /* Reduced from 16px */
         }
 
         /* Larger add leave button for PC */
@@ -409,7 +413,8 @@
                 width: 52px;
                 height: 52px;
                 font-size: 24px;
-                margin-right: 20px; /* Adjusted for larger gap */
+                /* Adjusted margin */
+                margin-right: 14px; /* Reduced from 20px */
             }
         }
 
@@ -602,14 +607,6 @@
             .day-cell .day-number {
                 font-size: 0.9em; /* Slightly larger day number for mobile */
             }
-            /* Activity indicator styles for mobile */
-            .activity-indicator { /* Target the indicator directly */
-                width: 8px; /* Increased size for mobile activity indicator */
-                height: 8px; /* Increased size for mobile activity indicator */
-                margin-top: 4px; /* Adjusted margin for better spacing */
-                background-color: white; /* Ensure it's visible on colored leave days */
-                border-radius: 50%;
-            }
         }
 
         /* PC specific day cell styles */
@@ -624,14 +621,6 @@
                 padding: 16px; /* More padding inside cells */
                 font-size: 1.6em; /* Slightly adjusted font size to fit better */
                 border-radius: 20px; /* Slightly larger border-radius */
-            }
-            /* Activity indicator styles for PC */
-            .activity-indicator {
-                width: 10px; /* Default size for PC */
-                height: 10px;
-                margin-top: 6px;
-                background-color: white; /* Ensure it's visible on colored leave days */
-                border-radius: 50%;
             }
         }
 
@@ -681,15 +670,7 @@
             box-shadow: var(--shadow-secondary);
         }
 
-        /* Activity indicator for days with leave */
-        .activity-indicator {
-            position: absolute;
-            bottom: 6px; /* Position it at the bottom */
-            width: 8px; /* Default size */
-            height: 8px;
-            background-color: white; /* White dot on colored leave days */
-            border-radius: 50%;
-        }
+        /* Removed .activity-indicator CSS */
 
         .day-cell.half-day {
             position: relative;
@@ -1395,7 +1376,6 @@
     <header class="app-header" role="banner">
         <div class="app-header-content">
             <div class="app-header-title">
-                <!-- Original image path restored -->
                 <img src="/assets/icon/abouticon.png" alt="Leave Buddy Logo" loading="lazy">
                 <h1>Leave Buddy</h1>
             </div>
@@ -1805,10 +1785,8 @@
                     
                     const dayEl = document.createElement('div');
                     dayEl.className = 'day-cell';
-                    dayEl.innerHTML = `
-                        <span class="day-number">${i}</span>
-                        ${state.leaveRecords[dayStr] ? '<div class="activity-indicator"></div>' : ''}
-                    `;
+                    // Removed the activity-indicator div
+                    dayEl.innerHTML = `<span class="day-number">${i}</span>`;
                     dayEl.dataset.date = dayStr;
                     dayEl.setAttribute('role', 'gridcell');
                     dayEl.setAttribute('tabindex', '0');
