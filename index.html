@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Leave Buddy</title>
-
     <!-- Preconnect to improve font loading speed -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <!-- Tailwind CSS, Inter Font, and Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <!-- PWA Meta Tags and Icons -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="/assets/icon/abouticon.png" type="image/png">
@@ -31,7 +28,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
-
     <style>
         /* ===== CSS CUSTOM PROPERTIES ===== */
         :root {
@@ -57,7 +53,6 @@
             --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
             --gradient-primary: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
         }
-
         /* Light theme variables */
         body.light-theme {
             --bg-primary: #f8fafc;
@@ -73,18 +68,15 @@
             --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
         }
-
         /* ===== BASE STYLES ===== */
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
-
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
@@ -97,7 +89,6 @@
             overflow-x: hidden;
             font-size: 16px;
         }
-
         /* ===== IMPROVED LAYOUT ===== */
         .app-container {
             width: 100%;
@@ -106,7 +97,6 @@
             padding: 0 20px 32px 20px;
             position: relative;
         }
-
         /* PC specific spaciousness for .app-container */
         @media (min-width: 768px) {
             .app-container {
@@ -114,21 +104,18 @@
                 padding: 0 24px 40px 24px; /* Slightly more padding */
             }
         }
-
         @media (min-width: 1024px) { /* Large screens (lg) */
             .app-container {
                 max-width: 1024px; /* Equivalent to Tailwind's max-w-4xl */
                 padding: 0 3rem 4rem 3rem; /* Increase overall padding for the main card */
             }
         }
-
         @media (min-width: 1280px) { /* Extra large screens (xl) */
             .app-container {
                 max-width: 1280px; /* Even wider */
                 padding: 0 4rem 5rem 4rem; /* Even more padding for the main card */
             }
         }
-
         /* ===== MODERN HEADER ===== */
         .app-header {
             position: sticky;
@@ -140,15 +127,14 @@
             padding: 20px 20px;
             margin: 0 -20px 24px -20px;
         }
-
         .app-header-content {
             display: flex;
             align-items: center;
-            /* Removed justify-content: space-between; */
+            /* Re-added space-between to push toggle to right and allow title to center */
+            justify-content: space-between; 
             max-width: 480px; /* Keep existing max-width for mobile */
             margin: 0 auto;
         }
-
         /* Adjust header content width for larger screens */
         @media (min-width: 768px) {
             .app-header-content {
@@ -165,16 +151,17 @@
                 max-width: 1280px;
             }
         }
-
-
         .app-header-title {
             display: flex;
             align-items: center;
             gap: 8px; /* Reduced gap */
-            flex-grow: 1; /* Make it take available space */
-            justify-content: center; /* Center its own content */
+            /* Removed flex-grow and justify-content from here */
+            /* flex-grow: 1; */ 
+            /* justify-content: center; */
+            position: absolute; /* Position absolutely to center it regardless of toggle */
+            left: 50%;
+            transform: translateX(-50%);
         }
-
         .app-header-title img {
             width: 32px; /* Reduced width */
             height: 32px; /* Reduced height */
@@ -182,15 +169,20 @@
             box-shadow: var(--shadow-soft);
             object-fit: cover;
         }
-        
         .app-header-title h1 {
-            font-size: 20px; /* Reduced font size */
+            /* Enlarged font size */
+            font-size: 24px; /* Increased from 20px for mobile */
             font-weight: 700;
             color: var(--main-color);
             margin: 0;
             letter-spacing: -0.025em;
         }
-
+        /* Larger title for PC */
+        @media (min-width: 768px) {
+            .app-header-title h1 {
+                font-size: 28px; /* Further enlarged for PC */
+            }
+        }
         .theme-toggle-btn {
             display: flex;
             align-items: center;
@@ -205,16 +197,15 @@
             transition: all 0.3s ease;
             font-size: 18px;
             box-shadow: var(--shadow-soft);
-            margin-right: 1rem; /* Added margin to the right */
+            margin-left: auto; /* Ensure it stays on the right */
+            flex-shrink: 0; /* Prevent shrinking */
         }
-
-        /* Adjust theme toggle button margin for PC */
+        /* Adjust theme toggle button for PC */
         @media (min-width: 768px) {
             .theme-toggle-btn {
-                margin-right: 1.5rem; /* More margin on larger screens */
+                margin-left: auto; 
             }
         }
-
         .theme-toggle-btn:hover,
         .theme-toggle-btn:active {
             background: var(--main-color);
@@ -222,7 +213,6 @@
             transform: scale(1.05);
             box-shadow: var(--shadow-secondary);
         }
-
         /* ===== ENHANCED CALENDAR SECTION ===== */
         .calendar-section {
             background: var(--bg-glass);
@@ -233,7 +223,6 @@
             margin-bottom: 24px;
             border: 1px solid var(--border-color);
         }
-
         /* Increase calendar section padding for PC */
         @media (min-width: 1024px) {
             .calendar-section {
@@ -245,8 +234,6 @@
                 padding: 50px; /* Even more padding */
             }
         }
-
-
         .calendar-header {
             display: flex;
             align-items: center;
@@ -254,7 +241,6 @@
             margin-bottom: 32px;
             padding: 0 8px;
         }
-
         /* Increase calendar header margin for PC */
         @media (min-width: 1024px) {
             .calendar-header {
@@ -262,7 +248,6 @@
                 padding: 0 12px;
             }
         }
-
         .calendar-nav-btn {
             display: flex;
             align-items: center;
@@ -278,7 +263,6 @@
             box-shadow: var(--shadow-soft);
             font-size: 20px;
         }
-
         /* Larger nav buttons for PC */
         @media (min-width: 1024px) {
             .calendar-nav-btn {
@@ -288,7 +272,6 @@
                 border-radius: 18px;
             }
         }
-
         .calendar-nav-btn:hover,
         .calendar-nav-btn:active {
             background: var(--main-color);
@@ -297,7 +280,6 @@
             box-shadow: var(--shadow-secondary);
             border-color: var(--main-color);
         }
-
         .month-year-display {
             font-weight: 700;
             color: var(--main-color);
@@ -314,7 +296,6 @@
             padding: 12px 20px; /* Default padding for PC */
             min-width: 180px; /* Default min-width for PC */
         }
-
         /* Mobile specific font size adjustment for month-year-display */
         @media (max-width: 767px) {
             .month-year-display {
@@ -323,7 +304,6 @@
                 min-width: auto; /* Allow width to shrink on mobile */
             }
         }
-
         /* Larger month/year display for PC */
         @media (min-width: 1024px) {
             .month-year-display {
@@ -332,22 +312,20 @@
                 min-width: 240px;
             }
         }
-
         .month-year-display:hover,
         .month-year-display:active {
             background: var(--bg-tertiary); /* Keep hover effect */
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
-
         /* ===== HORIZONTAL SCROLLING LEAVE TYPE SELECTOR ===== */
         .leave-type-selector {
             display: flex;
             align-items: center;
             gap: 16px;
             margin: 24px 0 32px 0;
-            /* Adjusted padding */
-            padding: 16px; /* Reduced from 20px */
+            /* Adjusted padding to reduce space on left */
+            padding: 16px 20px; /* Reduced left padding from 20px to 16px */
             border-radius: 20px;
             background: var(--bg-secondary); /* Ensure this is the solid background for the selector */
             border: 1px solid var(--border-color);
@@ -355,7 +333,6 @@
             position: relative; /* For positioning the pseudo-element */
             overflow: hidden; /* To contain the scrolling content and the pseudo-element */
         }
-
         /* Pseudo-element for the gradient fade effect on the left */
         .leave-type-selector::before {
             content: '';
@@ -363,30 +340,28 @@
             top: 0;
             left: 0;
             /* Width of the fade area: button width + button margin-right + selector padding-left */
-            /* Updated calculation for new padding and margin */
-            width: calc(44px + 10px + 16px); 
+            /* Updated calculation for reduced margin */
+            width: calc(44px + 4px + 16px); /* 44px (btn width) + 4px (reduced btn margin-right) + 16px (selector padding-left) */
             height: 100%;
             /* Gradient from the background color to transparent */
             background: linear-gradient(to right, var(--bg-secondary) 60%, transparent 100%);
             z-index: 1; /* Below the button, above the pills */
             pointer-events: none; /* Allows interaction with elements underneath */
         }
-
         /* Larger leave type selector for PC */
         @media (min-width: 1024px) {
             .leave-type-selector {
                 gap: 20px;
                 margin: 32px 0 40px 0;
                 /* Adjusted padding */
-                padding: 20px; /* Reduced from 24px */
+                padding: 20px 24px; /* Reduced left padding from 24px to 20px */
                 border-radius: 24px;
             }
             .leave-type-selector::before {
-                /* Updated calculation for new padding and margin on PC */
-                width: calc(52px + 14px + 20px); 
+                /* Updated calculation for reduced margin on PC */
+                width: calc(52px + 6px + 20px); /* 52px (btn width) + 6px (reduced btn margin-right) + 20px (selector padding-left) */
             }
         }
-
         .add-leave-btn {
             display: flex;
             align-items: center;
@@ -403,21 +378,19 @@
             flex-shrink: 0;
             position: relative; /* For z-index */
             z-index: 2; /* Ensure it's above the gradient */
-            /* Adjusted margin */
-            margin-right: 10px; /* Reduced from 16px */
+            /* Significantly reduced margin to minimize gap */
+            margin-right: 4px; /* Further reduced from 8px */
         }
-
         /* Larger add leave button for PC */
         @media (min-width: 1024px) {
             .add-leave-btn {
                 width: 52px;
                 height: 52px;
                 font-size: 24px;
-                /* Adjusted margin */
-                margin-right: 14px; /* Reduced from 20px */
+                /* Significantly reduced margin for PC */
+                margin-right: 6px; /* Further reduced from 12px */
             }
         }
-
         .add-leave-btn:hover,
         .add-leave-btn:active {
             background: var(--bg-tertiary);
@@ -425,7 +398,6 @@
             border-color: var(--main-color);
             transform: scale(1.1);
         }
-
         .leave-type-pills-container {
             display: flex;
             gap: 12px;
@@ -440,18 +412,15 @@
             -webkit-mask-mode: initial;
             mask-mode: initial;
         }
-
         /* Larger gap for pills on PC */
         @media (min-width: 1024px) {
             .leave-type-pills-container {
                 gap: 16px;
             }
         }
-
         .leave-type-pills-container::-webkit-scrollbar {
             display: none;
         }
-
         .leave-type-pill {
             display: flex;
             align-items: center;
@@ -471,7 +440,6 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
-
         /* Larger pills for PC */
         @media (min-width: 1024px) {
             .leave-type-pill {
@@ -481,7 +449,6 @@
                 border-radius: 22px;
             }
         }
-
         .leave-type-pill::before {
             content: '';
             position: absolute;
@@ -492,35 +459,29 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.6s ease;
         }
-
         .leave-type-pill:hover::before,
         .leave-type-pill:active::before {
             left: 100%;
         }
-
         .leave-type-pill:hover,
         .leave-type-pill:active {
             transform: translateY(-3px);
             box-shadow: var(--shadow-secondary);
         }
-
         .leave-type-pill.active {
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4), var(--shadow-secondary);
             transform: scale(1.05);
         }
-
         /* ===== PERFECT SQUARE CALENDAR GRID ===== */
         .calendar-grid-wrapper {
             margin-top: 24px;
         }
-
         /* Adjust calendar grid wrapper margin for PC */
         @media (min-width: 1024px) {
             .calendar-grid-wrapper {
                 margin-top: 32px;
             }
         }
-
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -534,7 +495,6 @@
             font-size: 12px;
             letter-spacing: 0.1em;
         }
-
         /* PC specific weekday header styles */
         @media (min-width: 1024px) { /* Large screens (lg) */
             .calendar-weekdays {
@@ -543,18 +503,15 @@
                 margin-bottom: 20px; /* More space below weekday names */
             }
         }
-
         .calendar-weekdays div:first-child {
             color: var(--error-color);
         }
-
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px; /* Default gap */
             padding: 4px;
         }
-
         /* Mobile specific calendar grid gap */
         @media (max-width: 767px) {
             .calendar-grid {
@@ -562,20 +519,17 @@
                 padding: 2px; /* Keep existing padding */
             }
         }
-
         /* PC specific calendar grid gap */
         @media (min-width: 1024px) { /* Large screens (lg) */
             .calendar-grid {
                 gap: 1.5rem; /* Increase gap between calendar cells (24px) */
             }
         }
-
         @media (min-width: 1280px) { /* Extra large screens (xl) */
             .calendar-grid {
                 gap: 2rem; /* Even larger gap (32px) */
             }
         }
-
         .day-cell {
             aspect-ratio: 1; /* Keep this to ensure square shape */
             display: flex;
@@ -597,7 +551,6 @@
             box-shadow: var(--shadow-soft);
             /* min-height: 0; -- Removed for larger screens to ensure aspect-ratio holds */
         }
-
         /* Mobile specific day cell font size and activity indicator size */
         @media (max-width: 767px) {
             .day-cell {
@@ -608,14 +561,12 @@
                 font-size: 0.9em; /* Slightly larger day number for mobile */
             }
         }
-
         /* PC specific day cell styles */
         @media (min-width: 768px) {
             .day-cell {
                 padding: 12px; /* Keep existing padding for tablet */
             }
         }
-
         @media (min-width: 1024px) { /* Large screens (lg) */
             .day-cell {
                 padding: 16px; /* More padding inside cells */
@@ -623,14 +574,12 @@
                 border-radius: 20px; /* Slightly larger border-radius */
             }
         }
-
         @media (min-width: 1280px) { /* Extra large screens (xl) */
             .day-cell {
                 padding: 20px; /* Even more padding */
                 font-size: 1.9em; /* Slightly adjusted font size to fit better */
             }
         }
-
         .day-cell:not(.other-month):hover,
         .day-cell:not(.other-month):active {
             background: var(--bg-tertiary);
@@ -638,13 +587,11 @@
             box-shadow: var(--shadow-secondary);
             border-color: var(--main-color);
         }
-
         .day-cell.other-month {
             opacity: 0.3;
             pointer-events: none;
             background: var(--bg-primary);
         }
-
         .day-cell.today {
             font-weight: 700;
             border: 3px solid var(--main-color);
@@ -652,16 +599,13 @@
             background: rgba(99, 102, 241, 0.1);
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), var(--shadow-secondary); }
             50% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.2), var(--shadow-secondary); }
         }
-
         .day-cell.sunday .day-number {
             color: var(--error-color);
         }
-
         .day-cell.selected {
             background: var(--main-color-light);
             color: var(--text-primary);
@@ -669,14 +613,10 @@
             transform: scale(1.05);
             box-shadow: var(--shadow-secondary);
         }
-
-        /* Removed .activity-indicator CSS */
-
         .day-cell.half-day {
             position: relative;
             background: var(--bg-secondary);
         }
-
         .day-cell.half-day::before {
             content: '';
             position: absolute;
@@ -688,27 +628,23 @@
             border-radius: 16px 0 0 16px;
             z-index: 0;
         }
-
         .day-cell.half-day .day-number {
             position: relative;
             z-index: 1;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
-
         /* ===== ENHANCED STATS PANEL ===== */
         .stats-toggle-container {
             display: flex;
             justify-content: center;
             margin: 24px 0;
         }
-
         /* Adjust stats toggle margin for PC */
         @media (min-width: 1024px) {
             .stats-toggle-container {
                 margin: 32px 0;
             }
         }
-
         .stats-panel-toggle-btn {
             display: flex;
             align-items: center;
@@ -726,7 +662,6 @@
             box-shadow: var(--shadow-soft);
             min-height: 48px;
         }
-
         /* Larger stats toggle button for PC */
         @media (min-width: 1024px) {
             .stats-panel-toggle-btn {
@@ -736,14 +671,12 @@
                 border-radius: 24px;
             }
         }
-
         .stats-panel-toggle-btn:hover,
         .stats-panel-toggle-btn:active {
             background: var(--bg-tertiary);
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
-
         .stats-panel {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
@@ -756,7 +689,6 @@
             box-shadow: var(--shadow-glass);
             border: 1px solid var(--border-color);
         }
-
         /* Adjust stats panel margin and padding for PC */
         @media (min-width: 1024px) {
             .stats-panel {
@@ -766,26 +698,22 @@
                 padding: 40px;
             }
         }
-
         .stats-panel.open {
             max-height: 100vh;
             padding: 28px;
             overflow-y: auto;
         }
-
         .stats-grid {
             display: flex;
             flex-direction: column;
             gap: 24px;
         }
-
         /* Adjust stats grid gap for PC */
         @media (min-width: 1024px) {
             .stats-grid {
                 gap: 32px;
             }
         }
-
         .stats-card {
             background: var(--bg-secondary);
             border-radius: 20px;
@@ -796,7 +724,6 @@
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
         }
-
         /* Adjust stats card padding for PC */
         @media (min-width: 1024px) {
             .stats-card {
@@ -808,18 +735,15 @@
                 margin-bottom: 24px;
             }
         }
-
         .stats-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-primary);
         }
-
         .stats-card h3 {
             margin: 0 0 20px 0;
             font-size: 20px;
             font-weight: 700;
         }
-
         /* Enhanced balance display */
         .balance-info {
             display: grid;
@@ -827,7 +751,6 @@
             gap: 16px;
             margin-bottom: 20px;
         }
-
         /* Adjust balance info gap and margin for PC */
         @media (min-width: 1024px) {
             .balance-info {
@@ -845,7 +768,6 @@
                 font-size: 13px;
             }
         }
-
         .balance-item {
             text-align: center;
             padding: 16px 12px;
@@ -854,12 +776,10 @@
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
-
         .balance-item:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-soft);
         }
-
         .balance-number {
             display: block;
             font-size: 24px;
@@ -867,7 +787,6 @@
             color: var(--main-color);
             margin-bottom: 4px;
         }
-
         .balance-label {
             font-size: 12px;
             text-transform: uppercase;
@@ -875,15 +794,12 @@
             color: var(--text-muted);
             font-weight: 600;
         }
-
         .balance-item.used .balance-number {
             color: var(--warning-color);
         }
-
         .balance-item.remaining .balance-number {
             color: var(--success-color);
         }
-
         .progress-bar-bg {
             background: var(--bg-tertiary);
             border-radius: 12px;
@@ -892,7 +808,6 @@
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
         }
-
         /* Adjust progress bar height for PC */
         @media (min-width: 1024px) {
             .progress-bar-bg {
@@ -903,7 +818,6 @@
                 font-size: 13px;
             }
         }
-
         .progress-bar {
             height: 100%;
             border-radius: 12px;
@@ -911,7 +825,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .progress-bar::after {
             content: '';
             position: absolute;
@@ -922,12 +835,10 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 3s infinite;
         }
-
         @keyframes shimmer {
             0% { left: -100%; }
             100% { left: 100%; }
         }
-
         .progress-percentage {
             position: absolute;
             top: 50%;
@@ -939,7 +850,6 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
             z-index: 1;
         }
-
         /* ===== ENHANCED MODAL STYLES ===== */
         .modal-backdrop {
             position: fixed;
@@ -955,7 +865,6 @@
             backdrop-filter: blur(12px);
             padding: 16px;
         }
-
         .modal-content {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
@@ -969,7 +878,6 @@
             border: 1px solid var(--border-color);
             animation: modalSlideIn 0.4s ease;
         }
-
         /* Adjust modal content for PC */
         @media (min-width: 768px) {
             .modal-content {
@@ -985,7 +893,6 @@
                 font-size: 20px;
             }
         }
-
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
@@ -996,7 +903,6 @@
                 transform: scale(1) translateY(0);
             }
         }
-
         .modal-header {
             display: flex;
             align-items: center;
@@ -1005,14 +911,12 @@
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
-
         .modal-header h2 {
             margin: 0;
             font-size: 20px;
             font-weight: 700;
             color: var(--main-color);
         }
-
         .close-modal-btn {
             display: flex;
             align-items: center;
@@ -1027,19 +931,16 @@
             transition: all 0.3s ease;
             font-size: 18px;
         }
-
         .close-modal-btn:hover,
         .close-modal-btn:active {
             background: var(--error-color);
             color: white;
             transform: scale(1.1);
         }
-
         /* ===== ENHANCED FORM STYLES ===== */
         .form-group {
             margin-bottom: 24px;
         }
-
         .form-label {
             display: block;
             margin-bottom: 8px;
@@ -1049,7 +950,6 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-
         .form-input {
             width: 100%;
             padding: 16px 20px;
@@ -1062,7 +962,6 @@
             box-shadow: var(--shadow-soft);
             min-height: 56px;
         }
-
         /* Adjust form input padding and font size for PC */
         @media (min-width: 768px) {
             .form-input {
@@ -1075,22 +974,18 @@
                 font-size: 15px;
             }
         }
-
-
         .form-input:focus {
             outline: none;
             border-color: var(--main-color);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), var(--shadow-secondary);
             transform: translateY(-2px);
         }
-
         .color-picker {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-top: 12px;
         }
-
         /* Adjust color picker gap and option size for PC */
         @media (min-width: 768px) {
             .color-picker {
@@ -1105,7 +1000,6 @@
                 font-size: 20px;
             }
         }
-
         .color-option {
             width: 48px;
             height: 48px;
@@ -1117,19 +1011,16 @@
             overflow: hidden;
             box-shadow: var(--shadow-soft);
         }
-
         .color-option:hover,
         .color-option:active {
             transform: scale(1.1);
             box-shadow: var(--shadow-secondary);
         }
-
         .color-option.selected {
             border-color: var(--main-color);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3), var(--shadow-secondary);
             transform: scale(1.1);
         }
-
         .color-option.selected::after {
             content: '✓';
             position: absolute;
@@ -1141,7 +1032,6 @@
             font-size: 18px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }
-
         /* ===== ENHANCED BUTTON STYLES ===== */
         .btn {
             display: inline-flex;
@@ -1162,7 +1052,6 @@
             min-height: 56px;
             box-shadow: var(--shadow-soft);
         }
-
         /* Adjust button padding and font size for PC */
         @media (min-width: 768px) {
             .btn {
@@ -1172,7 +1061,6 @@
                 border-radius: 18px;
             }
         }
-
         .btn::before {
             content: '';
             position: absolute;
@@ -1183,47 +1071,39 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.6s ease;
         }
-
         .btn:hover::before,
         .btn:active::before {
             left: 100%;
         }
-
         .btn-primary {
             background: var(--gradient-primary);
             color: white;
         }
-
         .btn-primary:hover,
         .btn-primary:active {
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
-
         .btn-secondary {
             background: var(--bg-tertiary);
             color: var(--text-primary);
             border: 2px solid var(--border-color);
         }
-
         .btn-secondary:hover,
         .btn-secondary:active {
             background: var(--bg-secondary);
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
-
         .btn-danger {
             background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
             color: white;
         }
-
         .btn-danger:hover,
         .btn-danger:active {
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
-
         /* ===== FOOTER STYLES ===== */
         .footer {
             margin-top: 40px;
@@ -1231,7 +1111,6 @@
             font-size: 14px;
             color: var(--text-muted);
         }
-
         /* Adjust footer margin and padding for PC */
         @media (min-width: 1024px) {
             .footer {
@@ -1242,7 +1121,6 @@
                 font-size: 15px;
             }
         }
-
         .footer a {
             display: inline-flex;
             align-items: center;
@@ -1256,7 +1134,6 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
         }
-
         .footer a:hover,
         .footer a:active {
             color: var(--main-color);
@@ -1264,7 +1141,6 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
-
         /* ===== ENHANCED TOAST STYLES ===== */
         .toast {
             position: fixed;
@@ -1286,26 +1162,21 @@
             max-width: 480px;
             margin: 0 auto;
         }
-
         .toast.show {
             transform: translateY(0);
         }
-
         .toast-success {
             background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
             color: white;
         }
-
         .toast-error {
             background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
             color: white;
         }
-
         .toast-info {
             background: var(--gradient-primary);
             color: white;
         }
-
         /* ===== RESPONSIVE IMPROVEMENTS ===== */
         @media (min-width: 480px) {
             /* .app-container max-width handled above */
@@ -1315,12 +1186,10 @@
                 max-width: 400px;
             }
         }
-
         /* ===== UTILITIES ===== */
         .hidden {
             display: none !important;
         }
-
         .sr-only {
             position: absolute;
             width: 1px;
@@ -1332,26 +1201,21 @@
             white-space: nowrap;
             border: 0;
         }
-
         /* ===== SMOOTH SCROLLING ===== */
         ::-webkit-scrollbar {
             width: 8px;
         }
-
         ::-webkit-scrollbar-track {
             background: var(--bg-primary);
             border-radius: 8px;
         }
-
         ::-webkit-scrollbar-thumb {
             background: var(--bg-tertiary);
             border-radius: 8px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: var(--main-color);
         }
-
         /* ===== LOADING ANIMATION ===== */
         @keyframes fadeInUp {
             from {
@@ -1363,14 +1227,12 @@
                 transform: translateY(0);
             }
         }
-
         .calendar-section,
         .stats-panel {
             animation: fadeInUp 0.6s ease;
         }
     </style>
 </head>
-
 <body>
     <!-- Header -->
     <header class="app-header" role="banner">
@@ -1384,7 +1246,6 @@
             </button>
         </div>
     </header>
-
     <!-- Main Content -->
     <main class="app-container" role="main">
         <!-- Calendar Section -->
@@ -1397,14 +1258,12 @@
                         title="Go to previous month">
                     <i class="fas fa-chevron-left" aria-hidden="true"></i>
                 </button>
-                
                 <h2 id="month-year"
                     class="month-year-display"
                     role="button"
                     tabindex="0"
                     aria-label="Current month and year, tap to change"
                     title="Tap to select month and year"></h2>
-                
                 <button id="next-month-btn"
                         class="calendar-nav-btn"
                         aria-label="Next month"
@@ -1412,7 +1271,6 @@
                     <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </button>
             </div>
-
             <!-- Leave Type Selector with Horizontal Scrolling -->
             <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
                 <button id="add-leave-btn-plus"
@@ -1423,7 +1281,6 @@
                 </button>
                 <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
             </div>
-
             <!-- Calendar Grid -->
             <div class="calendar-grid-wrapper">
                 <div class="calendar-weekdays" role="row">
@@ -1442,7 +1299,6 @@
                 </div>
             </div>
         </section>
-
         <!-- Stats Panel Toggle -->
         <div class="stats-toggle-container">
             <button id="toggle-stats-btn"
@@ -1455,18 +1311,15 @@
                    aria-hidden="true"></i>
             </button>
         </div>
-
         <!-- Stats Panel -->
         <section id="stats-panel"
                  class="stats-panel"
                  aria-label="Leave statistics">
             <div id="stats-grid" class="stats-grid"></div>
-            
             <div id="empty-stats-state" class="hidden text-center p-8 text-[var(--text-muted)]">
                 <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
                 <p class="mb-4">Tap the '+' button above to add your first leave type.</p>
             </div>
-            
             <!-- Data Management Section -->
             <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
                 <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
@@ -1499,7 +1352,6 @@
                 </button>
             </div>
         </section>
-        
         <!-- Footer -->
         <footer class="footer" role="contentinfo">
             <a href="mailto:arunthomas04042001@gmail.com"
@@ -1509,7 +1361,6 @@
             </a>
         </footer>
     </main>
-
     <!-- Modal Container -->
     <div id="modal-container"
           class="modal-backdrop hidden"
@@ -1518,10 +1369,8 @@
           aria-hidden="true">
         <div id="modal-content" class="modal-content"></div>
     </div>
-
     <script>
         'use strict';
-
         document.addEventListener('DOMContentLoaded', () => {
             // ===== APPLICATION STATE =====
             const state = {
@@ -1535,15 +1384,12 @@
                 statsPanelOpen: false,
                 theme: 'dark'
             };
-
             // ===== CONSTANTS =====
             const LEAVE_COLORS = [
                 '#6366f1', '#14b8a6', '#f59e0b', '#10b981',
                 '#8b5cf6', '#06b6d4', '#ec4899', '#ef4444'
             ];
-
             const STORAGE_KEY = 'leaveBuddyState';
-
             // ===== DOM ELEMENTS =====
             const elements = {
                 calendarGrid: document.getElementById('calendar-grid'),
@@ -1566,17 +1412,14 @@
                 toggleIcon: document.getElementById('toggle-icon'),
                 themeToggleBtn: document.getElementById('theme-toggle-btn')
             };
-
             // ===== UTILITY FUNCTIONS =====
             function toISODateString(date) {
                 const pad = num => (num < 10 ? '0' : '') + num;
                 return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
             }
-
             function generateId() {
                 return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             }
-
             // ===== LOCAL STORAGE FUNCTIONS =====
             function saveState() {
                 try {
@@ -1592,15 +1435,12 @@
                     showToast('Failed to save data', 'error');
                 }
             }
-
             function loadState() {
                 try {
                     const saved = localStorage.getItem(STORAGE_KEY);
                     if (saved) {
                         const parsedState = JSON.parse(saved);
-                        
                         state.leaveTypes = parsedState.leaveTypes || [];
-                        
                         // Handle legacy format
                         if (parsedState.leaveRecords) {
                             state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
@@ -1610,59 +1450,48 @@
                                 return acc;
                             }, {});
                         }
-                        
                         state.theme = parsedState.theme || 'dark';
                     }
                     // Ensure no leave type is selected by default on load
                     state.selectedLeaveType = null; 
-
                 } catch (error) {
                     console.error('Failed to load state:', error);
                     localStorage.removeItem(STORAGE_KEY);
                     showToast('Failed to load saved data', 'error');
                 }
             }
-
             // ===== THEME FUNCTIONS =====
             function toggleTheme() {
                 state.theme = state.theme === 'dark' ? 'light' : 'dark';
                 applyTheme();
                 saveState();
             }
-
             function applyTheme() {
                 document.body.classList.toggle('light-theme', state.theme === 'light');
-                
                 const icon = state.theme === 'light' ? 'fa-moon' : 'fa-sun';
                 elements.themeToggleBtn.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i>`;
-                
                 // Update PWA theme color
                 const themeColor = state.theme === 'light' ? '#f8fafc' : '#1e293b';
                 document.querySelector('meta[name="theme-color"]').content = themeColor;
             }
-
             // ===== ENHANCED TOAST NOTIFICATIONS =====
             function showToast(message, type = 'info') {
                 const existingToast = document.querySelector('.toast');
                 if (existingToast) {
                     existingToast.remove();
                 }
-
                 const iconMap = {
                     success: 'fa-check-circle',
                     error: 'fa-exclamation-triangle',
                     info: 'fa-info-circle'
                 };
-
                 const toast = document.createElement('div');
                 toast.className = `toast toast-${type}`;
                 toast.innerHTML = `
                     <i class="fas ${iconMap[type]}" aria-hidden="true"></i>
                     <span>${message}</span>
                 `;
-
                 document.body.appendChild(toast);
-                
                 // Show toast with haptic feedback on mobile
                 requestAnimationFrame(() => {
                     toast.classList.add('show');
@@ -1671,19 +1500,16 @@
                         navigator.vibrate(type === 'error' ? [100, 50, 100] : 50);
                     }
                 });
-
                 // Hide toast after 4 seconds (longer for mobile)
                 setTimeout(() => {
                     toast.classList.remove('show');
                     setTimeout(() => toast.remove(), 500);
                 }, 4000);
             }
-
             // ===== MODAL FUNCTIONS =====
             function showModal(title, content) {
                 elements.modalContainer.classList.remove('hidden');
                 elements.modalContainer.setAttribute('aria-hidden', 'false');
-                
                 elements.modalContent.innerHTML = `
                     <div class="modal-header">
                         <h2>${title}</h2>
@@ -1695,48 +1521,38 @@
                     </div>
                     ${content}
                 `;
-
                 // Focus management
                 const firstFocusable = elements.modalContent.querySelector('input, button, select, textarea');
                 if (firstFocusable) {
                     setTimeout(() => firstFocusable.focus(), 100);
                 }
-
                 // Prevent body scroll
                 document.body.style.overflow = 'hidden';
             }
-
             function hideModal() {
                 elements.modalContainer.classList.add('hidden');
                 elements.modalContainer.setAttribute('aria-hidden', 'true');
                 elements.modalContent.innerHTML = '';
                 document.body.style.overflow = '';
             }
-
             // ===== RENDER FUNCTIONS =====
             function render() {
                 renderCalendar();
                 renderStats();
             }
-
             function renderCalendar() {
                 const year = state.focusedDate.getFullYear();
                 const month = state.focusedDate.getMonth();
-                
                 // Update month/year display
                 elements.monthYearDisplay.textContent =
                     `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
-                
                 // Render leave type pills
                 renderLeaveTypePills();
-                
                 // Render calendar grid
                 renderCalendarGrid();
-                
                 // Setup touch interactions
                 setupTouchInteractions();
             }
-
             function renderLeaveTypePills() {
                 const pillsHtml = state.leaveTypes.map(lt => {
                     const isSelected = state.selectedLeaveType === lt.id;
@@ -1751,15 +1567,12 @@
                         </button>
                     `;
                 }).join('');
-                
                 elements.leaveTypePillContainer.innerHTML = pillsHtml;
-                
                 // REMOVED: Auto-select first leave type if none selected
                 // if (state.leaveTypes.length > 0 && !state.selectedLeaveType) {
                 //     state.selectedLeaveType = state.leaveTypes[0].id;
                 // }
             }
-
             function renderCalendarGrid() {
                 const year = state.focusedDate.getFullYear();
                 const month = state.focusedDate.getMonth();
@@ -1767,9 +1580,7 @@
                 const lastDayOfMonth = new Date(year, month + 1, 0);
                 const firstDayIndex = firstDayOfMonth.getDay();
                 const todayStr = toISODateString(new Date());
-
                 elements.calendarGrid.innerHTML = '';
-
                 // Empty cells for days before month starts
                 for (let i = 0; i < firstDayIndex; i++) {
                     const emptyDiv = document.createElement('div');
@@ -1777,12 +1588,10 @@
                     emptyDiv.setAttribute('aria-hidden', 'true');
                     elements.calendarGrid.appendChild(emptyDiv);
                 }
-
                 // Days of the month
                 for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                     const dayDate = new Date(year, month, i);
                     const dayStr = toISODateString(dayDate);
-                    
                     const dayEl = document.createElement('div');
                     dayEl.className = 'day-cell';
                     // Removed the activity-indicator div
@@ -1791,11 +1600,9 @@
                     dayEl.setAttribute('role', 'gridcell');
                     dayEl.setAttribute('tabindex', '0');
                     dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()}`);
-
                     // Add CSS classes
                     if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
                     if (dayStr === todayStr) dayEl.classList.add('today');
-
                     // Apply leave styling
                     const leaveRecord = state.leaveRecords[dayStr];
                     if (leaveRecord) {
@@ -1814,31 +1621,25 @@
                             }
                         }
                     }
-
                     elements.calendarGrid.appendChild(dayEl);
                 }
             }
-
             function renderStats() {
                 if (state.leaveTypes.length === 0) {
                     elements.statsGrid.classList.add('hidden');
                     elements.emptyStatsState.classList.remove('hidden');
                     return;
                 }
-
                 elements.statsGrid.classList.remove('hidden');
                 elements.emptyStatsState.classList.add('hidden');
                 elements.statsGrid.innerHTML = '';
-
                 state.leaveTypes.forEach(lt => {
                     const usedDays = Object.values(state.leaveRecords)
                         .filter(record => record.typeId === lt.id)
                         .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-                    
                     const totalDays = lt.total;
                     const remaining = Math.max(0, totalDays - usedDays);
                     const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
-                    
                     const card = document.createElement('div');
                     card.className = 'stats-card';
                     card.style.setProperty('--card-color', lt.color);
@@ -1853,7 +1654,6 @@
                                 <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                         </div>
-                        
                         <div class="balance-info">
                             <div class="balance-item used">
                                 <span class="balance-number">${usedDays}</span>
@@ -1868,7 +1668,6 @@
                                 <span class="balance-label">Total</span>
                             </div>
                         </div>
-                        
                         <div class="progress-bar-bg">
                             <div class="progress-bar"
                                     style="width: ${percentage}%; background-color: ${lt.color};"
@@ -1883,60 +1682,46 @@
                     elements.statsGrid.appendChild(card);
                 });
             }
-
             // ===== ENHANCED TOUCH INTERACTIONS =====
             function setupTouchInteractions() {
                 let touchStartCell = null;
                 let isTouch = false;
-                
                 // Touch events
                 elements.calendarGrid.addEventListener('touchstart', (e) => {
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    
                     if (!state.selectedLeaveType) {
                         showToast('Please select a leave type first!', 'info');
                         return; // Exit if no leave type is selected
                     }
-                    
                     e.preventDefault();
                     isTouch = true;
                     state.selectedDates.clear();
-                    
                     touchStartCell = targetCell;
                     const dateStr = touchStartCell.dataset.date;
                     const recordExists = state.leaveRecords[dateStr];
-                    
                     state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
                         ? 'remove' : 'add';
-                    
                     state.selectedDates.add(dateStr);
                     updateDragVisuals();
-                    
                     // Haptic feedback
                     if (navigator.vibrate) {
                         navigator.vibrate(50);
                     }
                 }, { passive: false });
-                
                 elements.calendarGrid.addEventListener('touchmove', (e) => {
                     if (!isTouch) return;
-                    
                     // No need for selectedLeaveType check here, as touchstart already handled it
                     e.preventDefault();
                     const touch = e.touches[0];
                     const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
                     const targetCell = targetElement?.closest('.day-cell');
-                    
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    
                     state.selectedDates.clear();
                     const dates = getDatesBetween(touchStartCell.dataset.date, targetCell.dataset.date);
                     dates.forEach(d => state.selectedDates.add(d));
-                    
                     updateDragVisuals();
                 }, { passive: false });
-                
                 elements.calendarGrid.addEventListener('touchend', (e) => {
                     if (isTouch) {
                         e.preventDefault();
@@ -1946,51 +1731,38 @@
                     state.selectedDates.clear();
                     updateDragVisuals();
                 });
-
                 // Mouse events for desktop compatibility
                 let isMouseDown = false;
                 let mouseStartCell = null;
-                
                 elements.calendarGrid.addEventListener('mousedown', (e) => {
                     if (isTouch) return; // Skip mouse events during touch
-                    
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    
                     if (!state.selectedLeaveType) {
                         showToast('Please select a leave type first!', 'info');
                         return; // Exit if no leave type is selected
                     }
-                    
                     e.preventDefault();
                     isMouseDown = true;
                     state.selectedDates.clear();
-                    
                     mouseStartCell = targetCell;
                     const dateStr = mouseStartCell.dataset.date;
                     const recordExists = state.leaveRecords[dateStr];
-                    
                     state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
                         ? 'remove' : 'add';
-                    
                     state.selectedDates.add(dateStr);
                     updateDragVisuals();
                 });
-                
                 elements.calendarGrid.addEventListener('mouseover', (e) => {
                     if (!isMouseDown || isTouch) return;
-                    
                     // No need for selectedLeaveType check here, as mousedown already handled it
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    
                     state.selectedDates.clear();
                     const dates = getDatesBetween(mouseStartCell.dataset.date, targetCell.dataset.date);
                     dates.forEach(d => state.selectedDates.add(d));
-                    
                     updateDragVisuals();
                 });
-                
                 document.addEventListener('mouseup', () => {
                     if (isMouseDown && !isTouch) {
                         applySelectedDates();
@@ -1999,81 +1771,66 @@
                     state.selectedDates.clear();
                     updateDragVisuals();
                 });
-
                 // Keyboard support
                 elements.calendarGrid.addEventListener('keydown', (e) => {
                     const targetCell = e.target.closest('.day-cell');
                     if (!targetCell || targetCell.classList.contains('other-month')) return;
-
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         if (!state.selectedLeaveType) {
                             showToast('Please select a leave type first!', 'info');
                             return; // Exit if no leave type is selected
                         }
-                        
                         const dateStr = targetCell.dataset.date;
                         const recordExists = state.leaveRecords[dateStr];
                         state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
                             ? 'remove' : 'add';
-                        
                         state.selectedDates.clear();
                         state.selectedDates.add(dateStr);
                         applySelectedDates();
                     }
                 });
             }
-            
             function getDatesBetween(startStr, endStr) {
                 const dates = [];
                 let start = new Date(startStr);
                 let end = new Date(endStr);
-                
                 if (start > end) [start, end] = [end, start];
-                
                 let current = new Date(start);
                 while (current <= end) {
                     dates.push(toISODateString(current));
                     current.setDate(current.getDate() + 1);
                 }
-                
                 return dates;
             }
-            
             function updateDragVisuals() {
                 document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
                     const dateStr = cell.dataset.date;
                     cell.classList.toggle('selected', state.selectedDates.has(dateStr));
                 });
             }
-            
             function applySelectedDates() {
                 if (state.selectedDates.size === 0) return;
-                
                 const datesToChange = Array.from(state.selectedDates).filter(dateStr => {
                     const record = state.leaveRecords[dateStr];
                     const isAlreadyLeave = record && record.typeId === state.selectedLeaveType;
                     return (state.dragMode === 'add' && !isAlreadyLeave) ||
                                (state.dragMode === 'remove' && isAlreadyLeave);
                 });
-                
                 if (state.dragMode === 'add') {
                     const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
                     if (leaveType) {
                         const currentUsed = Object.values(state.leaveRecords)
                             .filter(record => record.typeId === leaveType.id)
                             .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-                        
                         const isHalfDayLeave = leaveType.name.toLowerCase().includes('half');
                         const daysToAdd = isHalfDayLeave ? datesToChange.length * 0.5 : datesToChange.length;
-
                         if (currentUsed + daysToAdd > leaveType.total) {
                             showToast(`Cannot add ${daysToAdd} days. Not enough balance!`, 'error');
                             return;
                         }
                     }
                 }
-                
                 if (datesToChange.length > 0) {
                     datesToChange.forEach(dateStr => {
                         if (state.dragMode === 'add') {
@@ -2087,16 +1844,13 @@
                             delete state.leaveRecords[dateStr];
                         }
                     });
-                    
                     saveState();
                     renderCalendar();
                     renderStats();
-                    
                     const action = state.dragMode === 'add' ? 'added' : 'removed';
                     showToast(`${datesToChange.length} day${datesToChange.length > 1 ? 's' : ''} ${action}!`, 'success');
                 }
             }
-
             // ===== MODAL CONTENT GENERATORS =====
             function showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
@@ -2104,7 +1858,6 @@
                 const initialName = leaveType ? leaveType.name : '';
                 const initialTotal = leaveType ? leaveType.total : '';
                 const initialColor = leaveType ? leaveType.color : LEAVE_COLORS[0];
-                
                 const colorOptions = LEAVE_COLORS.map(color => `
                     <button type="button"
                             class="color-option ${color === initialColor ? 'selected' : ''}"
@@ -2115,7 +1868,6 @@
                             title="Select this color">
                     </button>
                 `).join('');
-
                 showModal(modalTitle, `
                     <form class="space-y-6">
                         <div class="form-group">
@@ -2131,7 +1883,6 @@
                                 Include "half" in the name for half-day leave types
                             </div>
                         </div>
-                        
                         <div class="form-group">
                             <label for="leave-total" class="form-label">Total Days per Year *</label>
                             <input type="number"
@@ -2143,14 +1894,12 @@
                                     step="0.5"
                                     required>
                         </div>
-                        
                         <div class="form-group">
                             <label class="form-label">Choose Color *</label>
                             <div class="color-picker">
                                 ${colorOptions}
                             </div>
                         </div>
-                        
                         <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                             ${isEditing ? `
                                 <button type="button"
@@ -2177,7 +1926,6 @@
                     </form>
                 `);
             }
-            
             function showMonthYearPickerModal() {
                 const currentYear = state.focusedDate.getFullYear();
                 const currentMonth = state.focusedDate.getMonth();
@@ -2185,7 +1933,6 @@
                     "January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                 ];
-
                 const monthGrid = monthNames.map((name, index) => `
                     <button type="button"
                             class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
@@ -2195,7 +1942,6 @@
                         ${name.substr(0, 3)}
                     </button>
                 `).join('');
-
                 showModal('Select Month & Year', `
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
@@ -2216,14 +1962,12 @@
                                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
                             </button>
                         </div>
-                        
                         <div class="grid grid-cols-3 gap-2 sm:gap-3">
                             ${monthGrid}
                         </div>
                     </div>
                 `);
             }
-
             function updateMonthYearPickerDisplay() {
                 const pickerYearDisplay = document.getElementById('picker-year-display');
                 if (pickerYearDisplay) {
@@ -2237,7 +1981,6 @@
                     btn.setAttribute('aria-pressed', index === currentMonth);
                 });
             }
-
             // ===== EVENT LISTENERS =====
             function setupEventListeners() {
                 // Leave type selection
@@ -2252,18 +1995,15 @@
                         }
                     }
                 });
-
                 // Calendar navigation
                 elements.prevMonthBtn.addEventListener('click', () => {
                     state.focusedDate.setMonth(state.focusedDate.getMonth() - 1);
                     renderCalendar();
                 });
-
                 elements.nextMonthBtn.addEventListener('click', () => {
                     state.focusedDate.setMonth(state.focusedDate.getMonth() + 1);
                     renderCalendar();
                 });
-                
                 elements.monthYearDisplay.addEventListener('click', showMonthYearPickerModal);
                 elements.monthYearDisplay.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -2271,9 +2011,7 @@
                         showMonthYearPickerModal();
                     }
                 });
-
                 elements.addLeaveBtnPlus.addEventListener('click', () => showLeaveTypeModal());
-
                 // Stats panel toggle
                 elements.toggleStatsBtn.addEventListener('click', () => {
                     state.statsPanelOpen = !state.statsPanelOpen;
@@ -2283,10 +2021,8 @@
                     elements.toggleIcon.classList.toggle('fa-chevron-up', state.statsPanelOpen);
                     elements.toggleStatsBtn.setAttribute('aria-expanded', state.statsPanelOpen);
                 });
-
                 // Theme toggle
                 elements.themeToggleBtn.addEventListener('click', toggleTheme);
-                
                 // Stats actions
                 elements.statsGrid.addEventListener('click', (e) => {
                     const target = e.target.closest('[data-action="edit-leave-type-stats"]');
@@ -2298,23 +2034,19 @@
                         }
                     }
                 });
-
                 // Data management
                 elements.exportDataBtn.addEventListener('click', exportData);
                 elements.importDataBtn.addEventListener('click', () => elements.uploadDataInput.click());
                 elements.uploadDataInput.addEventListener('change', importData);
                 elements.resetDataBtn.addEventListener('click', showResetConfirmation);
-
                 // Modal event delegation
                 elements.modalContent.addEventListener('click', handleModalActions);
-
                 // ESC key to close modal
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && !elements.modalContainer.classList.contains('hidden')) {
                         hideModal();
                     }
                 });
-
                 // Click outside modal to close
                 elements.modalContainer.addEventListener('click', (e) => {
                     if (e.target === elements.modalContainer) {
@@ -2322,85 +2054,68 @@
                     }
                 });
             }
-
             // ===== MODAL ACTION HANDLER =====
             function handleModalActions(e) {
                 const target = e.target.closest('[data-action]');
                 if (!target) return;
-
                 const action = target.dataset.action;
                 const id = target.dataset.id;
-
                 switch (action) {
                     case 'save-leave-type':
                         saveLeaveType(id);
                         break;
-                    
                     case 'delete-leave-type':
                         showDeleteConfirmation(id);
                         break;
-                    
                     case 'confirm-delete-leave':
                         deleteLeaveType(id);
                         break;
-                    
                     case 'select-color':
                         selectColor(target);
                         break;
-
                     case 'picker-prev-year':
                         state.focusedDate.setFullYear(state.focusedDate.getFullYear() - 1);
                         updateMonthYearPickerDisplay();
                         break;
-                        
                     case 'picker-next-year':
                         state.focusedDate.setFullYear(state.focusedDate.getFullYear() + 1);
                         updateMonthYearPickerDisplay();
                         break;
-                        
                     case 'select-month-from-picker':
                         state.focusedDate.setMonth(parseInt(target.dataset.month));
                         hideModal();
                         renderCalendar();
                         break;
-                        
                     case 'confirm-reset':
                         resetAllData();
                         break;
-                        
                     case 'close-modal':
                         hideModal();
                         break;
                 }
             }
-
             // ===== LEAVE TYPE MANAGEMENT =====
             function saveLeaveType(id) {
                 const nameInput = document.getElementById('leave-name');
                 const totalInput = document.getElementById('leave-total');
                 const selectedColorBtn = document.querySelector('.color-option.selected');
-
                 if (!nameInput || !totalInput || !selectedColorBtn) {
                     showToast('Please fill all required fields.', 'error');
                     return;
                 }
-
                 const name = nameInput.value.trim();
                 const total = parseFloat(totalInput.value);
                 const color = selectedColorBtn.dataset.color;
-
                 if (!name) {
                     showToast('Please enter a leave type name.', 'error');
                     nameInput.focus();
                     return;
                 }
-
                 if (isNaN(total) || total <= 0) {
                     showToast('Please enter a valid number of days.', 'error');
                     totalInput.focus();
                     return;
                 }
-                
                 if (id) {
                     // Edit existing
                     const leaveType = state.leaveTypes.find(lt => lt.id === id);
@@ -2416,12 +2131,10 @@
                     state.leaveTypes.push({ id: newId, name, total, color });
                     showToast('Leave type created successfully!', 'success');
                 }
-
                 hideModal();
                 saveState();
                 render();
             }
-
             function selectColor(target) {
                 document.querySelectorAll('.color-option').forEach(btn => {
                     btn.classList.remove('selected');
@@ -2430,11 +2143,9 @@
                 target.classList.add('selected');
                 target.setAttribute('aria-selected', 'true');
             }
-
             function showDeleteConfirmation(id) {
                 const leaveType = state.leaveTypes.find(lt => lt.id === id);
                 if (!leaveType) return;
-
                 showModal('Confirm Deletion', `
                     <div class="space-y-4">
                         <div class="text-center">
@@ -2459,24 +2170,20 @@
                     </div>
                 `);
             }
-
             function deleteLeaveType(id) {
                 state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== id);
                 state.leaveRecords = Object.fromEntries(
                     Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== id)
                 );
-                
                 // Reset selected leave type if it was deleted
                 if (state.selectedLeaveType === id) {
                     state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
                 }
-                
                 hideModal();
                 saveState();
                 render();
                 showToast('Leave type deleted successfully!', 'success');
             }
-
             // ===== DATA MANAGEMENT =====
             function exportData() {
                 try {
@@ -2487,20 +2194,16 @@
                         exportDate: new Date().toISOString(),
                         version: '1.0'
                     };
-
                     const dataStr = JSON.stringify(dataToExport, null, 2);
                     const blob = new Blob([dataStr], { type: 'application/json' });
                     const url = URL.createObjectURL(blob);
-                    
                     const a = document.createElement('a');
                     a.href = url;
                     a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
                     a.style.display = 'none';
-                    
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
-                    
                     URL.revokeObjectURL(url);
                     showToast('Data exported successfully!', 'success');
                 } catch (error) {
@@ -2508,42 +2211,33 @@
                     showToast('Failed to export data', 'error');
                 }
             }
-
             function importData(e) {
                 const file = e.target.files[0];
                 if (!file) return;
-
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     try {
                         const data = JSON.parse(event.target.result);
-                        
                         if (!data.leaveTypes || !Array.isArray(data.leaveTypes)) {
                             throw new Error('Invalid file format: leaveTypes missing or invalid');
                         }
-                        
                         if (!data.leaveRecords || typeof data.leaveRecords !== 'object') {
                             throw new Error('Invalid file format: leaveRecords missing or invalid');
                         }
-                        
                         // Validate data structure
                         for (const leaveType of data.leaveTypes) {
                             if (!leaveType.id || !leaveType.name || typeof leaveType.total !== 'number') {
                                 throw new Error('Invalid leave type data structure');
                             }
                         }
-
                         state.leaveTypes = data.leaveTypes;
                         state.leaveRecords = data.leaveRecords;
-                        
                         if (data.theme) {
                             state.theme = data.theme;
                             applyTheme();
                         }
-                        
                         // Reset selected leave type
                         state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
-                        
                         saveState();
                         render();
                         showToast('Data imported successfully!', 'success');
@@ -2552,17 +2246,13 @@
                         showToast('Failed to import data. Please check the file format.', 'error');
                     }
                 };
-                
                 reader.onerror = () => {
                     showToast('Failed to read the file', 'error');
                 };
-                
                 reader.readAsText(file);
-                
                 // Reset file input
                 e.target.value = '';
             }
-
             function showResetConfirmation() {
                 showModal('Confirm Reset', `
                     <div class="space-y-4">
@@ -2588,25 +2278,21 @@
                     </div>
                 `);
             }
-
             function resetAllData() {
                 state.leaveTypes = [];
                 state.leaveRecords = {};
                 state.selectedLeaveType = null;
-                
                 hideModal();
                 saveState();
                 render();
                 showToast('All data has been reset!', 'success');
             }
-
             // ===== INITIALIZATION =====
             function init() {
                 loadState();
                 applyTheme();
                 setupEventListeners();
                 render();
-                
                 // Performance optimization
                 if ('serviceWorker' in navigator) {
                     window.addEventListener('load', () => {
@@ -2615,10 +2301,8 @@
                         });
                     });
                 }
-                
                 console.log('Leave Buddy (Optimized) initialized successfully!');
             }
-
             // Start the application
             init();
         });
