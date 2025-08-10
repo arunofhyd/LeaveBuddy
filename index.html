@@ -163,8 +163,8 @@
             transform: translateX(-50%);
         }
         .app-header-title img {
-            width: 32px; /* Reduced width */
-            height: 32px; /* Reduced height */
+            width: 40px; 
+            height: 40px;
             border-radius: 50%;
             box-shadow: var(--shadow-soft);
             object-fit: cover;
@@ -1231,6 +1231,56 @@
         .stats-panel {
             animation: fadeInUp 0.6s ease;
         }
+
+        /* ===== NEW: HALF-DAY MODAL STYLES ===== */
+        .day-type-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .day-type-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .day-type-date {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .day-type-toggle {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-tertiary);
+            border-radius: 9999px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+            width: 150px; /* Fixed width for the toggle */
+        }
+        .day-type-toggle-option {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 9999px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+            background-color: transparent;
+            border: none;
+        }
+        .day-type-toggle-option.active {
+            background-color: var(--main-color);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
     </style>
 </head>
 <body>
@@ -1246,6 +1296,7 @@
             </button>
         </div>
     </header>
+
     <!-- Main Content -->
     <main class="app-container" role="main">
         <!-- Calendar Section -->
@@ -1271,6 +1322,7 @@
                     <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </button>
             </div>
+
             <!-- Leave Type Selector with Horizontal Scrolling -->
             <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
                 <button id="add-leave-btn-plus"
@@ -1281,6 +1333,7 @@
                 </button>
                 <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
             </div>
+
             <!-- Calendar Grid -->
             <div class="calendar-grid-wrapper">
                 <div class="calendar-weekdays" role="row">
@@ -1299,6 +1352,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Stats Panel Toggle -->
         <div class="stats-toggle-container">
             <button id="toggle-stats-btn"
@@ -1311,6 +1365,7 @@
                    aria-hidden="true"></i>
             </button>
         </div>
+
         <!-- Stats Panel -->
         <section id="stats-panel"
                  class="stats-panel"
@@ -1339,10 +1394,10 @@
                         Import Data
                     </button>
                     <input type="file"
-                            id="upload-data-input"
-                            class="hidden"
-                            accept=".json"
-                            aria-label="Select file to import">
+                           id="upload-data-input"
+                           class="hidden"
+                           accept=".json"
+                           aria-label="Select file to import">
                 </div>
                 <button id="reset-data-btn"
                         class="btn btn-danger w-full mt-4"
@@ -1352,6 +1407,7 @@
                 </button>
             </div>
         </section>
+
         <!-- Footer -->
         <footer class="footer" role="contentinfo">
             <a href="mailto:arunthomas04042001@gmail.com"
@@ -1361,14 +1417,16 @@
             </a>
         </footer>
     </main>
+
     <!-- Modal Container -->
     <div id="modal-container"
-          class="modal-backdrop hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-hidden="true">
+         class="modal-backdrop hidden"
+         role="dialog"
+         aria-modal="true"
+         aria-hidden="true">
         <div id="modal-content" class="modal-content"></div>
     </div>
+
     <script>
         'use strict';
         document.addEventListener('DOMContentLoaded', () => {
@@ -1384,12 +1442,14 @@
                 statsPanelOpen: false,
                 theme: 'dark'
             };
+
             // ===== CONSTANTS =====
             const LEAVE_COLORS = [
                 '#6366f1', '#14b8a6', '#f59e0b', '#10b981',
                 '#8b5cf6', '#06b6d4', '#ec4899', '#ef4444'
             ];
             const STORAGE_KEY = 'leaveBuddyState';
+
             // ===== DOM ELEMENTS =====
             const elements = {
                 calendarGrid: document.getElementById('calendar-grid'),
@@ -1412,14 +1472,17 @@
                 toggleIcon: document.getElementById('toggle-icon'),
                 themeToggleBtn: document.getElementById('theme-toggle-btn')
             };
+
             // ===== UTILITY FUNCTIONS =====
             function toISODateString(date) {
                 const pad = num => (num < 10 ? '0' : '') + num;
                 return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
             }
+
             function generateId() {
                 return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             }
+
             // ===== LOCAL STORAGE FUNCTIONS =====
             function saveState() {
                 try {
@@ -1427,7 +1490,7 @@
                         leaveTypes: state.leaveTypes,
                         leaveRecords: state.leaveRecords,
                         theme: state.theme,
-                        version: '1.0'
+                        version: '1.1' // Version update for new data structure
                     };
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
                 } catch (error) {
@@ -1435,21 +1498,24 @@
                     showToast('Failed to save data', 'error');
                 }
             }
+
             function loadState() {
                 try {
                     const saved = localStorage.getItem(STORAGE_KEY);
                     if (saved) {
                         const parsedState = JSON.parse(saved);
                         state.leaveTypes = parsedState.leaveTypes || [];
-                        // Handle legacy format
+                        
+                        // Migration from old data structure if needed
                         if (parsedState.leaveRecords) {
                             state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
                                 acc[date] = typeof value === 'string'
-                                    ? { typeId: value, isHalfDay: false }
-                                    : value;
+                                    ? { typeId: value, isHalfDay: false } // Old format
+                                    : value; // New format
                                 return acc;
                             }, {});
                         }
+                        
                         state.theme = parsedState.theme || 'dark';
                     }
                     // Ensure no leave type is selected by default on load
@@ -1460,12 +1526,14 @@
                     showToast('Failed to load saved data', 'error');
                 }
             }
+
             // ===== THEME FUNCTIONS =====
             function toggleTheme() {
                 state.theme = state.theme === 'dark' ? 'light' : 'dark';
                 applyTheme();
                 saveState();
             }
+
             function applyTheme() {
                 document.body.classList.toggle('light-theme', state.theme === 'light');
                 const icon = state.theme === 'light' ? 'fa-moon' : 'fa-sun';
@@ -1474,6 +1542,7 @@
                 const themeColor = state.theme === 'light' ? '#f8fafc' : '#1e293b';
                 document.querySelector('meta[name="theme-color"]').content = themeColor;
             }
+
             // ===== ENHANCED TOAST NOTIFICATIONS =====
             function showToast(message, type = 'info') {
                 const existingToast = document.querySelector('.toast');
@@ -1492,20 +1561,20 @@
                     <span>${message}</span>
                 `;
                 document.body.appendChild(toast);
-                // Show toast with haptic feedback on mobile
+                
                 requestAnimationFrame(() => {
                     toast.classList.add('show');
-                    // Add haptic feedback if available
                     if (navigator.vibrate) {
                         navigator.vibrate(type === 'error' ? [100, 50, 100] : 50);
                     }
                 });
-                // Hide toast after 4 seconds (longer for mobile)
+
                 setTimeout(() => {
                     toast.classList.remove('show');
                     setTimeout(() => toast.remove(), 500);
                 }, 4000);
             }
+
             // ===== MODAL FUNCTIONS =====
             function showModal(title, content) {
                 elements.modalContainer.classList.remove('hidden');
@@ -1521,38 +1590,34 @@
                     </div>
                     ${content}
                 `;
-                // Focus management
+                
                 const firstFocusable = elements.modalContent.querySelector('input, button, select, textarea');
                 if (firstFocusable) {
                     setTimeout(() => firstFocusable.focus(), 100);
                 }
-                // Prevent body scroll
+                
                 document.body.style.overflow = 'hidden';
             }
+
             function hideModal() {
                 elements.modalContainer.classList.add('hidden');
                 elements.modalContainer.setAttribute('aria-hidden', 'true');
                 elements.modalContent.innerHTML = '';
                 document.body.style.overflow = '';
             }
+
             // ===== RENDER FUNCTIONS =====
             function render() {
                 renderCalendar();
                 renderStats();
             }
+
             function renderCalendar() {
-                const year = state.focusedDate.getFullYear();
-                const month = state.focusedDate.getMonth();
-                // Update month/year display
-                elements.monthYearDisplay.textContent =
-                    `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
-                // Render leave type pills
                 renderLeaveTypePills();
-                // Render calendar grid
                 renderCalendarGrid();
-                // Setup touch interactions
                 setupTouchInteractions();
             }
+
             function renderLeaveTypePills() {
                 const pillsHtml = state.leaveTypes.map(lt => {
                     const isSelected = state.selectedLeaveType === lt.id;
@@ -1568,42 +1633,41 @@
                     `;
                 }).join('');
                 elements.leaveTypePillContainer.innerHTML = pillsHtml;
-                // REMOVED: Auto-select first leave type if none selected
-                // if (state.leaveTypes.length > 0 && !state.selectedLeaveType) {
-                //     state.selectedLeaveType = state.leaveTypes[0].id;
-                // }
             }
+
             function renderCalendarGrid() {
                 const year = state.focusedDate.getFullYear();
                 const month = state.focusedDate.getMonth();
+                elements.monthYearDisplay.textContent = `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
+                
                 const firstDayOfMonth = new Date(year, month, 1);
                 const lastDayOfMonth = new Date(year, month + 1, 0);
                 const firstDayIndex = firstDayOfMonth.getDay();
                 const todayStr = toISODateString(new Date());
+
                 elements.calendarGrid.innerHTML = '';
-                // Empty cells for days before month starts
+
                 for (let i = 0; i < firstDayIndex; i++) {
                     const emptyDiv = document.createElement('div');
                     emptyDiv.className = 'day-cell other-month';
                     emptyDiv.setAttribute('aria-hidden', 'true');
                     elements.calendarGrid.appendChild(emptyDiv);
                 }
-                // Days of the month
+
                 for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                     const dayDate = new Date(year, month, i);
                     const dayStr = toISODateString(dayDate);
                     const dayEl = document.createElement('div');
                     dayEl.className = 'day-cell';
-                    // Removed the activity-indicator div
                     dayEl.innerHTML = `<span class="day-number">${i}</span>`;
                     dayEl.dataset.date = dayStr;
                     dayEl.setAttribute('role', 'gridcell');
                     dayEl.setAttribute('tabindex', '0');
                     dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()}`);
-                    // Add CSS classes
+
                     if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
                     if (dayStr === todayStr) dayEl.classList.add('today');
-                    // Apply leave styling
+
                     const leaveRecord = state.leaveRecords[dayStr];
                     if (leaveRecord) {
                         const leaveType = state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
@@ -1611,19 +1675,18 @@
                             if (leaveRecord.isHalfDay) {
                                 dayEl.classList.add('half-day');
                                 dayEl.style.setProperty('--leave-color', leaveType.color);
-                                dayEl.setAttribute('aria-label',
-                                    `${dayDate.toLocaleDateString()} - Half day ${leaveType.name}`);
+                                dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()} - Half day ${leaveType.name}`);
                             } else {
                                 dayEl.style.backgroundColor = leaveType.color;
                                 dayEl.classList.add('has-leave');
-                                dayEl.setAttribute('aria-label',
-                                    `${dayDate.toLocaleDateString()} - Full day ${leaveType.name}`);
+                                dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()} - Full day ${leaveType.name}`);
                             }
                         }
                     }
                     elements.calendarGrid.appendChild(dayEl);
                 }
             }
+
             function renderStats() {
                 if (state.leaveTypes.length === 0) {
                     elements.statsGrid.classList.add('hidden');
@@ -1633,10 +1696,12 @@
                 elements.statsGrid.classList.remove('hidden');
                 elements.emptyStatsState.classList.add('hidden');
                 elements.statsGrid.innerHTML = '';
+
                 state.leaveTypes.forEach(lt => {
                     const usedDays = Object.values(state.leaveRecords)
                         .filter(record => record.typeId === lt.id)
                         .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
+                    
                     const totalDays = lt.total;
                     const remaining = Math.max(0, totalDays - usedDays);
                     const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
@@ -1656,7 +1721,7 @@
                         </div>
                         <div class="balance-info">
                             <div class="balance-item used">
-                                <span class="balance-number">${usedDays}</span>
+                                <span class="balance-number">${usedDays.toFixed(1)}</span>
                                 <span class="balance-label">Used</span>
                             </div>
                             <div class="balance-item remaining">
@@ -1670,11 +1735,11 @@
                         </div>
                         <div class="progress-bar-bg">
                             <div class="progress-bar"
-                                    style="width: ${percentage}%; background-color: ${lt.color};"
-                                    role="progressbar"
-                                    aria-valuenow="${usedDays}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="${totalDays}">
+                                 style="width: ${percentage}%; background-color: ${lt.color};"
+                                 role="progressbar"
+                                 aria-valuenow="${usedDays}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="${totalDays}">
                             </div>
                             <div class="progress-percentage">${Math.round(percentage)}%</div>
                         </div>
@@ -1682,115 +1747,98 @@
                     elements.statsGrid.appendChild(card);
                 });
             }
-            // ===== ENHANCED TOUCH INTERACTIONS =====
+
+            // ===== ENHANCED TOUCH & MOUSE INTERACTIONS =====
             function setupTouchInteractions() {
                 let touchStartCell = null;
                 let isTouch = false;
-                // Touch events
-                elements.calendarGrid.addEventListener('touchstart', (e) => {
-                    const targetCell = e.target.closest('.day-cell');
-                    if (!targetCell || targetCell.classList.contains('other-month')) return;
+                let isMouseDown = false;
+                let mouseStartCell = null;
+
+                const handleDragStart = (cell) => {
+                    if (!cell || cell.classList.contains('other-month')) return false;
                     if (!state.selectedLeaveType) {
                         showToast('Please select a leave type first!', 'info');
-                        return; // Exit if no leave type is selected
+                        return false;
                     }
-                    e.preventDefault();
-                    isTouch = true;
                     state.selectedDates.clear();
-                    touchStartCell = targetCell;
-                    const dateStr = touchStartCell.dataset.date;
+                    const dateStr = cell.dataset.date;
                     const recordExists = state.leaveRecords[dateStr];
-                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
-                        ? 'remove' : 'add';
+                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType) ? 'remove' : 'add';
                     state.selectedDates.add(dateStr);
                     updateDragVisuals();
-                    // Haptic feedback
-                    if (navigator.vibrate) {
-                        navigator.vibrate(50);
+                    if (navigator.vibrate) navigator.vibrate(50);
+                    return true;
+                };
+
+                const handleDragMove = (cell) => {
+                    if (!cell || cell.classList.contains('other-month')) return;
+                    const startCell = isTouch ? touchStartCell : mouseStartCell;
+                    if (!startCell) return;
+                    state.selectedDates.clear();
+                    const dates = getDatesBetween(startCell.dataset.date, cell.dataset.date);
+                    dates.forEach(d => state.selectedDates.add(d));
+                    updateDragVisuals();
+                };
+
+                const handleDragEnd = () => {
+                    if (state.selectedDates.size > 0) {
+                        applySelectedDates();
+                    }
+                    state.selectedDates.clear();
+                    updateDragVisuals();
+                };
+
+                elements.calendarGrid.addEventListener('touchstart', (e) => {
+                    const targetCell = e.target.closest('.day-cell');
+                    if (handleDragStart(targetCell)) {
+                        e.preventDefault();
+                        isTouch = true;
+                        touchStartCell = targetCell;
                     }
                 }, { passive: false });
+
                 elements.calendarGrid.addEventListener('touchmove', (e) => {
                     if (!isTouch) return;
-                    // No need for selectedLeaveType check here, as touchstart already handled it
                     e.preventDefault();
                     const touch = e.touches[0];
                     const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetCell = targetElement?.closest('.day-cell');
-                    if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    state.selectedDates.clear();
-                    const dates = getDatesBetween(touchStartCell.dataset.date, targetCell.dataset.date);
-                    dates.forEach(d => state.selectedDates.add(d));
-                    updateDragVisuals();
+                    handleDragMove(targetElement?.closest('.day-cell'));
                 }, { passive: false });
+
                 elements.calendarGrid.addEventListener('touchend', (e) => {
                     if (isTouch) {
                         e.preventDefault();
-                        applySelectedDates();
+                        handleDragEnd();
                     }
                     isTouch = false;
-                    state.selectedDates.clear();
-                    updateDragVisuals();
+                    touchStartCell = null;
                 });
-                // Mouse events for desktop compatibility
-                let isMouseDown = false;
-                let mouseStartCell = null;
+
                 elements.calendarGrid.addEventListener('mousedown', (e) => {
-                    if (isTouch) return; // Skip mouse events during touch
+                    if (isTouch) return;
                     const targetCell = e.target.closest('.day-cell');
-                    if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    if (!state.selectedLeaveType) {
-                        showToast('Please select a leave type first!', 'info');
-                        return; // Exit if no leave type is selected
+                    if (handleDragStart(targetCell)) {
+                        e.preventDefault();
+                        isMouseDown = true;
+                        mouseStartCell = targetCell;
                     }
-                    e.preventDefault();
-                    isMouseDown = true;
-                    state.selectedDates.clear();
-                    mouseStartCell = targetCell;
-                    const dateStr = mouseStartCell.dataset.date;
-                    const recordExists = state.leaveRecords[dateStr];
-                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
-                        ? 'remove' : 'add';
-                    state.selectedDates.add(dateStr);
-                    updateDragVisuals();
                 });
+
                 elements.calendarGrid.addEventListener('mouseover', (e) => {
                     if (!isMouseDown || isTouch) return;
-                    // No need for selectedLeaveType check here, as mousedown already handled it
-                    const targetCell = e.target.closest('.day-cell');
-                    if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    state.selectedDates.clear();
-                    const dates = getDatesBetween(mouseStartCell.dataset.date, targetCell.dataset.date);
-                    dates.forEach(d => state.selectedDates.add(d));
-                    updateDragVisuals();
+                    handleDragMove(e.target.closest('.day-cell'));
                 });
+
                 document.addEventListener('mouseup', () => {
                     if (isMouseDown && !isTouch) {
-                        applySelectedDates();
+                        handleDragEnd();
                     }
                     isMouseDown = false;
-                    state.selectedDates.clear();
-                    updateDragVisuals();
-                });
-                // Keyboard support
-                elements.calendarGrid.addEventListener('keydown', (e) => {
-                    const targetCell = e.target.closest('.day-cell');
-                    if (!targetCell || targetCell.classList.contains('other-month')) return;
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        if (!state.selectedLeaveType) {
-                            showToast('Please select a leave type first!', 'info');
-                            return; // Exit if no leave type is selected
-                        }
-                        const dateStr = targetCell.dataset.date;
-                        const recordExists = state.leaveRecords[dateStr];
-                        state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType)
-                            ? 'remove' : 'add';
-                        state.selectedDates.clear();
-                        state.selectedDates.add(dateStr);
-                        applySelectedDates();
-                    }
+                    mouseStartCell = null;
                 });
             }
+
             function getDatesBetween(startStr, endStr) {
                 const dates = [];
                 let start = new Date(startStr);
@@ -1803,61 +1851,69 @@
                 }
                 return dates;
             }
+
             function updateDragVisuals() {
                 document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
                     const dateStr = cell.dataset.date;
                     cell.classList.toggle('selected', state.selectedDates.has(dateStr));
                 });
             }
+
             function applySelectedDates() {
-                if (state.selectedDates.size === 0) return;
-                const datesToChange = Array.from(state.selectedDates).filter(dateStr => {
-                    const record = state.leaveRecords[dateStr];
-                    const isAlreadyLeave = record && record.typeId === state.selectedLeaveType;
-                    return (state.dragMode === 'add' && !isAlreadyLeave) ||
-                               (state.dragMode === 'remove' && isAlreadyLeave);
-                });
+                if (state.selectedDates.size === 0 || !state.selectedLeaveType) return;
+
                 if (state.dragMode === 'add') {
-                    const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
-                    if (leaveType) {
-                        const currentUsed = Object.values(state.leaveRecords)
-                            .filter(record => record.typeId === leaveType.id)
-                            .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-                        const isHalfDayLeave = leaveType.name.toLowerCase().includes('half');
-                        const daysToAdd = isHalfDayLeave ? datesToChange.length * 0.5 : datesToChange.length;
-                        if (currentUsed + daysToAdd > leaveType.total) {
-                            showToast(`Cannot add ${daysToAdd} days. Not enough balance!`, 'error');
-                            return;
-                        }
+                    showHalfDaySelectionModal(Array.from(state.selectedDates));
+                } else { // dragMode is 'remove'
+                    const datesToRemove = Array.from(state.selectedDates).filter(dateStr => {
+                        const record = state.leaveRecords[dateStr];
+                        return record && record.typeId === state.selectedLeaveType;
+                    });
+                    if (datesToRemove.length > 0) {
+                        datesToRemove.forEach(dateStr => delete state.leaveRecords[dateStr]);
+                        saveState();
+                        render();
+                        showToast(`${datesToRemove.length} day(s) removed!`, 'success');
                     }
                 }
-                if (datesToChange.length > 0) {
-                    datesToChange.forEach(dateStr => {
-                        if (state.dragMode === 'add') {
-                            const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
-                            const isHalfDayLeave = leaveType.name.toLowerCase().includes('half');
-                            state.leaveRecords[dateStr] = {
-                                typeId: state.selectedLeaveType,
-                                isHalfDay: isHalfDayLeave
-                            };
-                        } else {
-                            delete state.leaveRecords[dateStr];
-                        }
-                    });
-                    saveState();
-                    renderCalendar();
-                    renderStats();
-                    const action = state.dragMode === 'add' ? 'added' : 'removed';
-                    showToast(`${datesToChange.length} day${datesToChange.length > 1 ? 's' : ''} ${action}!`, 'success');
-                }
             }
+
             // ===== MODAL CONTENT GENERATORS =====
+            function showHalfDaySelectionModal(dates) {
+                dates.sort(); // Sort dates chronologically
+                const listItems = dates.map(dateStr => {
+                    const date = new Date(dateStr);
+                    const formattedDate = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+                    return `
+                        <li class="day-type-item" data-date="${dateStr}">
+                            <span class="day-type-date">${formattedDate}</span>
+                            <div class="day-type-toggle">
+                                <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half Day</button>
+                                <button class="day-type-toggle-option active" data-action="toggle-day-type" data-type="full">Full Day</button>
+                            </div>
+                        </li>
+                    `;
+                }).join('');
+
+                const content = `
+                    <ul class="day-type-list mb-6">${listItems}</ul>
+                    <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
+                        <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" data-action="save-half-day-selections">
+                            <i class="fas fa-save" aria-hidden="true"></i> Save Changes
+                        </button>
+                    </div>
+                `;
+                showModal('Select Leave Duration', content);
+            }
+
             function showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
                 const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
                 const initialName = leaveType ? leaveType.name : '';
                 const initialTotal = leaveType ? leaveType.total : '';
                 const initialColor = leaveType ? leaveType.color : LEAVE_COLORS[0];
+
                 const colorOptions = LEAVE_COLORS.map(color => `
                     <button type="button"
                             class="color-option ${color === initialColor ? 'selected' : ''}"
@@ -1868,71 +1924,41 @@
                             title="Select this color">
                     </button>
                 `).join('');
+
                 showModal(modalTitle, `
                     <form class="space-y-6">
                         <div class="form-group">
                             <label for="leave-name" class="form-label">Leave Type Name *</label>
-                            <input type="text"
-                                    id="leave-name"
-                                    class="form-input"
-                                    value="${initialName}"
-                                    placeholder="e.g., Annual Leave or Half Day Sick Leave"
-                                    required
-                                    aria-describedby="name-help">
-                            <div id="name-help" class="text-xs text-[var(--text-muted)] mt-2">
-                                Include "half" in the name for half-day leave types
-                            </div>
+                            <input type="text" id="leave-name" class="form-input" value="${initialName}" placeholder="e.g., Annual Leave" required>
                         </div>
                         <div class="form-group">
                             <label for="leave-total" class="form-label">Total Days per Year *</label>
-                            <input type="number"
-                                    id="leave-total"
-                                    class="form-input"
-                                    value="${initialTotal}"
-                                    placeholder="e.g., 20"
-                                    min="0"
-                                    step="0.5"
-                                    required>
+                            <input type="number" id="leave-total" class="form-input" value="${initialTotal}" placeholder="e.g., 20" min="0" step="0.5" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Choose Color *</label>
-                            <div class="color-picker">
-                                ${colorOptions}
-                            </div>
+                            <div class="color-picker">${colorOptions}</div>
                         </div>
                         <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                             ${isEditing ? `
-                                <button type="button"
-                                        class="btn btn-danger"
-                                        data-action="delete-leave-type"
-                                        data-id="${leaveType.id}">
-                                    <i class="fas fa-trash" aria-hidden="true"></i>
-                                    Delete
+                                <button type="button" class="btn btn-danger" data-action="delete-leave-type" data-id="${leaveType.id}">
+                                    <i class="fas fa-trash" aria-hidden="true"></i> Delete
                                 </button>
                             ` : ''}
-                            <button type="button"
-                                    class="btn btn-secondary"
-                                    data-action="close-modal">
-                                Cancel
-                            </button>
-                            <button type="button"
-                                    class="btn btn-primary"
-                                    data-action="save-leave-type"
-                                    data-id="${isEditing ? leaveType.id : ''}">
-                                <i class="fas fa-save" aria-hidden="true"></i>
-                                Save
+                            <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}">
+                                <i class="fas fa-save" aria-hidden="true"></i> Save
                             </button>
                         </div>
                     </form>
                 `);
             }
+            
             function showMonthYearPickerModal() {
                 const currentYear = state.focusedDate.getFullYear();
                 const currentMonth = state.focusedDate.getMonth();
-                const monthNames = [
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ];
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                
                 const monthGrid = monthNames.map((name, index) => `
                     <button type="button"
                             class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
@@ -1942,32 +1968,23 @@
                         ${name.substr(0, 3)}
                     </button>
                 `).join('');
+
                 showModal('Select Month & Year', `
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
-                            <button type="button"
-                                    class="btn btn-secondary"
-                                    data-action="picker-prev-year"
-                                    aria-label="Previous year">
+                            <button type="button" class="btn btn-secondary" data-action="picker-prev-year" aria-label="Previous year">
                                 <i class="fas fa-chevron-left" aria-hidden="true"></i>
                             </button>
-                            <span id="picker-year-display"
-                                    class="text-lg sm:text-xl font-bold text-[var(--main-color)]">
-                                ${currentYear}
-                            </span>
-                            <button type="button"
-                                    class="btn btn-secondary"
-                                    data-action="picker-next-year"
-                                    aria-label="Next year">
+                            <span id="picker-year-display" class="text-lg sm:text-xl font-bold text-[var(--main-color)]">${currentYear}</span>
+                            <button type="button" class="btn btn-secondary" data-action="picker-next-year" aria-label="Next year">
                                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <div class="grid grid-cols-3 gap-2 sm:gap-3">
-                            ${monthGrid}
-                        </div>
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3">${monthGrid}</div>
                     </div>
                 `);
             }
+
             function updateMonthYearPickerDisplay() {
                 const pickerYearDisplay = document.getElementById('picker-year-display');
                 if (pickerYearDisplay) {
@@ -1981,21 +1998,18 @@
                     btn.setAttribute('aria-pressed', index === currentMonth);
                 });
             }
-            // ===== EVENT LISTENERS =====
+
+            // ===== EVENT LISTENERS & ACTION HANDLERS =====
             function setupEventListeners() {
-                // Leave type selection
                 elements.leaveTypePillContainer.addEventListener('click', (e) => {
                     const btn = e.target.closest('button');
                     if (btn && btn.dataset.id) {
                         state.selectedLeaveType = btn.dataset.id;
                         renderLeaveTypePills();
-                        // Haptic feedback
-                        if (navigator.vibrate) {
-                            navigator.vibrate(30);
-                        }
+                        if (navigator.vibrate) navigator.vibrate(30);
                     }
                 });
-                // Calendar navigation
+
                 elements.prevMonthBtn.addEventListener('click', () => {
                     state.focusedDate.setMonth(state.focusedDate.getMonth() - 1);
                     renderCalendar();
@@ -2005,14 +2019,8 @@
                     renderCalendar();
                 });
                 elements.monthYearDisplay.addEventListener('click', showMonthYearPickerModal);
-                elements.monthYearDisplay.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        showMonthYearPickerModal();
-                    }
-                });
                 elements.addLeaveBtnPlus.addEventListener('click', () => showLeaveTypeModal());
-                // Stats panel toggle
+
                 elements.toggleStatsBtn.addEventListener('click', () => {
                     state.statsPanelOpen = !state.statsPanelOpen;
                     elements.statsPanel.classList.toggle('open', state.statsPanelOpen);
@@ -2021,58 +2029,45 @@
                     elements.toggleIcon.classList.toggle('fa-chevron-up', state.statsPanelOpen);
                     elements.toggleStatsBtn.setAttribute('aria-expanded', state.statsPanelOpen);
                 });
-                // Theme toggle
+
                 elements.themeToggleBtn.addEventListener('click', toggleTheme);
-                // Stats actions
+                
                 elements.statsGrid.addEventListener('click', (e) => {
                     const target = e.target.closest('[data-action="edit-leave-type-stats"]');
                     if (target) {
                         const id = target.dataset.id;
                         const leaveType = state.leaveTypes.find(lt => lt.id === id);
-                        if (leaveType) {
-                            showLeaveTypeModal(leaveType);
-                        }
+                        if (leaveType) showLeaveTypeModal(leaveType);
                     }
                 });
-                // Data management
+
                 elements.exportDataBtn.addEventListener('click', exportData);
                 elements.importDataBtn.addEventListener('click', () => elements.uploadDataInput.click());
                 elements.uploadDataInput.addEventListener('change', importData);
                 elements.resetDataBtn.addEventListener('click', showResetConfirmation);
-                // Modal event delegation
+
                 elements.modalContent.addEventListener('click', handleModalActions);
-                // ESC key to close modal
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && !elements.modalContainer.classList.contains('hidden')) {
                         hideModal();
                     }
                 });
-                // Click outside modal to close
                 elements.modalContainer.addEventListener('click', (e) => {
-                    if (e.target === elements.modalContainer) {
-                        hideModal();
-                    }
+                    if (e.target === elements.modalContainer) hideModal();
                 });
             }
-            // ===== MODAL ACTION HANDLER =====
+
             function handleModalActions(e) {
                 const target = e.target.closest('[data-action]');
                 if (!target) return;
                 const action = target.dataset.action;
                 const id = target.dataset.id;
+
                 switch (action) {
-                    case 'save-leave-type':
-                        saveLeaveType(id);
-                        break;
-                    case 'delete-leave-type':
-                        showDeleteConfirmation(id);
-                        break;
-                    case 'confirm-delete-leave':
-                        deleteLeaveType(id);
-                        break;
-                    case 'select-color':
-                        selectColor(target);
-                        break;
+                    case 'save-leave-type': saveLeaveType(id); break;
+                    case 'delete-leave-type': showDeleteConfirmation(id); break;
+                    case 'confirm-delete-leave': deleteLeaveType(id); break;
+                    case 'select-color': selectColor(target); break;
                     case 'picker-prev-year':
                         state.focusedDate.setFullYear(state.focusedDate.getFullYear() - 1);
                         updateMonthYearPickerDisplay();
@@ -2086,104 +2081,129 @@
                         hideModal();
                         renderCalendar();
                         break;
-                    case 'confirm-reset':
-                        resetAllData();
+                    case 'confirm-reset': resetAllData(); break;
+                    case 'close-modal': hideModal(); break;
+                    case 'toggle-day-type': {
+                        const item = target.closest('.day-type-item');
+                        const fullDayBtn = item.querySelector('[data-type="full"]');
+                        const halfDayBtn = item.querySelector('[data-type="half"]');
+                        const isFull = target.dataset.type === 'full';
+                        fullDayBtn.classList.toggle('active', isFull);
+                        halfDayBtn.classList.toggle('active', !isFull);
                         break;
-                    case 'close-modal':
-                        hideModal();
-                        break;
+                    }
+                    case 'save-half-day-selections': saveHalfDaySelections(); break;
                 }
             }
-            // ===== LEAVE TYPE MANAGEMENT =====
+
+            // ===== LEAVE TYPE & RECORD MANAGEMENT =====
+            function saveHalfDaySelections() {
+                const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
+                if (!leaveType) return;
+
+                const dayItems = elements.modalContent.querySelectorAll('.day-type-item');
+                let totalDaysToDebit = 0;
+                const changes = {};
+
+                dayItems.forEach(item => {
+                    const dateStr = item.dataset.date;
+                    const isHalfDay = item.querySelector('[data-type="half"]').classList.contains('active');
+                    totalDaysToDebit += isHalfDay ? 0.5 : 1;
+                    changes[dateStr] = { typeId: leaveType.id, isHalfDay };
+                });
+
+                const currentUsed = Object.values(state.leaveRecords)
+                    .filter(record => record.typeId === leaveType.id)
+                    .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
+
+                if (currentUsed + totalDaysToDebit > leaveType.total) {
+                    showToast(`Cannot add ${totalDaysToDebit} day(s). Not enough balance!`, 'error');
+                    return;
+                }
+
+                Object.assign(state.leaveRecords, changes);
+                hideModal();
+                saveState();
+                render();
+                showToast(`${totalDaysToDebit} day(s) added successfully!`, 'success');
+            }
+
             function saveLeaveType(id) {
                 const nameInput = document.getElementById('leave-name');
                 const totalInput = document.getElementById('leave-total');
                 const selectedColorBtn = document.querySelector('.color-option.selected');
-                if (!nameInput || !totalInput || !selectedColorBtn) {
+                
+                if (!nameInput.value.trim() || !totalInput.value || !selectedColorBtn) {
                     showToast('Please fill all required fields.', 'error');
                     return;
                 }
+                
                 const name = nameInput.value.trim();
                 const total = parseFloat(totalInput.value);
                 const color = selectedColorBtn.dataset.color;
-                if (!name) {
-                    showToast('Please enter a leave type name.', 'error');
-                    nameInput.focus();
-                    return;
-                }
-                if (isNaN(total) || total <= 0) {
-                    showToast('Please enter a valid number of days.', 'error');
+
+                if (isNaN(total) || total < 0) {
+                    showToast('Please enter a valid non-negative number of days.', 'error');
                     totalInput.focus();
                     return;
                 }
-                if (id) {
-                    // Edit existing
+
+                if (id) { // Edit existing
                     const leaveType = state.leaveTypes.find(lt => lt.id === id);
                     if (leaveType) {
                         leaveType.name = name;
                         leaveType.total = total;
                         leaveType.color = color;
-                        showToast('Leave type updated successfully!', 'success');
+                        showToast('Leave type updated!', 'success');
                     }
-                } else {
-                    // Create new
+                } else { // Create new
                     const newId = generateId();
                     state.leaveTypes.push({ id: newId, name, total, color });
-                    showToast('Leave type created successfully!', 'success');
+                    showToast('Leave type created!', 'success');
                 }
+                
                 hideModal();
                 saveState();
                 render();
             }
+
             function selectColor(target) {
-                document.querySelectorAll('.color-option').forEach(btn => {
-                    btn.classList.remove('selected');
-                    btn.setAttribute('aria-selected', 'false');
-                });
+                document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
                 target.classList.add('selected');
-                target.setAttribute('aria-selected', 'true');
             }
+
             function showDeleteConfirmation(id) {
                 const leaveType = state.leaveTypes.find(lt => lt.id === id);
                 if (!leaveType) return;
                 showModal('Confirm Deletion', `
-                    <div class="space-y-4">
-                        <div class="text-center">
-                            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
-                            <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
-                            <p class="text-sm text-[var(--text-muted)]">
-                                This action cannot be undone and will remove all recorded leave days of this type.
-                            </p>
-                        </div>
+                    <div class="space-y-4 text-center">
+                        <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
+                        <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
+                        <p class="text-sm text-[var(--text-muted)]">This action is permanent and will remove all recorded leave days of this type.</p>
                         <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                            <button type="button" class="btn btn-secondary" data-action="close-modal">
-                                Cancel
-                            </button>
-                            <button type="button"
-                                    class="btn btn-danger"
-                                    data-action="confirm-delete-leave"
-                                    data-id="${id}">
-                                <i class="fas fa-trash" aria-hidden="true"></i>
-                                Delete
+                            <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" data-action="confirm-delete-leave" data-id="${id}">
+                                <i class="fas fa-trash" aria-hidden="true"></i> Delete
                             </button>
                         </div>
                     </div>
                 `);
             }
+
             function deleteLeaveType(id) {
                 state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== id);
                 state.leaveRecords = Object.fromEntries(
                     Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== id)
                 );
-                // Reset selected leave type if it was deleted
                 if (state.selectedLeaveType === id) {
                     state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
                 }
                 hideModal();
                 saveState();
                 render();
-                showToast('Leave type deleted successfully!', 'success');
+                showToast('Leave type deleted.', 'success');
             }
+
             // ===== DATA MANAGEMENT =====
             function exportData() {
                 try {
@@ -2192,7 +2212,7 @@
                         leaveRecords: state.leaveRecords,
                         theme: state.theme,
                         exportDate: new Date().toISOString(),
-                        version: '1.0'
+                        version: '1.1'
                     };
                     const dataStr = JSON.stringify(dataToExport, null, 2);
                     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -2211,6 +2231,7 @@
                     showToast('Failed to export data', 'error');
                 }
             }
+
             function importData(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -2218,17 +2239,8 @@
                 reader.onload = (event) => {
                     try {
                         const data = JSON.parse(event.target.result);
-                        if (!data.leaveTypes || !Array.isArray(data.leaveTypes)) {
-                            throw new Error('Invalid file format: leaveTypes missing or invalid');
-                        }
-                        if (!data.leaveRecords || typeof data.leaveRecords !== 'object') {
-                            throw new Error('Invalid file format: leaveRecords missing or invalid');
-                        }
-                        // Validate data structure
-                        for (const leaveType of data.leaveTypes) {
-                            if (!leaveType.id || !leaveType.name || typeof leaveType.total !== 'number') {
-                                throw new Error('Invalid leave type data structure');
-                            }
+                        if (!data.leaveTypes || !Array.isArray(data.leaveTypes) || typeof data.leaveRecords !== 'object') {
+                            throw new Error('Invalid file format');
                         }
                         state.leaveTypes = data.leaveTypes;
                         state.leaveRecords = data.leaveRecords;
@@ -2236,48 +2248,36 @@
                             state.theme = data.theme;
                             applyTheme();
                         }
-                        // Reset selected leave type
                         state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
                         saveState();
                         render();
                         showToast('Data imported successfully!', 'success');
                     } catch (error) {
                         console.error('Import error:', error);
-                        showToast('Failed to import data. Please check the file format.', 'error');
+                        showToast('Import failed. Please check file format.', 'error');
                     }
                 };
-                reader.onerror = () => {
-                    showToast('Failed to read the file', 'error');
-                };
+                reader.onerror = () => showToast('Failed to read the file', 'error');
                 reader.readAsText(file);
-                // Reset file input
                 e.target.value = '';
             }
+
             function showResetConfirmation() {
                 showModal('Confirm Reset', `
-                    <div class="space-y-4">
-                        <div class="text-center">
-                            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
-                            <p class="text-lg font-semibold mb-2">Reset All Data?</p>
-                            <p class="text-sm text-[var(--text-muted)]">
-                                This action cannot be undone and will permanently delete all your leave types and records.
-                                Consider exporting your data first.
-                            </p>
-                        </div>
+                    <div class="space-y-4 text-center">
+                        <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
+                        <p class="text-lg font-semibold mb-2">Reset All Data?</p>
+                        <p class="text-sm text-[var(--text-muted)]">This is permanent. Consider exporting your data first.</p>
                         <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                            <button type="button" class="btn btn-secondary" data-action="close-modal">
-                                Cancel
-                            </button>
-                            <button type="button"
-                                    class="btn btn-danger"
-                                    data-action="confirm-reset">
-                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                                Reset All Data
+                            <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" data-action="confirm-reset">
+                                <i class="fas fa-trash-alt" aria-hidden="true"></i> Reset
                             </button>
                         </div>
                     </div>
                 `);
             }
+
             function resetAllData() {
                 state.leaveTypes = [];
                 state.leaveRecords = {};
@@ -2287,22 +2287,16 @@
                 render();
                 showToast('All data has been reset!', 'success');
             }
+
             // ===== INITIALIZATION =====
             function init() {
                 loadState();
                 applyTheme();
                 setupEventListeners();
                 render();
-                // Performance optimization
-                if ('serviceWorker' in navigator) {
-                    window.addEventListener('load', () => {
-                        navigator.serviceWorker.register('/sw.js').catch(() => {
-                            console.log('Service worker registration failed');
-                        });
-                    });
-                }
                 console.log('Leave Buddy (Optimized) initialized successfully!');
             }
+
             // Start the application
             init();
         });
