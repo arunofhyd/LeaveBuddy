@@ -1587,8 +1587,14 @@
                     </div>
                     
                     <div class="grid grid-cols-2 gap-4">
-                        <button id="email-signin-btn" class="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">Sign In</button>
-                        <button id="email-signup-btn" class="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">Sign Up</button>
+                        <button id="email-signin-btn" class="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
+                            <span class="button-content">Sign In</span>
+                            <i class="fas fa-spinner fa-spin hidden"></i>
+                        </button>
+                        <button id="email-signup-btn" class="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
+                            <span class="button-content">Sign Up</span>
+                            <i class="fas fa-spinner fa-spin hidden"></i>
+                        </button>
                     </div>
 
                     <div class="relative flex py-4 items-center">
@@ -1599,8 +1605,11 @@
 
                     <div class="space-y-4">
                         <button id="google-signin-btn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg flex items-center justify-center text-lg font-semibold transition-all hover:scale-105">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Google_Favicon_2025.svg" class="w-6 h-6 mr-3" alt="Google icon">
-                            Continue with Google
+                            <span class="flex items-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Google_Favicon_2025.svg" class="w-6 h-6 mr-3" alt="Google icon">
+                                <span class="button-content">Continue with Google</span>
+                            </span>
+                            <i class="fas fa-spinner fa-spin hidden"></i>
                         </button>
                         <button id="anon-continue-btn" class="w-full btn-secondary py-2 px-4 rounded-lg text-lg font-semibold transition-all hover:scale-105">
                             <div class="flex flex-col items-center">
@@ -1964,10 +1973,25 @@
                 }, 500);
             }
 
+            setButtonState(button, isLoading) {
+                const spinner = button.querySelector('.fa-spinner');
+                const content = button.querySelector('.button-content');
+
+                if (isLoading) {
+                    if (content) content.classList.add('hidden');
+                    if (spinner) spinner.classList.remove('hidden');
+                    button.disabled = true;
+                    button.style.pointerEvents = 'none'; // Prevent multiple clicks during loading
+                } else {
+                    if (content) content.classList.remove('hidden');
+                    if (spinner) spinner.classList.add('hidden');
+                    button.disabled = false;
+                    button.style.pointerEvents = 'auto';
+                }
+            }
+
             setupEventListeners() {
-                // Unselect pills when clicking outside the pill container
                 document.addEventListener('click', (e) => {
-                    // Corrected logic: Unselect only if clicking outside the whole calendar section and pill container
                     const isPillOrAddButton = e.target.closest('#leave-type-pill-container') || e.target.closest('#add-leave-btn-plus');
                     const isCalendarClick = e.target.closest('.calendar-section');
                     
@@ -1979,12 +2003,10 @@
                     }
                 });
 
-                // Updated password toggle logic
                 this.elements.passwordToggleBtn?.addEventListener('click', () => {
                     const isPassword = this.elements.passwordInput.type === 'password';
                     this.elements.passwordInput.type = isPassword ? 'text' : 'password';
                     
-                    // Toggle between fa-eye and fa-eye-slash classes
                     this.elements.passwordToggleIcon.classList.toggle('fa-eye', !isPassword);
                     this.elements.passwordToggleIcon.classList.toggle('fa-eye-slash', isPassword);
                 });
@@ -1996,7 +2018,7 @@
                 this.elements.forgotPasswordBtn?.addEventListener('click', () => this.handleForgotPassword());
 
                 this.elements.leaveTypePillContainer?.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Stop the event from propagating to the document listener
+                    e.stopPropagation();
                     const btn = e.target.closest('button');
                     if (btn && btn.dataset.id) {
                         this.state.selectedLeaveType = btn.dataset.id;
@@ -2017,7 +2039,6 @@
 
                 this.elements.monthYearDisplay?.addEventListener('click', () => this.showMonthYearPickerModal());
                 this.elements.addLeaveBtnPlus?.addEventListener('click', () => {
-                    // Unselect the currently selected pill before opening the modal
                     this.state.selectedLeaveType = null;
                     this.renderLeaveTypePills();
                     this.showLeaveTypeModal();
@@ -2049,7 +2070,6 @@
                 this.elements.uploadDataInput?.addEventListener('change', (e) => this.importData(e));
                 this.elements.resetDataBtn?.addEventListener('click', () => this.showResetConfirmation());
 
-                // This listener is now on the modal content itself, ensuring clicks inside it are handled
                 this.elements.modalContent?.addEventListener('click', (e) => {
                     this.handleModalActions(e);
                 });
@@ -2080,12 +2100,15 @@
                     return;
                 }
 
+                this.setButtonState(this.elements.emailSigninBtn, true);
+
                 try {
                     await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth.auth, email, password);
                     this.showToast('Successfully signed in!', 'success');
                 } catch (error) {
                     console.error('Sign in error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                    this.setButtonState(this.elements.emailSigninBtn, false);
                 }
             }
 
@@ -2103,22 +2126,28 @@
                     return;
                 }
 
+                this.setButtonState(this.elements.emailSignupBtn, true);
+
                 try {
                     await window.firebaseAuth.createUserWithEmailAndPassword(window.firebaseAuth.auth, email, password);
                     this.showToast('Account created successfully!', 'success');
                 } catch (error) {
                     console.error('Sign up error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                    this.setButtonState(this.elements.emailSignupBtn, false);
                 }
             }
 
             async handleGoogleSignIn() {
+                this.setButtonState(this.elements.googleSigninBtn, true);
+
                 try {
                     await window.firebaseAuth.signInWithPopup(window.firebaseAuth.auth, window.firebaseAuth.GoogleAuthProvider);
                     this.showToast('Successfully signed in with Google!', 'success');
                 } catch (error) {
                     console.error('Google sign in error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                    this.setButtonState(this.elements.googleSigninBtn, false);
                 }
             }
 
@@ -2126,7 +2155,7 @@
                 this.state.isOfflineMode = true;
                 this.state.user = null;
                 this.elements.userIdDisplay.textContent = '';
-                this.loadStateFromLocalStorage(); // Load data from local storage immediately
+                this.loadStateFromLocalStorage();
                 this.showMainApp();
                 this.showToast('Continuing offline - data will be saved locally', 'info');
             }
@@ -2151,7 +2180,6 @@
             async handleSignOut() {
                 try {
                     if (this.state.isOfflineMode) {
-                        // If offline, just switch back to the login screen without Firebase interaction
                         this.state.isOfflineMode = false;
                         this.showLoginScreen();
                         this.showToast('Signed out of offline mode', 'info');
@@ -2159,7 +2187,6 @@
                         await window.firebaseAuth.signOut(window.firebaseAuth.auth);
                         this.showToast('Successfully signed out', 'success');
                     }
-                    // In either case, the state listener will handle showing the login screen.
                 } catch (error) {
                     console.error('Sign out error:', error);
                     this.showToast('Failed to sign out', 'error');
@@ -2201,11 +2228,9 @@
                         this.state.theme = data.theme || 'dark';
                         this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                         this.showToast('Data loaded from cloud!', 'success');
-                        // Removed the line that clears local storage. Local data is now preserved.
                     } else {
                         this.showToast('No cloud data found. Checking local storage.', 'info');
                         this.loadStateFromLocalStorage();
-                        // If local data exists, sync it to Firestore
                         if (this.state.leaveTypes.length > 0) {
                             this.showToast('Local data found. Saving to cloud...', 'info');
                             await this.saveStateToFirestore();
@@ -2402,7 +2427,7 @@
                 
                 const pillsHtml = this.state.leaveTypes.map(lt => {
                     const isSelected = this.state.selectedLeaveType === lt.id;
-                    const colorStyle = lt.color.startsWith('var(') ? `background-color: ${lt.color};` : `background-color: ${lt.color}; color: white;`;
+                    const colorStyle = `background-color: ${lt.color};`;
                     return `
                         <button class="leave-type-pill ${isSelected ? 'active' : ''}"
                                 data-id="${lt.id}"
@@ -2574,8 +2599,6 @@
                     if (this.state.selectedDates.size > 0) {
                         this.applySelectedDates();
                     }
-                    // This is the key change: Don't clear selected dates here.
-                    // The `selectedDates` set is cleared at the start of the next drag.
                     this.updateDragVisuals();
                 };
 
@@ -2797,7 +2820,6 @@
             }
 
             handleModalActions(e) {
-                // Prevent event from bubbling up and interfering with other listeners
                 e.stopPropagation();
                 const target = e.target.closest('[data-action]');
                 if (!target) return;
@@ -2890,8 +2912,8 @@
                 
                 const name = nameInput.value.trim();
                 const total = parseFloat(totalInput.value);
-                const color = selectedColorBtn.dataset.color; // Save the CSS variable name
-
+                const color = selectedColorBtn.dataset.color;
+                
                 if (isNaN(total) || total < 0) {
                     this.showToast('Please enter a valid non-negative number of days.', 'error');
                     totalInput.focus();
