@@ -1573,6 +1573,7 @@
 <div id="app-wrapper" class="relative min-h-screen">
     <div id="login-container" class="is-visible min-h-screen flex flex-col items-center justify-center p-4">
         <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
+            
             <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
                 <div class="text-center mb-8">
                     <div class="flex items-center justify-center gap-4 mb-6">
@@ -1581,7 +1582,6 @@
                     <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
                     <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
                 </div>
-
                 <div class="space-y-4 text-left">
                     <input type="email" id="email-input" placeholder="Email" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
                     
@@ -1631,14 +1631,16 @@
                 </div>
                 <p id="user-id-display" class="text-xs mt-6 break-all text-center login-text-secondary"></p>
             </div>
+            
+            <div class="text-center mt-8 md:mt-12">
+                <a href="mailto:arunthomas04042001@gmail.com" class="inline-flex items-center gap-2 text-sm login-text-secondary hover:underline transition-colors">
+                    <i class="fas fa-envelope"></i>
+                    Reach out to the developer
+                </a>
+            </div>
         </div>
 
-        <div class="text-center mt-8 md:mt-12">
-            <a href="mailto:arunthomas04042001@gmail.com" class="inline-flex items-center gap-2 text-sm login-text-secondary hover:underline transition-colors">
-                <i class="fas fa-envelope"></i>
-                Reach out to the developer
-            </a>
-        </div>
+        <footer class="footer" role="contentinfo"></footer>
     </div>
 </div>
 
