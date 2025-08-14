@@ -5,26 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="google-site-verification" content="iExbroKtO4ZRq3ZjUsyY8JJowXvx-yHOy4yQq0iS6vY" />
     <title>Leave Buddy</title>
-    <!-- Preconnect to improve font loading speed -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Tailwind CSS, Inter Font, and Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- PWA Meta Tags and Icons -->
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="/assets/icon/abouticon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/abouticon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/abouticon.png">
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
     <meta name="theme-color" content="#1e293b">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -53,34 +41,59 @@
             --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
             --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
             --gradient-primary: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
+        
+            /* New login page-specific variables for dark theme */
+            --login-text-primary: #f8fafc;
+            --login-text-secondary: #94a3b8;
+            --login-card-bg: rgba(255, 255, 255, 0.1);
+            --login-card-border: rgba(255, 255, 255, 0.2);
+            --login-divider-color: rgba(255, 255, 255, 0.3);
+            --login-input-text: #1e293b;
+            --login-input-bg: #f8fafc;
+            --login-input-border: #e2e8f0;
         }
+        
         /* Light theme variables */
         body.light-theme {
-            --bg-primary: #f8fafc;
+            --bg-primary: #f0f4f8; /* A very light, subtle blue-gray */
             --bg-secondary: #ffffff;
-            --bg-tertiary: #f1f5f9;
+            --bg-tertiary: #e2e8f0; /* A slightly darker subtle blue-gray */
             --bg-glass: rgba(255, 255, 255, 0.9);
             --text-primary: #1e293b;
             --text-secondary: #475569;
             --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --border-color: #cbd5e1;
             --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             --shadow-secondary: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
             --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
+        
+            /* New login page-specific variables for light theme */
+            --login-text-primary: #1e293b;
+            --login-text-secondary: #64748b;
+            --login-card-bg: rgba(255, 255, 255, 0.9);
+            --login-card-border: #e2e8f0;
+            --login-divider-color: #e2e8f0;
+            --login-input-text: #1e293b;
+            --login-input-bg: #f8fafc;
+            --login-input-border: #e2e8f0;
         }
+        
         /* ===== BASE STYLES ===== */
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
+        
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
+        
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            /* Use a better background gradient for dark theme, and a solid color for light theme */
+            background: var(--bg-primary); /* Default solid color for light theme */
             color: var(--text-primary);
             transition: all 0.3s ease;
             line-height: 1.6;
@@ -90,6 +103,100 @@
             overflow-x: hidden;
             font-size: 16px;
         }
+        /* Dark theme specific background */
+        body:not(.light-theme) {
+            background: linear-gradient(135deg, #0d121c 0%, #171d2b 100%);
+        }
+        
+        /* Login page-specific styles using the new variables */
+        #login-container {
+            background: var(--bg-primary);
+        }
+        body:not(.light-theme) #login-container {
+            background: linear-gradient(135deg, #0d121c 0%, #171d2b 100%);
+        }
+        
+        .login-text-primary {
+            color: var(--login-text-primary);
+        }
+        .login-text-secondary {
+            color: var(--login-text-secondary);
+        }
+        .login-card-bg {
+            background: var(--login-card-bg);
+            border-color: var(--login-card-border);
+        }
+        .login-divider {
+            border-color: var(--login-divider-color);
+        }
+        .login-input-text {
+            color: var(--login-input-text);
+        }
+        .bg-login-input-bg {
+            background-color: var(--login-input-bg);
+        }
+        .border-login-input-border {
+            border-color: var(--login-input-border);
+        }
+        
+        /* ===== FADE TRANSITION UTILITIES ===== */
+        .is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transition: opacity 0.5s ease;
+        }
+        
+        .is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* ===== BUTTON STYLES ===== */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        /* Ensure light theme secondary buttons are readable */
+        body.light-theme .btn-secondary {
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+        body.light-theme .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
         /* ===== IMPROVED LAYOUT ===== */
         .app-container {
             width: 100%;
@@ -98,6 +205,7 @@
             padding: 0 20px 32px 20px;
             position: relative;
         }
+        
         /* PC specific spaciousness for .app-container */
         @media (min-width: 768px) {
             .app-container {
@@ -105,18 +213,21 @@
                 padding: 0 24px 40px 24px; /* Slightly more padding */
             }
         }
+        
         @media (min-width: 1024px) { /* Large screens (lg) */
             .app-container {
                 max-width: 1024px; /* Equivalent to Tailwind's max-w-4xl */
                 padding: 0 3rem 4rem 3rem; /* Increase overall padding for the main card */
             }
         }
+        
         @media (min-width: 1280px) { /* Extra large screens (xl) */
             .app-container {
                 max-width: 1280px; /* Even wider */
                 padding: 0 4rem 5rem 4rem; /* Even more padding for the main card */
             }
         }
+        
         /* ===== MODERN HEADER ===== */
         .app-header {
             position: sticky;
@@ -128,41 +239,43 @@
             padding: 20px 20px;
             margin: 0 -20px 24px -20px;
         }
+        
         .app-header-content {
             display: flex;
             align-items: center;
-            /* Re-added space-between to push toggle to right and allow title to center */
             justify-content: space-between; 
-            max-width: 480px; /* Keep existing max-width for mobile */
+            max-width: 480px; 
             margin: 0 auto;
         }
+        
         /* Adjust header content width for larger screens */
         @media (min-width: 768px) {
             .app-header-content {
                 max-width: 768px;
             }
         }
+        
         @media (min-width: 1024px) {
             .app-header-content {
                 max-width: 1024px;
             }
         }
+        
         @media (min-width: 1280px) {
             .app-header-content {
                 max-width: 1280px;
             }
         }
+        
         .app-header-title {
             display: flex;
             align-items: center;
-            gap: 8px; /* Reduced gap */
-            /* Removed flex-grow and justify-content from here */
-            /* flex-grow: 1; */ 
-            /* justify-content: center; */
-            position: absolute; /* Position absolutely to center it regardless of toggle */
+            gap: 8px;
+            position: absolute; 
             left: 50%;
             transform: translateX(-50%);
         }
+        
         .app-header-title img {
             width: 40px; 
             height: 40px;
@@ -170,20 +283,22 @@
             box-shadow: var(--shadow-soft);
             object-fit: cover;
         }
+        
         .app-header-title h1 {
-            /* Enlarged font size */
-            font-size: 24px; /* Increased from 20px for mobile */
+            font-size: 24px;
             font-weight: 700;
             color: var(--main-color);
             margin: 0;
             letter-spacing: -0.025em;
         }
+        
         /* Larger title for PC */
         @media (min-width: 768px) {
             .app-header-title h1 {
-                font-size: 28px; /* Further enlarged for PC */
+                font-size: 28px;
             }
         }
+        
         .theme-toggle-btn {
             display: flex;
             align-items: center;
@@ -198,15 +313,18 @@
             transition: all 0.3s ease;
             font-size: 18px;
             box-shadow: var(--shadow-soft);
-            margin-left: auto; /* Ensure it stays on the right */
-            flex-shrink: 0; /* Prevent shrinking */
+            margin-right: auto;
+            flex-shrink: 0; 
         }
-        /* Adjust theme toggle button for PC */
-        @media (min-width: 768px) {
-            .theme-toggle-btn {
-                margin-left: auto; 
-            }
+        /* Fix for button positioning */
+        .app-header-content > .flex.items-center.gap-2:first-child {
+            justify-content: flex-start;
         }
+        .app-header-content > .flex.items-center.gap-2:last-child {
+            justify-content: flex-end;
+        }
+        
+        
         .theme-toggle-btn:hover,
         .theme-toggle-btn:active {
             background: var(--main-color);
@@ -214,6 +332,27 @@
             transform: scale(1.05);
             box-shadow: var(--shadow-secondary);
         }
+        
+        .header-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .header-icon-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--main-color-light);
+        }
+        
         /* ===== ENHANCED CALENDAR SECTION ===== */
         .calendar-section {
             background: var(--bg-glass);
@@ -224,17 +363,20 @@
             margin-bottom: 24px;
             border: 1px solid var(--border-color);
         }
+        
         /* Increase calendar section padding for PC */
         @media (min-width: 1024px) {
             .calendar-section {
-                padding: 40px; /* More padding for the calendar section */
+                padding: 40px; 
             }
         }
+        
         @media (min-width: 1280px) {
             .calendar-section {
-                padding: 50px; /* Even more padding */
+                padding: 50px; 
             }
         }
+        
         .calendar-header {
             display: flex;
             align-items: center;
@@ -242,13 +384,15 @@
             margin-bottom: 32px;
             padding: 0 8px;
         }
+        
         /* Increase calendar header margin for PC */
         @media (min-width: 1024px) {
             .calendar-header {
-                margin-bottom: 40px; /* More space below header */
+                margin-bottom: 40px;
                 padding: 0 12px;
             }
         }
+        
         .calendar-nav-btn {
             display: flex;
             align-items: center;
@@ -264,6 +408,7 @@
             box-shadow: var(--shadow-soft);
             font-size: 20px;
         }
+        
         /* Larger nav buttons for PC */
         @media (min-width: 1024px) {
             .calendar-nav-btn {
@@ -273,6 +418,7 @@
                 border-radius: 18px;
             }
         }
+        
         .calendar-nav-btn:hover,
         .calendar-nav-btn:active {
             background: var(--main-color);
@@ -281,30 +427,31 @@
             box-shadow: var(--shadow-secondary);
             border-color: var(--main-color);
         }
+        
         .month-year-display {
             font-weight: 700;
             color: var(--main-color);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
             letter-spacing: 0.025em;
-            /* Removed background, border, and shadow for a cleaner look */
             background: transparent;
             border: none;
             box-shadow: none;
             text-align: center;
-            /* Default for all screen sizes, will be overridden by media queries */
-            font-size: 22px; /* Default larger font for PC */
-            padding: 12px 20px; /* Default padding for PC */
-            min-width: 180px; /* Default min-width for PC */
+            font-size: 22px; 
+            padding: 12px 20px; 
+            min-width: 180px; 
         }
+        
         /* Mobile specific font size adjustment for month-year-display */
         @media (max-width: 767px) {
             .month-year-display {
-                font-size: 1.125rem; /* Reduced font size to 18px to prevent two lines */
-                padding: 0.5rem 0.75rem; /* Adjusted padding for smaller font */
-                min-width: auto; /* Allow width to shrink on mobile */
+                font-size: 1.125rem; 
+                padding: 0.5rem 0.75rem; 
+                min-width: auto; 
             }
         }
+        
         /* Larger month/year display for PC */
         @media (min-width: 1024px) {
             .month-year-display {
@@ -313,123 +460,116 @@
                 min-width: 240px;
             }
         }
+        
         .month-year-display:hover,
         .month-year-display:active {
-            background: var(--bg-tertiary); /* Keep hover effect */
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-secondary);
+            color: var(--main-color-light); 
         }
+        
         /* ===== HORIZONTAL SCROLLING LEAVE TYPE SELECTOR ===== */
+        /* Adjusted styles for a cleaner, borderless look */
         .leave-type-selector {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px; /* Adjusted gap */
             margin: 24px 0 32px 0;
-            /* Adjusted padding to reduce space on left */
-            padding: 16px 20px; /* Reduced left padding from 20px to 16px */
+            padding: 0; /* Removed padding */
             border-radius: 20px;
-            background: var(--bg-secondary); /* Ensure this is the solid background for the selector */
-            border: 1px solid var(--border-color);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative; /* For positioning the pseudo-element */
-            overflow: hidden; /* To contain the scrolling content and the pseudo-element */
+            background: transparent; /* Removed background */
+            border: none; /* Removed border */
+            box-shadow: none; /* Removed box-shadow */
+            position: relative; 
+            overflow: hidden; 
         }
-        /* Pseudo-element for the gradient fade effect on the left */
+        
+        /* Removed the pseudo-element that created the gradient fade */
         .leave-type-selector::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            /* Width of the fade area: button width + button margin-right + selector padding-left */
-            /* Updated calculation for reduced margin */
-            width: calc(44px + 4px + 16px); /* 44px (btn width) + 4px (reduced btn margin-right) + 16px (selector padding-left) */
-            height: 100%;
-            /* Gradient from the background color to transparent */
-            background: linear-gradient(to right, var(--bg-secondary) 60%, transparent 100%);
-            z-index: 1; /* Below the button, above the pills */
-            pointer-events: none; /* Allows interaction with elements underneath */
+            display: none;
         }
+        
         /* Larger leave type selector for PC */
         @media (min-width: 1024px) {
             .leave-type-selector {
-                gap: 20px;
+                gap: 16px; /* Adjusted gap */
                 margin: 32px 0 40px 0;
-                /* Adjusted padding */
-                padding: 20px 24px; /* Reduced left padding from 24px to 20px */
+                padding: 0; 
                 border-radius: 24px;
             }
             .leave-type-selector::before {
-                /* Updated calculation for reduced margin on PC */
-                width: calc(52px + 6px + 20px); /* 52px (btn width) + 6px (reduced btn margin-right) + 20px (selector padding-left) */
+                display: none;
             }
         }
+        
         .add-leave-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
+            width: 36px; /* Made smaller */
+            height: 36px; /* Made smaller */
             border: 2px dashed var(--border-color);
             border-radius: 50%;
-            background: var(--bg-secondary); /* Make it opaque to hide pills underneath */
+            background: var(--bg-secondary); 
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 20px;
+            font-size: 16px; /* Adjusted font size */
             flex-shrink: 0;
-            position: relative; /* For z-index */
-            z-index: 2; /* Ensure it's above the gradient */
-            /* Significantly reduced margin to minimize gap */
-            margin-right: 4px; /* Further reduced from 8px */
+            position: relative; 
+            z-index: 2; 
+            margin-right: 4px; 
         }
+        
         /* Larger add leave button for PC */
         @media (min-width: 1024px) {
             .add-leave-btn {
-                width: 52px;
-                height: 52px;
-                font-size: 24px;
-                /* Significantly reduced margin for PC */
-                margin-right: 6px; /* Further reduced from 12px */
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+                margin-right: 6px; 
             }
         }
+        
         .add-leave-btn:hover,
         .add-leave-btn:active {
             background: var(--bg-tertiary);
             color: var(--main-color);
             border-color: var(--main-color);
-            transform: scale(1.1);
+            transform: scale(1.05); /* Reduced scale */
         }
+        
         .leave-type-pills-container {
             display: flex;
-            gap: 12px;
+            gap: 8px; /* Reduced gap */
             overflow-x: auto;
-            padding: 4px 0; /* Keep internal padding for pills */
+            padding: 4px 0; 
             flex: 1;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            /* Removed mask for smooth fading effect, now handled by ::before on parent */
             -webkit-mask-image: none;
             mask-image: none;
             -webkit-mask-mode: initial;
             mask-mode: initial;
         }
+        
         /* Larger gap for pills on PC */
         @media (min-width: 1024px) {
             .leave-type-pills-container {
-                gap: 16px;
+                gap: 12px; /* Adjusted gap */
             }
         }
+        
         .leave-type-pills-container::-webkit-scrollbar {
             display: none;
         }
+        
         .leave-type-pill {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 18px;
+            padding: 8px 14px; /* Reduced padding */
             border: none;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 13px; /* Made smaller */
             font-weight: 600;
             color: white;
             cursor: pointer;
@@ -437,19 +577,21 @@
             box-shadow: var(--shadow-soft);
             position: relative;
             overflow: hidden;
-            min-height: 44px;
+            min-height: 36px; /* Made smaller */
             white-space: nowrap;
             flex-shrink: 0;
         }
+        
         /* Larger pills for PC */
         @media (min-width: 1024px) {
             .leave-type-pill {
-                padding: 14px 22px;
-                font-size: 16px;
-                min-height: 50px;
+                padding: 10px 18px; /* Adjusted padding */
+                font-size: 14px;
+                min-height: 44px; /* Adjusted min-height */
                 border-radius: 22px;
             }
         }
+        
         .leave-type-pill::before {
             content: '';
             position: absolute;
@@ -460,33 +602,48 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.6s ease;
         }
+        
         .leave-type-pill:hover::before,
         .leave-type-pill:active::before {
             left: 100%;
         }
-        .leave-type-pill:hover,
-        .leave-type-pill:active {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-secondary);
-        }
+        
         .leave-type-pill.active {
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4), var(--shadow-secondary);
+            /* Increased glow and pulsing animation for better visibility */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.6), var(--shadow-secondary);
             transform: scale(1.05);
+            animation: pulse-pill 2s infinite;
         }
+        
+        /* New keyframes for the pill pulse animation */
+        @keyframes pulse-pill {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.6), var(--shadow-secondary); }
+            50% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.4), var(--shadow-secondary); }
+        }
+        
+        /* This new rule ensures that the date number in light mode is readable on a colored background */
+        body.light-theme .day-cell.has-leave .day-number,
+        body.light-theme .day-cell.half-day .day-number {
+            color: #fff !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
         /* ===== PERFECT SQUARE CALENDAR GRID ===== */
         .calendar-grid-wrapper {
             margin-top: 24px;
         }
+        
         /* Adjust calendar grid wrapper margin for PC */
         @media (min-width: 1024px) {
             .calendar-grid-wrapper {
                 margin-top: 32px;
             }
         }
+        
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px; /* Default gap */
+            gap: 8px; 
             text-align: center;
             font-weight: 600;
             color: var(--text-muted);
@@ -496,43 +653,50 @@
             font-size: 12px;
             letter-spacing: 0.1em;
         }
+        
         /* PC specific weekday header styles */
-        @media (min-width: 1024px) { /* Large screens (lg) */
+        @media (min-width: 1024px) { 
             .calendar-weekdays {
-                font-size: 1.1em; /* Slightly larger font for weekday names */
-                padding: 1rem 0.5rem; /* More padding */
-                margin-bottom: 20px; /* More space below weekday names */
+                font-size: 1.1em; 
+                padding: 1rem 0.5rem; 
+                margin-bottom: 20px; 
             }
         }
+        
         .calendar-weekdays div:first-child {
             color: var(--error-color);
         }
+        
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px; /* Default gap */
+            gap: 8px; 
             padding: 4px;
         }
+        
         /* Mobile specific calendar grid gap */
         @media (max-width: 767px) {
             .calendar-grid {
-                gap: 0.5rem; /* Increased gap to 8px for better spacing */
-                padding: 2px; /* Keep existing padding */
+                gap: 0.5rem; 
+                padding: 2px; 
             }
         }
+        
         /* PC specific calendar grid gap */
-        @media (min-width: 1024px) { /* Large screens (lg) */
+        @media (min-width: 1024px) { 
             .calendar-grid {
-                gap: 1.5rem; /* Increase gap between calendar cells (24px) */
+                gap: 1.5rem; 
             }
         }
-        @media (min-width: 1280px) { /* Extra large screens (xl) */
+        
+        @media (min-width: 1280px) { 
             .calendar-grid {
-                gap: 2rem; /* Even larger gap (32px) */
+                gap: 2rem; 
             }
         }
+        
         .day-cell {
-            aspect-ratio: 1; /* Keep this to ensure square shape */
+            aspect-ratio: 1; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -544,43 +708,47 @@
             border: 2px solid var(--border-color);
             color: var(--text-primary);
             font-weight: 600;
-            font-size: clamp(14px, 3.5vw, 18px); /* Mobile responsive font size */
+            font-size: clamp(14px, 3.5vw, 18px); 
             cursor: pointer;
             transition: all 0.3s ease;
             user-select: none;
-            overflow: hidden; /* Important for content within a fixed aspect ratio */
+            overflow: hidden; 
             box-shadow: var(--shadow-soft);
-            /* min-height: 0; -- Removed for larger screens to ensure aspect-ratio holds */
         }
+        
         /* Mobile specific day cell font size and activity indicator size */
         @media (max-width: 767px) {
             .day-cell {
-                font-size: clamp(12px, 3.5vw, 16px); /* Adjusted font size for mobile */
-                padding: 8px; /* Adjusted padding for mobile */
+                font-size: clamp(12px, 3.5vw, 16px); 
+                padding: 8px; 
             }
             .day-cell .day-number {
-                font-size: 0.9em; /* Slightly larger day number for mobile */
+                font-size: 0.9em; 
             }
         }
+        
         /* PC specific day cell styles */
         @media (min-width: 768px) {
             .day-cell {
-                padding: 12px; /* Keep existing padding for tablet */
+                padding: 12px; 
             }
         }
-        @media (min-width: 1024px) { /* Large screens (lg) */
+        
+        @media (min-width: 1024px) { 
             .day-cell {
-                padding: 16px; /* More padding inside cells */
-                font-size: 1.6em; /* Slightly adjusted font size to fit better */
-                border-radius: 20px; /* Slightly larger border-radius */
+                padding: 16px; 
+                font-size: 1.6em; 
+                border-radius: 20px; 
             }
         }
-        @media (min-width: 1280px) { /* Extra large screens (xl) */
+        
+        @media (min-width: 1280px) { 
             .day-cell {
-                padding: 20px; /* Even more padding */
-                font-size: 1.9em; /* Slightly adjusted font size to fit better */
+                padding: 20px; 
+                font-size: 1.9em; 
             }
         }
+        
         .day-cell:not(.other-month):hover,
         .day-cell:not(.other-month):active {
             background: var(--bg-tertiary);
@@ -588,11 +756,13 @@
             box-shadow: var(--shadow-secondary);
             border-color: var(--main-color);
         }
+        
         .day-cell.other-month {
             opacity: 0.3;
             pointer-events: none;
             background: var(--bg-primary);
         }
+        
         .day-cell.today {
             font-weight: 700;
             border: 3px solid var(--main-color);
@@ -600,13 +770,16 @@
             background: rgba(99, 102, 241, 0.1);
             animation: pulse 2s infinite;
         }
+        
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), var(--shadow-secondary); }
             50% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.2), var(--shadow-secondary); }
         }
+        
         .day-cell.sunday .day-number {
             color: var(--error-color);
         }
+        
         .day-cell.selected {
             background: var(--main-color-light);
             color: var(--text-primary);
@@ -614,10 +787,13 @@
             transform: scale(1.05);
             box-shadow: var(--shadow-secondary);
         }
+        
+        /* Fix for half-day visibility */
         .day-cell.half-day {
             position: relative;
-            background: var(--bg-secondary);
+            background: var(--bg-secondary) !important;
         }
+        
         .day-cell.half-day::before {
             content: '';
             position: absolute;
@@ -629,23 +805,27 @@
             border-radius: 16px 0 0 16px;
             z-index: 0;
         }
+        
         .day-cell.half-day .day-number {
             position: relative;
             z-index: 1;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
+        
         /* ===== ENHANCED STATS PANEL ===== */
         .stats-toggle-container {
             display: flex;
             justify-content: center;
             margin: 24px 0;
         }
+        
         /* Adjust stats toggle margin for PC */
         @media (min-width: 1024px) {
             .stats-toggle-container {
                 margin: 32px 0;
             }
         }
+        
         .stats-panel-toggle-btn {
             display: flex;
             align-items: center;
@@ -663,6 +843,7 @@
             box-shadow: var(--shadow-soft);
             min-height: 48px;
         }
+        
         /* Larger stats toggle button for PC */
         @media (min-width: 1024px) {
             .stats-panel-toggle-btn {
@@ -672,12 +853,14 @@
                 border-radius: 24px;
             }
         }
+        
         .stats-panel-toggle-btn:hover,
         .stats-panel-toggle-btn:active {
             background: var(--bg-tertiary);
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
+        
         .stats-panel {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
@@ -690,6 +873,7 @@
             box-shadow: var(--shadow-glass);
             border: 1px solid var(--border-color);
         }
+        
         /* Adjust stats panel margin and padding for PC */
         @media (min-width: 1024px) {
             .stats-panel {
@@ -699,22 +883,26 @@
                 padding: 40px;
             }
         }
+        
         .stats-panel.open {
             max-height: 100vh;
             padding: 28px;
             overflow-y: auto;
         }
+        
         .stats-grid {
             display: flex;
             flex-direction: column;
             gap: 24px;
         }
+        
         /* Adjust stats grid gap for PC */
         @media (min-width: 1024px) {
             .stats-grid {
                 gap: 32px;
             }
         }
+        
         .stats-card {
             background: var(--bg-secondary);
             border-radius: 20px;
@@ -725,6 +913,7 @@
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
         }
+        
         /* Adjust stats card padding for PC */
         @media (min-width: 1024px) {
             .stats-card {
@@ -736,15 +925,18 @@
                 margin-bottom: 24px;
             }
         }
+        
         .stats-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-primary);
         }
+        
         .stats-card h3 {
             margin: 0 0 20px 0;
             font-size: 20px;
             font-weight: 700;
         }
+        
         /* Enhanced balance display */
         .balance-info {
             display: grid;
@@ -752,6 +944,7 @@
             gap: 16px;
             margin-bottom: 20px;
         }
+        
         /* Adjust balance info gap and margin for PC */
         @media (min-width: 1024px) {
             .balance-info {
@@ -769,6 +962,7 @@
                 font-size: 13px;
             }
         }
+        
         .balance-item {
             text-align: center;
             padding: 16px 12px;
@@ -777,10 +971,12 @@
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
+        
         .balance-item:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-soft);
         }
+        
         .balance-number {
             display: block;
             font-size: 24px;
@@ -788,6 +984,7 @@
             color: var(--main-color);
             margin-bottom: 4px;
         }
+        
         .balance-label {
             font-size: 12px;
             text-transform: uppercase;
@@ -795,12 +992,15 @@
             color: var(--text-muted);
             font-weight: 600;
         }
+        
         .balance-item.used .balance-number {
             color: var(--warning-color);
         }
+        
         .balance-item.remaining .balance-number {
             color: var(--success-color);
         }
+        
         .progress-bar-bg {
             background: var(--bg-tertiary);
             border-radius: 12px;
@@ -809,6 +1009,7 @@
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
         }
+        
         /* Adjust progress bar height for PC */
         @media (min-width: 1024px) {
             .progress-bar-bg {
@@ -819,6 +1020,7 @@
                 font-size: 13px;
             }
         }
+        
         .progress-bar {
             height: 100%;
             border-radius: 12px;
@@ -826,6 +1028,7 @@
             position: relative;
             overflow: hidden;
         }
+        
         .progress-bar::after {
             content: '';
             position: absolute;
@@ -836,10 +1039,12 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 3s infinite;
         }
+        
         @keyframes shimmer {
             0% { left: -100%; }
             100% { left: 100%; }
         }
+        
         .progress-percentage {
             position: absolute;
             top: 50%;
@@ -851,6 +1056,7 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
             z-index: 1;
         }
+        
         /* ===== ENHANCED MODAL STYLES ===== */
         .modal-backdrop {
             position: fixed;
@@ -866,6 +1072,7 @@
             backdrop-filter: blur(12px);
             padding: 16px;
         }
+        
         .modal-content {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
@@ -879,10 +1086,11 @@
             border: 1px solid var(--border-color);
             animation: modalSlideIn 0.4s ease;
         }
+        
         /* Adjust modal content for PC */
         @media (min-width: 768px) {
             .modal-content {
-                max-width: 500px; /* Slightly wider modal */
+                max-width: 500px; 
                 padding: 32px;
             }
             .modal-header h2 {
@@ -894,6 +1102,7 @@
                 font-size: 20px;
             }
         }
+        
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
@@ -904,6 +1113,7 @@
                 transform: scale(1) translateY(0);
             }
         }
+        
         .modal-header {
             display: flex;
             align-items: center;
@@ -912,12 +1122,14 @@
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
+        
         .modal-header h2 {
             margin: 0;
             font-size: 20px;
             font-weight: 700;
             color: var(--main-color);
         }
+        
         .close-modal-btn {
             display: flex;
             align-items: center;
@@ -932,16 +1144,19 @@
             transition: all 0.3s ease;
             font-size: 18px;
         }
+        
         .close-modal-btn:hover,
         .close-modal-btn:active {
             background: var(--error-color);
             color: white;
             transform: scale(1.1);
         }
+        
         /* ===== ENHANCED FORM STYLES ===== */
         .form-group {
             margin-bottom: 24px;
         }
+        
         .form-label {
             display: block;
             margin-bottom: 8px;
@@ -951,6 +1166,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
+        
         .form-input {
             width: 100%;
             padding: 16px 20px;
@@ -963,6 +1179,7 @@
             box-shadow: var(--shadow-soft);
             min-height: 56px;
         }
+        
         /* Adjust form input padding and font size for PC */
         @media (min-width: 768px) {
             .form-input {
@@ -975,18 +1192,21 @@
                 font-size: 15px;
             }
         }
+        
         .form-input:focus {
             outline: none;
             border-color: var(--main-color);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), var(--shadow-secondary);
             transform: translateY(-2px);
         }
+        
         .color-picker {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-top: 12px;
         }
+        
         /* Adjust color picker gap and option size for PC */
         @media (min-width: 768px) {
             .color-picker {
@@ -1001,6 +1221,7 @@
                 font-size: 20px;
             }
         }
+        
         .color-option {
             width: 48px;
             height: 48px;
@@ -1012,16 +1233,19 @@
             overflow: hidden;
             box-shadow: var(--shadow-soft);
         }
+        
         .color-option:hover,
         .color-option:active {
             transform: scale(1.1);
             box-shadow: var(--shadow-secondary);
         }
+        
         .color-option.selected {
             border-color: var(--main-color);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3), var(--shadow-secondary);
             transform: scale(1.1);
         }
+        
         .color-option.selected::after {
             content: '✓';
             position: absolute;
@@ -1031,8 +1255,9 @@
             color: white;
             font-weight: bold;
             font-size: 18px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
+        
         /* ===== ENHANCED BUTTON STYLES ===== */
         .btn {
             display: inline-flex;
@@ -1046,13 +1271,13 @@
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s ease;
             user-select: none;
             position: relative;
             overflow: hidden;
             min-height: 56px;
             box-shadow: var(--shadow-soft);
         }
+        
         /* Adjust button padding and font size for PC */
         @media (min-width: 768px) {
             .btn {
@@ -1062,6 +1287,7 @@
                 border-radius: 18px;
             }
         }
+        
         .btn::before {
             content: '';
             position: absolute;
@@ -1072,39 +1298,47 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.6s ease;
         }
+        
         .btn:hover::before,
         .btn:active::before {
             left: 100%;
         }
+        
         .btn-primary {
             background: var(--gradient-primary);
             color: white;
         }
+        
         .btn-primary:hover,
         .btn-primary:active {
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
+        
         .btn-secondary {
             background: var(--bg-tertiary);
             color: var(--text-primary);
             border: 2px solid var(--border-color);
         }
+        
         .btn-secondary:hover,
         .btn-secondary:active {
             background: var(--bg-secondary);
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
+        
         .btn-danger {
             background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
             color: white;
         }
+        
         .btn-danger:hover,
         .btn-danger:active {
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
+        
         /* ===== FOOTER STYLES ===== */
         .footer {
             margin-top: 40px;
@@ -1112,6 +1346,7 @@
             font-size: 14px;
             color: var(--text-muted);
         }
+        
         /* Adjust footer margin and padding for PC */
         @media (min-width: 1024px) {
             .footer {
@@ -1122,6 +1357,7 @@
                 font-size: 15px;
             }
         }
+        
         .footer a {
             display: inline-flex;
             align-items: center;
@@ -1135,6 +1371,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
         }
+        
         .footer a:hover,
         .footer a:active {
             color: var(--main-color);
@@ -1142,6 +1379,7 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-secondary);
         }
+        
         /* ===== ENHANCED TOAST STYLES ===== */
         .toast {
             position: fixed;
@@ -1163,34 +1401,40 @@
             max-width: 480px;
             margin: 0 auto;
         }
+        
         .toast.show {
             transform: translateY(0);
         }
+        
         .toast-success {
             background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
             color: white;
         }
+        
         .toast-error {
             background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
             color: white;
         }
+        
         .toast-info {
             background: var(--gradient-primary);
             color: white;
         }
+        
         /* ===== RESPONSIVE IMPROVEMENTS ===== */
         @media (min-width: 480px) {
-            /* .app-container max-width handled above */
             .toast {
                 right: 24px;
                 left: auto;
                 max-width: 400px;
             }
         }
+        
         /* ===== UTILITIES ===== */
         .hidden {
             display: none !important;
         }
+        
         .sr-only {
             position: absolute;
             width: 1px;
@@ -1202,21 +1446,26 @@
             white-space: nowrap;
             border: 0;
         }
+        
         /* ===== SMOOTH SCROLLING ===== */
         ::-webkit-scrollbar {
             width: 8px;
         }
+        
         ::-webkit-scrollbar-track {
             background: var(--bg-primary);
             border-radius: 8px;
         }
+        
         ::-webkit-scrollbar-thumb {
             background: var(--bg-tertiary);
             border-radius: 8px;
         }
+        
         ::-webkit-scrollbar-thumb:hover {
             background: var(--main-color);
         }
+        
         /* ===== LOADING ANIMATION ===== */
         @keyframes fadeInUp {
             from {
@@ -1228,11 +1477,12 @@
                 transform: translateY(0);
             }
         }
+        
         .calendar-section,
         .stats-panel {
             animation: fadeInUp 0.6s ease;
         }
-
+        
         /* ===== NEW: HALF-DAY MODAL STYLES ===== */
         .day-type-list {
             list-style: none;
@@ -1242,6 +1492,7 @@
             flex-direction: column;
             gap: 12px;
         }
+        
         .day-type-item {
             display: flex;
             align-items: center;
@@ -1251,10 +1502,12 @@
             border-radius: 12px;
             border: 1px solid var(--border-color);
         }
+        
         .day-type-date {
             font-weight: 600;
             color: var(--text-secondary);
         }
+        
         .day-type-toggle {
             display: flex;
             align-items: center;
@@ -1264,6 +1517,7 @@
             border: 1px solid var(--border-color);
             width: 150px; /* Fixed width for the toggle */
         }
+        
         .day-type-toggle-option {
             flex: 1;
             padding: 8px 12px;
@@ -1277,284 +1531,797 @@
             background-color: transparent;
             border: none;
         }
+        
         .day-type-toggle-option.active {
             background-color: var(--main-color);
             color: white;
             box-shadow: var(--shadow-soft);
         }
+        
+        .delete-day-btn {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px;
+            margin-left: 12px;
+            transition: transform 0.2s ease;
+        }
+        
+        .delete-day-btn:hover {
+            transform: scale(1.2);
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="app-header" role="banner">
-        <div class="app-header-content">
-            <div class="app-header-title">
-                <img src="/assets/icon/abouticon.png" alt="Leave Buddy Logo" loading="lazy">
-                <h1>Leave Buddy</h1>
-            </div>
-            <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle between light and dark theme">
-                <i class="fas fa-sun" aria-hidden="true"></i>
-            </button>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="app-container" role="main">
-        <!-- Calendar Section -->
-        <section class="calendar-section" aria-label="Leave calendar">
-            <!-- Calendar Header -->
-            <div class="calendar-header">
-                <button id="prev-month-btn"
-                        class="calendar-nav-btn"
-                        aria-label="Previous month"
-                        title="Go to previous month">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <h2 id="month-year"
-                    class="month-year-display"
-                    role="button"
-                    tabindex="0"
-                    aria-label="Current month and year, tap to change"
-                    title="Tap to select month and year"></h2>
-                <button id="next-month-btn"
-                        class="calendar-nav-btn"
-                        aria-label="Next month"
-                        title="Go to next month">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <!-- Leave Type Selector with Horizontal Scrolling -->
-            <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
-                <button id="add-leave-btn-plus"
-                        class="add-leave-btn"
-                        aria-label="Add new leave type"
-                        title="Add new leave type">
-                    <i class="fas fa-plus" aria-hidden="true"></i>
-                </button>
-                <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
-            </div>
-
-            <!-- Calendar Grid -->
-            <div class="calendar-grid-wrapper">
-                <div class="calendar-weekdays" role="row">
-                    <div role="columnheader">Sun</div>
-                    <div role="columnheader">Mon</div>
-                    <div role="columnheader">Tue</div>
-                    <div role="columnheader">Wed</div>
-                    <div role="columnheader">Thu</div>
-                    <div role="columnheader">Fri</div>
-                    <div role="columnheader">Sat</div>
+    <div id="app-wrapper" class="relative min-h-screen">
+        <div id="login-container" class="is-visible min-h-screen flex flex-col items-center justify-center p-4">
+            <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
+                <div class="text-center mb-8">
+                    <div class="flex items-center justify-center gap-4 mb-6">
+                        <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
+                    </div>
+                    <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
+                    <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
                 </div>
-                <div id="calendar-grid"
-                     class="calendar-grid"
-                     role="grid"
-                     aria-label="Calendar days">
+
+                <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
+                    <div class="space-y-4 text-left">
+                        <input type="email" id="email-input" placeholder="Email" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
+                        
+                        <div class="relative">
+                            <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
+                            <button type="button" id="password-toggle-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" aria-label="Toggle password visibility">
+                                <i id="password-toggle-icon" class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button id="forgot-password-btn" class="text-sm hover:underline focus:outline-none transition-colors login-text-secondary">Forgot Password?</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button id="email-signin-btn" class="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">Sign In</button>
+                        <button id="email-signup-btn" class="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">Sign Up</button>
+                    </div>
+
+                    <div class="relative flex py-4 items-center">
+                        <div class="flex-grow border-t border-white/30 login-divider"></div>
+                        <span class="flex-shrink mx-4 text-sm font-medium login-text-secondary">OR</span>
+                        <div class="flex-grow border-t border-white/30 login-divider"></div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <button id="google-signin-btn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg flex items-center justify-center text-lg font-semibold transition-all hover:scale-105">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Google_Favicon_2025.svg" class="w-6 h-6 mr-3" alt="Google icon">
+                            Continue with Google
+                        </button>
+                        <button id="anon-continue-btn" class="w-full btn-secondary py-2 px-4 rounded-lg text-lg font-semibold transition-all hover:scale-105">
+                            <div class="flex flex-col items-center">
+                                <span>Continue Offline</span>
+                                <span class="text-xs font-normal login-text-secondary mt-1">(Saves data only on this device)</span>
+                            </div>
+                        </button>
+                    </div>
+                    <p id="user-id-display" class="text-xs mt-6 break-all text-center login-text-secondary"></p>
                 </div>
             </div>
-        </section>
-
-        <!-- Stats Panel Toggle -->
-        <div class="stats-toggle-container">
-            <button id="toggle-stats-btn"
-                    class="stats-panel-toggle-btn"
-                    aria-expanded="false"
-                    aria-controls="stats-panel">
-                <span id="toggle-text">Show Stats</span>
-                <i id="toggle-icon"
-                   class="fas fa-chevron-down transition-transform"
-                   aria-hidden="true"></i>
-            </button>
+            <footer class="footer" role="contentinfo">
+                <a href="mailto:arunthomas04042001@gmail.com"
+                   title="Contact the developer">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    Reach out to the developer
+                </a>
+            </footer>
         </div>
 
-        <!-- Stats Panel -->
-        <section id="stats-panel"
-                 class="stats-panel"
-                 aria-label="Leave statistics">
-            <div id="stats-grid" class="stats-grid"></div>
-            <div id="empty-stats-state" class="hidden text-center p-8 text-[var(--text-muted)]">
-                <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
-                <p class="mb-4">Tap the '+' button above to add your first leave type.</p>
-            </div>
-            <!-- Data Management Section -->
-            <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
-                <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
-                    Data Management
-                </h3>
-                <div class="flex flex-col gap-4">
-                    <button id="export-data-btn"
-                            class="btn btn-secondary"
-                            title="Export your leave data">
-                        <i class="fas fa-download" aria-hidden="true"></i>
-                        Export Data
-                    </button>
-                    <button id="import-data-btn"
-                            class="btn btn-primary"
-                            title="Import leave data from file">
-                        <i class="fas fa-upload" aria-hidden="true"></i>
-                        Import Data
-                    </button>
-                    <input type="file"
-                           id="upload-data-input"
-                           class="hidden"
-                           accept=".json"
-                           aria-label="Select file to import">
+        <div id="app-container" class="is-hidden absolute inset-0">
+            <header class="app-header" role="banner">
+                <div class="app-header-content">
+                    <div class="flex items-center gap-2">
+                         <button id="theme-toggle-btn" class="header-icon-btn" aria-label="Toggle theme" title="Toggle between light and dark theme">
+                            <i class="fas fa-sun" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="app-header-title">
+                        <img src="assets/logo.png" alt="Leave Buddy Logo" loading="lazy">
+                        <h1>Leave Buddy</h1>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button id="logout-btn" class="header-icon-btn" aria-label="Sign out" title="Sign out">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <button id="reset-data-btn"
-                        class="btn btn-danger w-full mt-4"
-                        title="Reset all leave data">
-                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                    Reset All Data
-                </button>
-            </div>
-        </section>
+            </header>
 
-        <!-- Footer -->
-        <footer class="footer" role="contentinfo">
-            <a href="mailto:arunthomas04042001@gmail.com"
-               title="Contact the developer">
-                <i class="fas fa-envelope" aria-hidden="true"></i>
-                Reach out to the developer
-            </a>
-        </footer>
-    </main>
+            <main class="app-container" role="main">
+                <section class="calendar-section" aria-label="Leave calendar">
+                    <div class="calendar-header">
+                        <button id="prev-month-btn"
+                                class="calendar-nav-btn"
+                                aria-label="Previous month"
+                                title="Go to previous month">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <h2 id="month-year"
+                            class="month-year-display"
+                            role="button"
+                            tabindex="0"
+                            aria-label="Current month and year, tap to change"
+                            title="Tap to select month and year"></h2>
+                        <button id="next-month-btn"
+                                class="calendar-nav-btn"
+                                aria-label="Next month"
+                                title="Go to next month">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
 
-    <!-- Modal Container -->
+                    <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
+                        <button id="add-leave-btn-plus"
+                                class="add-leave-btn"
+                                aria-label="Add new leave type"
+                                title="Add new leave type">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
+                    </div>
+
+                    <div class="calendar-grid-wrapper">
+                        <div class="calendar-weekdays" role="row">
+                            <div role="columnheader">Sun</div>
+                            <div role="columnheader">Mon</div>
+                            <div role="columnheader">Tue</div>
+                            <div role="columnheader">Wed</div>
+                            <div role="columnheader">Thu</div>
+                            <div role="columnheader">Fri</div>
+                            <div role="columnheader">Sat</div>
+                        </div>
+                        <div id="calendar-grid"
+                             class="calendar-grid"
+                             role="grid"
+                             aria-label="Calendar days">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="stats-toggle-container">
+                    <button id="toggle-stats-btn"
+                            class="stats-panel-toggle-btn"
+                            aria-expanded="false"
+                            aria-controls="stats-panel">
+                        <span id="toggle-text">Show Stats</span>
+                        <i id="toggle-icon"
+                           class="fas fa-chevron-down transition-transform"
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <section id="stats-panel"
+                         class="stats-panel"
+                         aria-label="Leave statistics">
+                    <div id="stats-grid" class="stats-grid"></div>
+                    <div id="empty-stats-state" class="is-hidden text-center p-8 text-[var(--text-muted)]">
+                        <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
+                        <p class="mb-4">Tap the '+' button above to add your first leave type.</p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
+                        <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
+                            Data Management
+                        </h3>
+                        <div class="flex flex-col gap-4">
+                            <button id="export-data-btn"
+                                    class="btn btn-secondary"
+                                    title="Export your leave data">
+                                <i class="fas fa-download" aria-hidden="true"></i>
+                                Export Data
+                            </button>
+                            <button id="import-data-btn"
+                                    class="btn btn-primary"
+                                    title="Import leave data from file">
+                                <i class="fas fa-upload" aria-hidden="true"></i>
+                                Import Data
+                            </button>
+                            <input type="file"
+                                   id="upload-data-input"
+                                   class="is-hidden"
+                                   accept=".json"
+                                   aria-label="Select file to import">
+                        </div>
+                        <button id="reset-data-btn"
+                                class="btn btn-danger w-full mt-4"
+                                title="Reset all leave data">
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            Reset All Data
+                        </button>
+                    </div>
+                </section>
+
+                <footer class="footer" role="contentinfo">
+                    <a href="mailto:arunthomas04042001@gmail.com"
+                       title="Contact the developer">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Reach out to the developer
+                    </a>
+                </footer>
+            </main>
+        </div>
+    </div>
+
     <div id="modal-container"
-         class="modal-backdrop hidden"
+         class="modal-backdrop is-hidden"
          role="dialog"
          aria-modal="true"
          aria-hidden="true">
         <div id="modal-content" class="modal-content"></div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        // New Firestore imports for cloud data persistence
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNBa9TBaFXiFqNCQ28jTdyYks63_bOk5I",
+            authDomain: "leavebuddyaoh.firebaseapp.com",
+            projectId: "leavebuddyaoh",
+            storageBucket: "leavebuddyaoh.firebasestorage.app",
+            messagingSenderId: "207787772122",
+            appId: "1:207787772122:web:19e6751e26580e6925bde3"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app); // Initialize Firestore
+        const googleProvider = new GoogleAuthProvider();
+
+        // Make Firebase available globally
+        window.firebaseAuth = {
+            auth,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            signInWithPopup,
+            GoogleAuthProvider: googleProvider,
+            signOut,
+            onAuthStateChanged,
+            sendPasswordResetEmail
+        };
+
+        window.firebaseFirestore = {
+            db,
+            doc,
+            setDoc,
+            getDoc,
+            collection,
+            onSnapshot
+        };
+    </script>
+
     <script>
         'use strict';
-        document.addEventListener('DOMContentLoaded', () => {
-            // ===== APPLICATION STATE =====
-            const state = {
-                focusedDate: new Date(),
-                leaveTypes: [],
-                leaveRecords: {},
-                selectedLeaveType: null,
-                isDragging: false,
-                selectedDates: new Set(),
-                dragMode: null,
-                statsPanelOpen: false,
-                theme: 'dark'
-            };
 
-            // ===== CONSTANTS =====
-            const LEAVE_COLORS = [
-                '#6366f1', '#14b8a6', '#f59e0b', '#10b981',
-                '#8b5cf6', '#06b6d4', '#ec4899', '#ef4444'
-            ];
-            const STORAGE_KEY = 'leaveBuddyState';
+        // Application state management and Firebase authentication
+        class LeaveBuddyApp {
+            constructor() {
+                this.state = {
+                    focusedDate: new Date(),
+                    leaveTypes: [],
+                    leaveRecords: {},
+                    selectedLeaveType: null,
+                    isDragging: false,
+                    selectedDates: new Set(),
+                    dragMode: null,
+                    statsPanelOpen: false,
+                    theme: 'dark',
+                    user: null,
+                    isOfflineMode: false
+                };
 
-            // ===== DOM ELEMENTS =====
-            const elements = {
-                calendarGrid: document.getElementById('calendar-grid'),
-                monthYearDisplay: document.getElementById('month-year'),
-                prevMonthBtn: document.getElementById('prev-month-btn'),
-                nextMonthBtn: document.getElementById('next-month-btn'),
-                leaveTypePillContainer: document.getElementById('leave-type-pill-container'),
-                addLeaveBtnPlus: document.getElementById('add-leave-btn-plus'),
-                statsGrid: document.getElementById('stats-grid'),
-                emptyStatsState: document.getElementById('empty-stats-state'),
-                modalContainer: document.getElementById('modal-container'),
-                modalContent: document.getElementById('modal-content'),
-                exportDataBtn: document.getElementById('export-data-btn'),
-                importDataBtn: document.getElementById('import-data-btn'),
-                uploadDataInput: document.getElementById('upload-data-input'),
-                resetDataBtn: document.getElementById('reset-data-btn'),
-                statsPanel: document.getElementById('stats-panel'),
-                toggleStatsBtn: document.getElementById('toggle-stats-btn'),
-                toggleText: document.getElementById('toggle-text'),
-                toggleIcon: document.getElementById('toggle-icon'),
-                themeToggleBtn: document.getElementById('theme-toggle-btn')
-            };
+                this.LEAVE_COLORS = [
+                    '#6366f1', // Indigo
+                    '#14b8a6', // Teal
+                    '#f59e0b', // Amber
+                    '#10b981', // Emerald
+                    '#8b5cf6', // Violet
+                    '#06b6d4', // Cyan
+                    '#ec4899', // Pink
+                    '#ef4444', // Red
+                    '#ff6363', // Coral
+                    '#00ced1', // Dark Turquoise
+                    '#ffd700', // Gold (NEW)
+                    '#2e8b57'  // Sea Green (NEW)
+                ];
 
-            // ===== UTILITY FUNCTIONS =====
-            function toISODateString(date) {
-                const pad = num => (num < 10 ? '0' : '') + num;
-                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+                this.STORAGE_KEY = 'leaveBuddyState';
+                this.elements = {};
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.initializeApp();
             }
 
-            function generateId() {
-                return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            initializeElements() {
+                // Get all DOM elements
+                this.elements = {
+                    // Containers for fade transition
+                    appWrapper: document.getElementById('app-wrapper'),
+                    loginContainer: document.getElementById('login-container'),
+                    appContainer: document.getElementById('app-container'),
+                    
+                    // Login elements
+                    emailInput: document.getElementById('email-input'),
+                    passwordInput: document.getElementById('password-input'),
+                    passwordToggleBtn: document.getElementById('password-toggle-btn'),
+                    passwordToggleIcon: document.getElementById('password-toggle-icon'),
+                    emailSigninBtn: document.getElementById('email-signin-btn'),
+                    emailSignupBtn: document.getElementById('email-signup-btn'),
+                    googleSigninBtn: document.getElementById('google-signin-btn'),
+                    anonContinueBtn: document.getElementById('anon-continue-btn'),
+                    forgotPasswordBtn: document.getElementById('forgot-password-btn'),
+                    userIdDisplay: document.getElementById('user-id-display'),
+                    
+                    // App elements
+                    calendarGrid: document.getElementById('calendar-grid'),
+                    monthYearDisplay: document.getElementById('month-year'),
+                    prevMonthBtn: document.getElementById('prev-month-btn'),
+                    nextMonthBtn: document.getElementById('next-month-btn'),
+                    leaveTypePillContainer: document.getElementById('leave-type-pill-container'),
+                    addLeaveBtnPlus: document.getElementById('add-leave-btn-plus'),
+                    statsGrid: document.getElementById('stats-grid'),
+                    emptyStatsState: document.getElementById('empty-stats-state'),
+                    modalContainer: document.getElementById('modal-container'),
+                    modalContent: document.getElementById('modal-content'),
+                    exportDataBtn: document.getElementById('export-data-btn'),
+                    importDataBtn: document.getElementById('import-data-btn'),
+                    uploadDataInput: document.getElementById('upload-data-input'),
+                    resetDataBtn: document.getElementById('reset-data-btn'),
+                    statsPanel: document.getElementById('stats-panel'),
+                    toggleStatsBtn: document.getElementById('toggle-stats-btn'),
+                    toggleText: document.getElementById('toggle-text'),
+                    toggleIcon: document.getElementById('toggle-icon'),
+                    themeToggleBtn: document.getElementById('theme-toggle-btn'),
+                    logoutBtn: document.getElementById('logout-btn')
+                };
             }
 
-            // ===== LOCAL STORAGE FUNCTIONS =====
-            function saveState() {
-                try {
-                    const dataToSave = {
-                        leaveTypes: state.leaveTypes,
-                        leaveRecords: state.leaveRecords,
-                        theme: state.theme,
-                        version: '1.1' // Version update for new data structure
+            async initializeApp() {
+                this.setupAuthStateListener();
+            }
+
+            waitForFirebase() {
+                return new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => reject(new Error('Firebase timeout')), 10000);
+                    
+                    const checkFirebase = () => {
+                        if (window.firebaseAuth && window.firebaseFirestore) {
+                            clearTimeout(timeout);
+                            resolve();
+                        } else {
+                            setTimeout(checkFirebase, 100);
+                        }
                     };
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+                    
+                    checkFirebase();
+                });
+            }
+
+            setupAuthStateListener() {
+                this.waitForFirebase().then(() => {
+                    window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
+                        this.state.user = user;
+                        // If a user is logged in, use online mode. Otherwise, default to offline mode.
+                        this.state.isOfflineMode = !user;
+                        this.elements.userIdDisplay.textContent = '';
+                        
+                        if (!this.state.isOfflineMode) {
+                            this.showMainApp();
+                            this.loadData();
+                        } else {
+                            this.showLoginScreen();
+                        }
+                    });
+                }).catch(error => {
+                    console.error('Firebase initialization failed:', error);
+                    // Handle case where Firebase isn't available
+                    this.state.isOfflineMode = true;
+                    this.showLoginScreen();
+                    this.loadData();
+                });
+            }
+
+            showLoginScreen() {
+                this.elements.appContainer.classList.remove('is-visible');
+                this.elements.appContainer.classList.add('is-hidden');
+
+                setTimeout(() => {
+                    this.elements.loginContainer.classList.remove('is-hidden');
+                    this.elements.loginContainer.classList.add('is-visible');
+                    this.applyTheme();
+                }, 500);
+            }
+
+            showMainApp() {
+                this.elements.loginContainer.classList.remove('is-visible');
+                this.elements.loginContainer.classList.add('is-hidden');
+
+                setTimeout(() => {
+                    this.elements.appContainer.classList.remove('is-hidden');
+                    this.elements.appContainer.classList.add('is-visible');
+                    this.applyTheme();
+                    this.render();
+                }, 500);
+            }
+
+            setupEventListeners() {
+                // Unselect pills when clicking outside the pill container
+                document.addEventListener('click', (e) => {
+                    // Corrected logic: Unselect only if clicking outside the whole calendar section and pill container
+                    const isPillOrAddButton = e.target.closest('#leave-type-pill-container') || e.target.closest('#add-leave-btn-plus');
+                    const isCalendarClick = e.target.closest('.calendar-section');
+                    
+                    if (!isPillOrAddButton && !isCalendarClick) {
+                        if (this.state.selectedLeaveType) {
+                            this.state.selectedLeaveType = null;
+                            this.renderLeaveTypePills();
+                        }
+                    }
+                });
+
+                // Updated password toggle logic
+                this.elements.passwordToggleBtn?.addEventListener('click', () => {
+                    const isPassword = this.elements.passwordInput.type === 'password';
+                    this.elements.passwordInput.type = isPassword ? 'text' : 'password';
+                    
+                    // Toggle between fa-eye and fa-eye-slash classes
+                    this.elements.passwordToggleIcon.classList.toggle('fa-eye', !isPassword);
+                    this.elements.passwordToggleIcon.classList.toggle('fa-eye-slash', isPassword);
+                });
+
+                this.elements.emailSigninBtn?.addEventListener('click', () => this.handleEmailSignIn());
+                this.elements.emailSignupBtn?.addEventListener('click', () => this.handleEmailSignUp());
+                this.elements.googleSigninBtn?.addEventListener('click', () => this.handleGoogleSignIn());
+                this.elements.anonContinueBtn?.addEventListener('click', () => this.handleOfflineMode());
+                this.elements.forgotPasswordBtn?.addEventListener('click', () => this.handleForgotPassword());
+
+                this.elements.leaveTypePillContainer?.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Stop the event from propagating to the document listener
+                    const btn = e.target.closest('button');
+                    if (btn && btn.dataset.id) {
+                        this.state.selectedLeaveType = btn.dataset.id;
+                        this.renderLeaveTypePills();
+                        if (navigator.vibrate) navigator.vibrate(30);
+                    }
+                });
+
+                this.elements.prevMonthBtn?.addEventListener('click', () => {
+                    this.state.focusedDate.setMonth(this.state.focusedDate.getMonth() - 1);
+                    this.renderCalendar();
+                });
+
+                this.elements.nextMonthBtn?.addEventListener('click', () => {
+                    this.state.focusedDate.setMonth(this.state.focusedDate.getMonth() + 1);
+                    this.renderCalendar();
+                });
+
+                this.elements.monthYearDisplay?.addEventListener('click', () => this.showMonthYearPickerModal());
+                this.elements.addLeaveBtnPlus?.addEventListener('click', () => {
+                    // Unselect the currently selected pill before opening the modal
+                    this.state.selectedLeaveType = null;
+                    this.renderLeaveTypePills();
+                    this.showLeaveTypeModal();
+                });
+
+                this.elements.toggleStatsBtn?.addEventListener('click', () => {
+                    this.state.statsPanelOpen = !this.state.statsPanelOpen;
+                    this.elements.statsPanel.classList.toggle('open', this.state.statsPanelOpen);
+                    this.elements.toggleText.textContent = this.state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
+                    this.elements.toggleIcon.classList.toggle('fa-chevron-down', !this.state.statsPanelOpen);
+                    this.elements.toggleIcon.classList.toggle('fa-chevron-up', this.state.statsPanelOpen);
+                    this.elements.toggleStatsBtn.setAttribute('aria-expanded', this.state.statsPanelOpen);
+                });
+
+                this.elements.themeToggleBtn?.addEventListener('click', () => this.toggleTheme());
+                this.elements.logoutBtn?.addEventListener('click', () => this.handleSignOut());
+
+                this.elements.statsGrid?.addEventListener('click', (e) => {
+                    const target = e.target.closest('[data-action="edit-leave-type-stats"]');
+                    if (target) {
+                        const id = target.dataset.id;
+                        const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
+                        if (leaveType) this.showLeaveTypeModal(leaveType);
+                    }
+                });
+
+                this.elements.exportDataBtn?.addEventListener('click', () => this.exportData());
+                this.elements.importDataBtn?.addEventListener('click', () => this.elements.uploadDataInput.click());
+                this.elements.uploadDataInput?.addEventListener('change', (e) => this.importData(e));
+                this.elements.resetDataBtn?.addEventListener('click', () => this.showResetConfirmation());
+
+                // This listener is now on the modal content itself, ensuring clicks inside it are handled
+                this.elements.modalContent?.addEventListener('click', (e) => {
+                    this.handleModalActions(e);
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !this.elements.modalContainer.classList.contains('is-hidden')) {
+                        this.hideModal();
+                    }
+                });
+                
+                this.elements.modalContainer?.addEventListener('click', (e) => {
+                    if (e.target === this.elements.modalContainer) this.hideModal();
+                });
+
+                [this.elements.emailInput, this.elements.passwordInput].forEach(input => {
+                    input?.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') this.handleEmailSignIn();
+                    });
+                });
+            }
+
+            async handleEmailSignIn() {
+                const email = this.elements.emailInput.value.trim();
+                const password = this.elements.passwordInput.value;
+
+                if (!email || !password) {
+                    this.showToast('Please enter both email and password', 'error');
+                    return;
+                }
+
+                try {
+                    await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth.auth, email, password);
+                    this.showToast('Successfully signed in!', 'success');
                 } catch (error) {
-                    console.error('Failed to save state:', error);
-                    showToast('Failed to save data', 'error');
+                    console.error('Sign in error:', error);
+                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
                 }
             }
 
-            function loadState() {
+            async handleEmailSignUp() {
+                const email = this.elements.emailInput.value.trim();
+                const password = this.elements.passwordInput.value;
+
+                if (!email || !password) {
+                    this.showToast('Please enter both email and password', 'error');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    this.showToast('Password must be at least 6 characters', 'error');
+                    return;
+                }
+
                 try {
-                    const saved = localStorage.getItem(STORAGE_KEY);
+                    await window.firebaseAuth.createUserWithEmailAndPassword(window.firebaseAuth.auth, email, password);
+                    this.showToast('Account created successfully!', 'success');
+                } catch (error) {
+                    console.error('Sign up error:', error);
+                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                }
+            }
+
+            async handleGoogleSignIn() {
+                try {
+                    await window.firebaseAuth.signInWithPopup(window.firebaseAuth.auth, window.firebaseAuth.GoogleAuthProvider);
+                    this.showToast('Successfully signed in with Google!', 'success');
+                } catch (error) {
+                    console.error('Google sign in error:', error);
+                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                }
+            }
+
+            handleOfflineMode() {
+                this.state.isOfflineMode = true;
+                this.state.user = null;
+                this.elements.userIdDisplay.textContent = '';
+                this.loadStateFromLocalStorage(); // Load data from local storage immediately
+                this.showMainApp();
+                this.showToast('Continuing offline - data will be saved locally', 'info');
+            }
+
+            async handleForgotPassword() {
+                const email = this.elements.emailInput.value.trim();
+                if (!email) {
+                    this.showToast('Please enter your email address first', 'error');
+                    this.elements.emailInput.focus();
+                    return;
+                }
+
+                try {
+                    await window.firebaseAuth.sendPasswordResetEmail(window.firebaseAuth.auth, email);
+                    this.showToast('Password reset email sent! Check your inbox.', 'success');
+                } catch (error) {
+                    console.error('Password reset error:', error);
+                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                }
+            }
+
+            async handleSignOut() {
+                try {
+                    if (this.state.isOfflineMode) {
+                        // If offline, just switch back to the login screen without Firebase interaction
+                        this.state.isOfflineMode = false;
+                        this.showLoginScreen();
+                        this.showToast('Signed out of offline mode', 'info');
+                    } else {
+                        await window.firebaseAuth.signOut(window.firebaseAuth.auth);
+                        this.showToast('Successfully signed out', 'success');
+                    }
+                    // In either case, the state listener will handle showing the login screen.
+                } catch (error) {
+                    console.error('Sign out error:', error);
+                    this.showToast('Failed to sign out', 'error');
+                }
+            }
+
+            getAuthErrorMessage(errorCode) {
+                const errorMessages = {
+                    'auth/user-not-found': 'No account found with this email address',
+                    'auth/wrong-password': 'Incorrect password',
+                    'auth/email-already-in-use': 'An account with this email already exists',
+                    'auth/weak-password': 'Password is too weak',
+                    'auth/invalid-email': 'Invalid email address',
+                    'auth/popup-closed-by-user': 'Sign-in popup was closed before completion',
+                    'auth/cancelled-popup-request': 'Sign-in was cancelled',
+                    'auth/too-many-requests': 'Too many attempts. Please try again later',
+                };
+                return errorMessages[errorCode] || 'Authentication failed. Please try again.';
+            }
+
+            async loadData() {
+                if (!this.state.isOfflineMode && this.state.user) {
+                    await this.loadDataFromFirestore();
+                } else {
+                    this.loadStateFromLocalStorage();
+                }
+                this.render();
+            }
+
+            async loadDataFromFirestore() {
+                try {
+                    const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
+                    const docSnap = await window.firebaseFirestore.getDoc(userDocRef);
+
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        this.state.leaveTypes = data.leaveTypes || [];
+                        this.state.leaveRecords = data.leaveRecords || {};
+                        this.state.theme = data.theme || 'dark';
+                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
+                        this.showToast('Data loaded from cloud!', 'success');
+                        // Removed the line that clears local storage. Local data is now preserved.
+                    } else {
+                        this.showToast('No cloud data found. Checking local storage.', 'info');
+                        this.loadStateFromLocalStorage();
+                        // If local data exists, sync it to Firestore
+                        if (this.state.leaveTypes.length > 0) {
+                            this.showToast('Local data found. Saving to cloud...', 'info');
+                            await this.saveStateToFirestore();
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error fetching Firestore data:", error);
+                    this.showToast('Failed to load data from cloud. Falling back to local storage.', 'error');
+                    this.loadStateFromLocalStorage();
+                }
+            }
+
+            loadStateFromLocalStorage() {
+                try {
+                    const saved = localStorage.getItem(this.STORAGE_KEY);
                     if (saved) {
                         const parsedState = JSON.parse(saved);
-                        state.leaveTypes = parsedState.leaveTypes || [];
+                        this.state.leaveTypes = parsedState.leaveTypes || [];
                         
-                        // Migration from old data structure if needed
                         if (parsedState.leaveRecords) {
-                            state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
+                            this.state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
                                 acc[date] = typeof value === 'string'
-                                    ? { typeId: value, isHalfDay: false } // Old format
-                                    : value; // New format
+                                    ? { typeId: value, isHalfDay: false }
+                                    : value; 
                                 return acc;
                             }, {});
                         }
                         
-                        state.theme = parsedState.theme || 'dark';
+                        this.state.theme = parsedState.theme || 'dark';
+                        this.showToast('Data loaded from local storage!', 'success');
+                    } else {
+                        this.state.leaveTypes = [];
+                        this.state.leaveRecords = {};
+                        this.state.theme = 'dark';
+                        this.showToast('No local data found. Starting fresh.', 'info');
                     }
-                    // Ensure no leave type is selected by default on load
-                    state.selectedLeaveType = null; 
+                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                 } catch (error) {
-                    console.error('Failed to load state:', error);
-                    localStorage.removeItem(STORAGE_KEY);
-                    showToast('Failed to load saved data', 'error');
+                    console.error('Failed to load state from local storage:', error);
+                    localStorage.removeItem(this.STORAGE_KEY);
+                    this.showToast('Failed to load saved data', 'error');
                 }
             }
 
-            // ===== THEME FUNCTIONS =====
-            function toggleTheme() {
-                state.theme = state.theme === 'dark' ? 'light' : 'dark';
-                applyTheme();
-                saveState();
+            async saveState() {
+                const dataToSave = {
+                    leaveTypes: this.state.leaveTypes,
+                    leaveRecords: this.state.leaveRecords,
+                    theme: this.state.theme,
+                    version: '1.1'
+                };
+
+                if (!this.state.isOfflineMode && this.state.user) {
+                    await this.saveStateToFirestore(dataToSave);
+                } else {
+                    this.saveStateToLocalStorage(dataToSave);
+                }
+            }
+            
+            async saveStateToFirestore(dataToSave) {
+                try {
+                    const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
+                    await window.firebaseFirestore.setDoc(userDocRef, dataToSave);
+                    this.showToast('Data saved to cloud!', 'success');
+                } catch (error) {
+                    console.error('Failed to save state to Firestore:', error);
+                    this.showToast('Failed to save data to cloud.', 'error');
+                }
             }
 
-            function applyTheme() {
-                document.body.classList.toggle('light-theme', state.theme === 'light');
-                const icon = state.theme === 'light' ? 'fa-moon' : 'fa-sun';
-                elements.themeToggleBtn.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i>`;
-                // Update PWA theme color
-                const themeColor = state.theme === 'light' ? '#f8fafc' : '#1e293b';
+            saveStateToLocalStorage(dataToSave) {
+                try {
+                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToSave));
+                    this.showToast('Data saved locally!', 'success');
+                } catch (error) {
+                    console.error('Failed to save state locally:', error);
+                    this.showToast('Failed to save data locally', 'error');
+                }
+            }
+
+            toggleTheme() {
+                this.state.theme = this.state.theme === 'dark' ? 'light' : 'dark';
+                this.applyTheme();
+                this.saveState();
+            }
+
+            applyTheme() {
+                document.body.classList.toggle('light-theme', this.state.theme === 'light');
+                const icon = this.state.theme === 'light' ? 'fa-moon' : 'fa-sun';
+                if (this.elements.themeToggleBtn) {
+                    this.elements.themeToggleBtn.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i>`;
+                }
+                const themeColor = this.state.theme === 'light' ? '#f8fafc' : '#1e293b';
                 document.querySelector('meta[name="theme-color"]').content = themeColor;
+                this.applyLoginTheme();
+            }
+            
+            applyLoginTheme() {
+                const loginContainer = this.elements.loginContainer;
+                if (this.state.theme === 'light') {
+                    loginContainer.classList.add('light-theme-login');
+                    loginContainer.classList.remove('dark-theme-login');
+                } else {
+                    loginContainer.classList.add('dark-theme-login');
+                    loginContainer.classList.remove('light-theme-login');
+                }
             }
 
-            // ===== ENHANCED TOAST NOTIFICATIONS =====
-            function showToast(message, type = 'info') {
+            showToast(message, type = 'info') {
                 const existingToast = document.querySelector('.toast');
                 if (existingToast) {
                     existingToast.remove();
                 }
+                
                 const iconMap = {
                     success: 'fa-check-circle',
                     error: 'fa-exclamation-triangle',
                     info: 'fa-info-circle'
                 };
+                
                 const toast = document.createElement('div');
                 toast.className = `toast toast-${type}`;
                 toast.innerHTML = `
@@ -1576,11 +2343,10 @@
                 }, 4000);
             }
 
-            // ===== MODAL FUNCTIONS =====
-            function showModal(title, content) {
-                elements.modalContainer.classList.remove('hidden');
-                elements.modalContainer.setAttribute('aria-hidden', 'false');
-                elements.modalContent.innerHTML = `
+            showModal(title, content) {
+                this.elements.modalContainer.classList.remove('is-hidden');
+                this.elements.modalContainer.setAttribute('aria-hidden', 'false');
+                this.elements.modalContent.innerHTML = `
                     <div class="modal-header">
                         <h2>${title}</h2>
                         <button class="close-modal-btn"
@@ -1592,7 +2358,7 @@
                     ${content}
                 `;
                 
-                const firstFocusable = elements.modalContent.querySelector('input, button, select, textarea');
+                const firstFocusable = this.elements.modalContent.querySelector('input, button, select, textarea');
                 if (firstFocusable) {
                     setTimeout(() => firstFocusable.focus(), 100);
                 }
@@ -1600,32 +2366,43 @@
                 document.body.style.overflow = 'hidden';
             }
 
-            function hideModal() {
-                elements.modalContainer.classList.add('hidden');
-                elements.modalContainer.setAttribute('aria-hidden', 'true');
-                elements.modalContent.innerHTML = '';
+            hideModal() {
+                this.elements.modalContainer.classList.add('is-hidden');
+                this.elements.modalContainer.setAttribute('aria-hidden', 'true');
+                this.elements.modalContent.innerHTML = '';
                 document.body.style.overflow = '';
             }
 
-            // ===== RENDER FUNCTIONS =====
-            function render() {
-                renderCalendar();
-                renderStats();
+            toISODateString(date) {
+                const pad = num => (num < 10 ? '0' : '') + num;
+                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
             }
 
-            function renderCalendar() {
-                renderLeaveTypePills();
-                renderCalendarGrid();
-                setupTouchInteractions();
+            generateId() {
+                return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             }
 
-            function renderLeaveTypePills() {
-                const pillsHtml = state.leaveTypes.map(lt => {
-                    const isSelected = state.selectedLeaveType === lt.id;
+            render() {
+                this.renderCalendar();
+                this.renderStats();
+            }
+
+            renderCalendar() {
+                this.renderLeaveTypePills();
+                this.renderCalendarGrid();
+                this.setupTouchInteractions();
+            }
+
+            renderLeaveTypePills() {
+                if (!this.elements.leaveTypePillContainer) return;
+                
+                const pillsHtml = this.state.leaveTypes.map(lt => {
+                    const isSelected = this.state.selectedLeaveType === lt.id;
+                    const colorStyle = lt.color.startsWith('var(') ? `background-color: ${lt.color};` : `background-color: ${lt.color}; color: white;`;
                     return `
                         <button class="leave-type-pill ${isSelected ? 'active' : ''}"
                                 data-id="${lt.id}"
-                                style="background-color: ${lt.color};"
+                                style="${colorStyle}"
                                 role="radio"
                                 aria-checked="${isSelected}"
                                 title="Select ${lt.name}">
@@ -1633,31 +2410,33 @@
                         </button>
                     `;
                 }).join('');
-                elements.leaveTypePillContainer.innerHTML = pillsHtml;
+                this.elements.leaveTypePillContainer.innerHTML = pillsHtml;
             }
 
-            function renderCalendarGrid() {
-                const year = state.focusedDate.getFullYear();
-                const month = state.focusedDate.getMonth();
-                elements.monthYearDisplay.textContent = `${state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
+            renderCalendarGrid() {
+                if (!this.elements.calendarGrid || !this.elements.monthYearDisplay) return;
+                
+                const year = this.state.focusedDate.getFullYear();
+                const month = this.state.focusedDate.getMonth();
+                this.elements.monthYearDisplay.textContent = `${this.state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
                 
                 const firstDayOfMonth = new Date(year, month, 1);
                 const lastDayOfMonth = new Date(year, month + 1, 0);
                 const firstDayIndex = firstDayOfMonth.getDay();
-                const todayStr = toISODateString(new Date());
+                const todayStr = this.toISODateString(new Date());
 
-                elements.calendarGrid.innerHTML = '';
+                this.elements.calendarGrid.innerHTML = '';
 
                 for (let i = 0; i < firstDayIndex; i++) {
                     const emptyDiv = document.createElement('div');
                     emptyDiv.className = 'day-cell other-month';
                     emptyDiv.setAttribute('aria-hidden', 'true');
-                    elements.calendarGrid.appendChild(emptyDiv);
+                    this.elements.calendarGrid.appendChild(emptyDiv);
                 }
 
                 for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                     const dayDate = new Date(year, month, i);
-                    const dayStr = toISODateString(dayDate);
+                    const dayStr = this.toISODateString(dayDate);
                     const dayEl = document.createElement('div');
                     dayEl.className = 'day-cell';
                     dayEl.innerHTML = `<span class="day-number">${i}</span>`;
@@ -1669,9 +2448,9 @@
                     if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
                     if (dayStr === todayStr) dayEl.classList.add('today');
 
-                    const leaveRecord = state.leaveRecords[dayStr];
+                    const leaveRecord = this.state.leaveRecords[dayStr];
                     if (leaveRecord) {
-                        const leaveType = state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
+                        const leaveType = this.state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
                         if (leaveType) {
                             if (leaveRecord.isHalfDay) {
                                 dayEl.classList.add('half-day');
@@ -1684,28 +2463,32 @@
                             }
                         }
                     }
-                    elements.calendarGrid.appendChild(dayEl);
+                    this.elements.calendarGrid.appendChild(dayEl);
                 }
             }
 
-            function renderStats() {
-                if (state.leaveTypes.length === 0) {
-                    elements.statsGrid.classList.add('hidden');
-                    elements.emptyStatsState.classList.remove('hidden');
+            renderStats() {
+                if (!this.elements.statsGrid || !this.elements.emptyStatsState) return;
+                
+                if (this.state.leaveTypes.length === 0) {
+                    this.elements.statsGrid.classList.add('is-hidden');
+                    this.elements.emptyStatsState.classList.remove('is-hidden');
                     return;
                 }
-                elements.statsGrid.classList.remove('hidden');
-                elements.emptyStatsState.classList.add('hidden');
-                elements.statsGrid.innerHTML = '';
+                
+                this.elements.statsGrid.classList.remove('is-hidden');
+                this.elements.emptyStatsState.classList.add('is-hidden');
+                this.elements.statsGrid.innerHTML = '';
 
-                state.leaveTypes.forEach(lt => {
-                    const usedDays = Object.values(state.leaveRecords)
+                this.state.leaveTypes.forEach(lt => {
+                    const usedDays = Object.values(this.state.leaveRecords)
                         .filter(record => record.typeId === lt.id)
                         .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
                     
                     const totalDays = lt.total;
                     const remaining = Math.max(0, totalDays - usedDays);
                     const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
+                    
                     const card = document.createElement('div');
                     card.className = 'stats-card';
                     card.style.setProperty('--card-color', lt.color);
@@ -1745,12 +2528,13 @@
                             <div class="progress-percentage">${Math.round(percentage)}%</div>
                         </div>
                     `;
-                    elements.statsGrid.appendChild(card);
+                    this.elements.statsGrid.appendChild(card);
                 });
             }
 
-            // ===== ENHANCED TOUCH & MOUSE INTERACTIONS =====
-            function setupTouchInteractions() {
+            setupTouchInteractions() {
+                if (!this.elements.calendarGrid) return;
+                
                 let touchStartCell = null;
                 let isTouch = false;
                 let isMouseDown = false;
@@ -1758,16 +2542,16 @@
 
                 const handleDragStart = (cell) => {
                     if (!cell || cell.classList.contains('other-month')) return false;
-                    if (!state.selectedLeaveType) {
-                        showToast('Please select a leave type first!', 'info');
+                    if (!this.state.selectedLeaveType) {
+                        this.showToast('Please select a leave type first!', 'info');
                         return false;
                     }
-                    state.selectedDates.clear();
+                    this.state.selectedDates.clear();
                     const dateStr = cell.dataset.date;
-                    const recordExists = state.leaveRecords[dateStr];
-                    state.dragMode = (recordExists && recordExists.typeId === state.selectedLeaveType) ? 'remove' : 'add';
-                    state.selectedDates.add(dateStr);
-                    updateDragVisuals();
+                    const recordExists = this.state.leaveRecords[dateStr];
+                    this.state.dragMode = (recordExists && recordExists.typeId === this.state.selectedLeaveType) ? 'remove' : 'add';
+                    this.state.selectedDates.add(dateStr);
+                    this.updateDragVisuals();
                     if (navigator.vibrate) navigator.vibrate(50);
                     return true;
                 };
@@ -1776,21 +2560,22 @@
                     if (!cell || cell.classList.contains('other-month')) return;
                     const startCell = isTouch ? touchStartCell : mouseStartCell;
                     if (!startCell) return;
-                    state.selectedDates.clear();
-                    const dates = getDatesBetween(startCell.dataset.date, cell.dataset.date);
-                    dates.forEach(d => state.selectedDates.add(d));
-                    updateDragVisuals();
+                    this.state.selectedDates.clear();
+                    const dates = this.getDatesBetween(startCell.dataset.date, cell.dataset.date);
+                    dates.forEach(d => this.state.selectedDates.add(d));
+                    this.updateDragVisuals();
                 };
 
                 const handleDragEnd = () => {
-                    if (state.selectedDates.size > 0) {
-                        applySelectedDates();
+                    if (this.state.selectedDates.size > 0) {
+                        this.applySelectedDates();
                     }
-                    state.selectedDates.clear();
-                    updateDragVisuals();
+                    // This is the key change: Don't clear selected dates here.
+                    // The `selectedDates` set is cleared at the start of the next drag.
+                    this.updateDragVisuals();
                 };
 
-                elements.calendarGrid.addEventListener('touchstart', (e) => {
+                this.elements.calendarGrid.addEventListener('touchstart', (e) => {
                     const targetCell = e.target.closest('.day-cell');
                     if (handleDragStart(targetCell)) {
                         e.preventDefault();
@@ -1799,7 +2584,7 @@
                     }
                 }, { passive: false });
 
-                elements.calendarGrid.addEventListener('touchmove', (e) => {
+                this.elements.calendarGrid.addEventListener('touchmove', (e) => {
                     if (!isTouch) return;
                     e.preventDefault();
                     const touch = e.touches[0];
@@ -1807,7 +2592,7 @@
                     handleDragMove(targetElement?.closest('.day-cell'));
                 }, { passive: false });
 
-                elements.calendarGrid.addEventListener('touchend', (e) => {
+                this.elements.calendarGrid.addEventListener('touchend', (e) => {
                     if (isTouch) {
                         e.preventDefault();
                         handleDragEnd();
@@ -1816,7 +2601,7 @@
                     touchStartCell = null;
                 });
 
-                elements.calendarGrid.addEventListener('mousedown', (e) => {
+                this.elements.calendarGrid.addEventListener('mousedown', (e) => {
                     if (isTouch) return;
                     const targetCell = e.target.closest('.day-cell');
                     if (handleDragStart(targetCell)) {
@@ -1826,7 +2611,7 @@
                     }
                 });
 
-                elements.calendarGrid.addEventListener('mouseover', (e) => {
+                this.elements.calendarGrid.addEventListener('mouseover', (e) => {
                     if (!isMouseDown || isTouch) return;
                     handleDragMove(e.target.closest('.day-cell'));
                 });
@@ -1840,64 +2625,69 @@
                 });
             }
 
-            function getDatesBetween(startStr, endStr) {
+            getDatesBetween(startStr, endStr) {
                 const dates = [];
                 let start = new Date(startStr);
                 let end = new Date(endStr);
                 if (start > end) [start, end] = [end, start];
                 let current = new Date(start);
                 while (current <= end) {
-                    dates.push(toISODateString(current));
+                    dates.push(this.toISODateString(current));
                     current.setDate(current.getDate() + 1);
                 }
                 return dates;
             }
 
-            function updateDragVisuals() {
+            updateDragVisuals() {
+                if (!this.elements.calendarGrid) return;
                 document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
                     const dateStr = cell.dataset.date;
-                    cell.classList.toggle('selected', state.selectedDates.has(dateStr));
+                    cell.classList.toggle('selected', this.state.selectedDates.has(dateStr));
                 });
             }
 
-            function applySelectedDates() {
-                if (state.selectedDates.size === 0 || !state.selectedLeaveType) return;
+            applySelectedDates() {
+                if (this.state.selectedDates.size === 0 || !this.state.selectedLeaveType) return;
 
-                if (state.dragMode === 'add') {
-                    showHalfDaySelectionModal(Array.from(state.selectedDates));
-                } else { // dragMode is 'remove'
-                    const datesToRemove = Array.from(state.selectedDates).filter(dateStr => {
-                        const record = state.leaveRecords[dateStr];
-                        return record && record.typeId === state.selectedLeaveType;
+                if (this.state.dragMode === 'add') {
+                    this.showHalfDaySelectionModal(Array.from(this.state.selectedDates));
+                } else {
+                    const datesToRemove = Array.from(this.state.selectedDates).filter(dateStr => {
+                        const record = this.state.leaveRecords[dateStr];
+                        return record && record.typeId === this.state.selectedLeaveType;
                     });
                     if (datesToRemove.length > 0) {
-                        datesToRemove.forEach(dateStr => delete state.leaveRecords[dateStr]);
-                        saveState();
-                        render();
-                        showToast(`${datesToRemove.length} day(s) removed!`, 'success');
+                        datesToRemove.forEach(dateStr => delete this.state.leaveRecords[dateStr]);
+                        this.saveState();
+                        this.render();
+                        this.showToast(`${datesToRemove.length} day(s) removed!`, 'success');
                     }
                 }
             }
 
-            // ===== MODAL CONTENT GENERATORS =====
-            function showHalfDaySelectionModal(dates) {
-                dates.sort(); // Sort dates chronologically
+            showHalfDaySelectionModal(dates) {
+                dates.sort(); 
                 const listItems = dates.map(dateStr => {
                     const date = new Date(dateStr);
                     const formattedDate = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
                     return `
                         <li class="day-type-item" data-date="${dateStr}">
                             <span class="day-type-date">${formattedDate}</span>
-                            <div class="day-type-toggle">
-                                <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half Day</button>
-                                <button class="day-type-toggle-option active" data-action="toggle-day-type" data-type="full">Full Day</button>
+                            <div class="flex items-center">
+                                <div class="day-type-toggle">
+                                    <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half Day</button>
+                                    <button class="day-type-toggle-option active" data-action="toggle-day-type" data-type="full">Full Day</button>
+                                </div>
+                                <button class="delete-day-btn" data-action="delete-day-from-modal" aria-label="Delete this day">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </div>
                         </li>
                     `;
                 }).join('');
 
                 const content = `
-                    <ul class="day-type-list mb-6">${listItems}</ul>
+                    <ul id="half-day-list" class="day-type-list mb-6">${listItems}</ul>
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                         <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
                         <button type="button" class="btn btn-primary" data-action="save-half-day-selections">
@@ -1905,17 +2695,17 @@
                         </button>
                     </div>
                 `;
-                showModal('Select Leave Duration', content);
+                this.showModal('Select Leave Duration', content);
             }
 
-            function showLeaveTypeModal(leaveType = null) {
+            showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
                 const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
                 const initialName = leaveType ? leaveType.name : '';
                 const initialTotal = leaveType ? leaveType.total : '';
-                const initialColor = leaveType ? leaveType.color : LEAVE_COLORS[0];
+                const initialColor = leaveType ? leaveType.color : this.LEAVE_COLORS[0];
 
-                const colorOptions = LEAVE_COLORS.map(color => `
+                const colorOptions = this.LEAVE_COLORS.map(color => `
                     <button type="button"
                             class="color-option ${color === initialColor ? 'selected' : ''}"
                             data-color="${color}"
@@ -1926,7 +2716,7 @@
                     </button>
                 `).join('');
 
-                showModal(modalTitle, `
+                this.showModal(modalTitle, `
                     <form class="space-y-6">
                         <div class="form-group">
                             <label for="leave-name" class="form-label">Leave Type Name *</label>
@@ -1954,10 +2744,10 @@
                     </form>
                 `);
             }
-            
-            function showMonthYearPickerModal() {
-                const currentYear = state.focusedDate.getFullYear();
-                const currentMonth = state.focusedDate.getMonth();
+
+            showMonthYearPickerModal() {
+                const currentYear = this.state.focusedDate.getFullYear();
+                const currentMonth = this.state.focusedDate.getMonth();
                 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 
                 const monthGrid = monthNames.map((name, index) => `
@@ -1970,7 +2760,7 @@
                     </button>
                 `).join('');
 
-                showModal('Select Month & Year', `
+                const content = `
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <button type="button" class="btn btn-secondary" data-action="picker-prev-year" aria-label="Previous year">
@@ -1983,16 +2773,18 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 sm:gap-3">${monthGrid}</div>
                     </div>
-                `);
+                `;
+
+                this.showModal('Select Month & Year', content);
             }
 
-            function updateMonthYearPickerDisplay() {
+            updateMonthYearPickerDisplay() {
                 const pickerYearDisplay = document.getElementById('picker-year-display');
                 if (pickerYearDisplay) {
-                    pickerYearDisplay.textContent = state.focusedDate.getFullYear();
+                    pickerYearDisplay.textContent = this.state.focusedDate.getFullYear();
                 }
                 const monthButtons = document.querySelectorAll('[data-action="select-month-from-picker"]');
-                const currentMonth = state.focusedDate.getMonth();
+                const currentMonth = this.state.focusedDate.getMonth();
                 monthButtons.forEach((btn, index) => {
                     btn.classList.toggle('ring-2', index === currentMonth);
                     btn.classList.toggle('ring-[var(--main-color)]', index === currentMonth);
@@ -2000,90 +2792,34 @@
                 });
             }
 
-            // ===== EVENT LISTENERS & ACTION HANDLERS =====
-            function setupEventListeners() {
-                elements.leaveTypePillContainer.addEventListener('click', (e) => {
-                    const btn = e.target.closest('button');
-                    if (btn && btn.dataset.id) {
-                        state.selectedLeaveType = btn.dataset.id;
-                        renderLeaveTypePills();
-                        if (navigator.vibrate) navigator.vibrate(30);
-                    }
-                });
-
-                elements.prevMonthBtn.addEventListener('click', () => {
-                    state.focusedDate.setMonth(state.focusedDate.getMonth() - 1);
-                    renderCalendar();
-                });
-                elements.nextMonthBtn.addEventListener('click', () => {
-                    state.focusedDate.setMonth(state.focusedDate.getMonth() + 1);
-                    renderCalendar();
-                });
-                elements.monthYearDisplay.addEventListener('click', showMonthYearPickerModal);
-                elements.addLeaveBtnPlus.addEventListener('click', () => showLeaveTypeModal());
-
-                elements.toggleStatsBtn.addEventListener('click', () => {
-                    state.statsPanelOpen = !state.statsPanelOpen;
-                    elements.statsPanel.classList.toggle('open', state.statsPanelOpen);
-                    elements.toggleText.textContent = state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
-                    elements.toggleIcon.classList.toggle('fa-chevron-down', !state.statsPanelOpen);
-                    elements.toggleIcon.classList.toggle('fa-chevron-up', state.statsPanelOpen);
-                    elements.toggleStatsBtn.setAttribute('aria-expanded', state.statsPanelOpen);
-                });
-
-                elements.themeToggleBtn.addEventListener('click', toggleTheme);
-                
-                elements.statsGrid.addEventListener('click', (e) => {
-                    const target = e.target.closest('[data-action="edit-leave-type-stats"]');
-                    if (target) {
-                        const id = target.dataset.id;
-                        const leaveType = state.leaveTypes.find(lt => lt.id === id);
-                        if (leaveType) showLeaveTypeModal(leaveType);
-                    }
-                });
-
-                elements.exportDataBtn.addEventListener('click', exportData);
-                elements.importDataBtn.addEventListener('click', () => elements.uploadDataInput.click());
-                elements.uploadDataInput.addEventListener('change', importData);
-                elements.resetDataBtn.addEventListener('click', showResetConfirmation);
-
-                elements.modalContent.addEventListener('click', handleModalActions);
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && !elements.modalContainer.classList.contains('hidden')) {
-                        hideModal();
-                    }
-                });
-                elements.modalContainer.addEventListener('click', (e) => {
-                    if (e.target === elements.modalContainer) hideModal();
-                });
-            }
-
-            function handleModalActions(e) {
+            handleModalActions(e) {
+                // Prevent event from bubbling up and interfering with other listeners
+                e.stopPropagation();
                 const target = e.target.closest('[data-action]');
                 if (!target) return;
                 const action = target.dataset.action;
                 const id = target.dataset.id;
 
                 switch (action) {
-                    case 'save-leave-type': saveLeaveType(id); break;
-                    case 'delete-leave-type': showDeleteConfirmation(id); break;
-                    case 'confirm-delete-leave': deleteLeaveType(id); break;
-                    case 'select-color': selectColor(target); break;
+                    case 'save-leave-type': this.saveLeaveType(id); break;
+                    case 'delete-leave-type': this.showDeleteConfirmation(id); break;
+                    case 'confirm-delete-leave': this.deleteLeaveType(id); break;
+                    case 'select-color': this.selectColor(target); break;
                     case 'picker-prev-year':
-                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() - 1);
-                        updateMonthYearPickerDisplay();
+                        this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() - 1);
+                        this.updateMonthYearPickerDisplay();
                         break;
                     case 'picker-next-year':
-                        state.focusedDate.setFullYear(state.focusedDate.getFullYear() + 1);
-                        updateMonthYearPickerDisplay();
+                        this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() + 1);
+                        this.updateMonthYearPickerDisplay();
                         break;
                     case 'select-month-from-picker':
-                        state.focusedDate.setMonth(parseInt(target.dataset.month));
-                        hideModal();
-                        renderCalendar();
+                        this.state.focusedDate.setMonth(parseInt(target.dataset.month));
+                        this.hideModal();
+                        this.renderCalendar();
                         break;
-                    case 'confirm-reset': resetAllData(); break;
-                    case 'close-modal': hideModal(); break;
+                    case 'confirm-reset': this.resetAllData(); break;
+                    case 'close-modal': this.hideModal(); break;
                     case 'toggle-day-type': {
                         const item = target.closest('.day-type-item');
                         const fullDayBtn = item.querySelector('[data-type="full"]');
@@ -2093,16 +2829,25 @@
                         halfDayBtn.classList.toggle('active', !isFull);
                         break;
                     }
-                    case 'save-half-day-selections': saveHalfDaySelections(); break;
+                    case 'delete-day-from-modal': {
+                        const item = target.closest('.day-type-item');
+                        if (item) item.remove();
+                        this.showToast('Day removed from list.', 'info');
+                        break;
+                    }
+                    case 'save-half-day-selections': this.saveHalfDaySelections(e); break;
                 }
             }
 
-            // ===== LEAVE TYPE & RECORD MANAGEMENT =====
-            function saveHalfDaySelections() {
-                const leaveType = state.leaveTypes.find(lt => lt.id === state.selectedLeaveType);
-                if (!leaveType) return;
+            saveHalfDaySelections(e) {
+                e.preventDefault();
+                const leaveType = this.state.leaveTypes.find(lt => lt.id === this.state.selectedLeaveType);
+                if (!leaveType) {
+                    this.hideModal();
+                    return;
+                }
 
-                const dayItems = elements.modalContent.querySelectorAll('.day-type-item');
+                const dayItems = this.elements.modalContent.querySelectorAll('.day-type-item');
                 let totalDaysToDebit = 0;
                 const changes = {};
 
@@ -2113,70 +2858,70 @@
                     changes[dateStr] = { typeId: leaveType.id, isHalfDay };
                 });
 
-                const currentUsed = Object.values(state.leaveRecords)
+                const currentUsed = Object.values(this.state.leaveRecords)
                     .filter(record => record.typeId === leaveType.id)
                     .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
 
                 if (currentUsed + totalDaysToDebit > leaveType.total) {
-                    showToast(`Cannot add ${totalDaysToDebit} day(s). Not enough balance!`, 'error');
+                    this.showToast(`Cannot add ${totalDaysToDebit} day(s). Not enough balance!`, 'error');
                     return;
                 }
 
-                Object.assign(state.leaveRecords, changes);
-                hideModal();
-                saveState();
-                render();
-                showToast(`${totalDaysToDebit} day(s) added successfully!`, 'success');
+                Object.assign(this.state.leaveRecords, changes);
+                this.hideModal();
+                this.saveState();
+                this.render();
+                this.showToast(`${totalDaysToDebit} day(s) added successfully!`, 'success');
             }
 
-            function saveLeaveType(id) {
+            saveLeaveType(id) {
                 const nameInput = document.getElementById('leave-name');
                 const totalInput = document.getElementById('leave-total');
                 const selectedColorBtn = document.querySelector('.color-option.selected');
                 
                 if (!nameInput.value.trim() || !totalInput.value || !selectedColorBtn) {
-                    showToast('Please fill all required fields.', 'error');
+                    this.showToast('Please fill all required fields.', 'error');
                     return;
                 }
                 
                 const name = nameInput.value.trim();
                 const total = parseFloat(totalInput.value);
-                const color = selectedColorBtn.dataset.color;
+                const color = selectedColorBtn.dataset.color; // Save the CSS variable name
 
                 if (isNaN(total) || total < 0) {
-                    showToast('Please enter a valid non-negative number of days.', 'error');
+                    this.showToast('Please enter a valid non-negative number of days.', 'error');
                     totalInput.focus();
                     return;
                 }
 
-                if (id) { // Edit existing
-                    const leaveType = state.leaveTypes.find(lt => lt.id === id);
+                if (id) {
+                    const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
                     if (leaveType) {
                         leaveType.name = name;
                         leaveType.total = total;
                         leaveType.color = color;
-                        showToast('Leave type updated!', 'success');
+                        this.showToast('Leave type updated!', 'success');
                     }
-                } else { // Create new
-                    const newId = generateId();
-                    state.leaveTypes.push({ id: newId, name, total, color });
-                    showToast('Leave type created!', 'success');
+                } else {
+                    const newId = this.generateId();
+                    this.state.leaveTypes.push({ id: newId, name, total, color });
+                    this.showToast('Leave type created!', 'success');
                 }
                 
-                hideModal();
-                saveState();
-                render();
+                this.hideModal();
+                this.saveState();
+                this.render();
             }
 
-            function selectColor(target) {
+            selectColor(target) {
                 document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
                 target.classList.add('selected');
             }
 
-            function showDeleteConfirmation(id) {
-                const leaveType = state.leaveTypes.find(lt => lt.id === id);
+            showDeleteConfirmation(id) {
+                const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
                 if (!leaveType) return;
-                showModal('Confirm Deletion', `
+                this.showModal('Confirm Deletion', `
                     <div class="space-y-4 text-center">
                         <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
                         <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
@@ -2191,27 +2936,26 @@
                 `);
             }
 
-            function deleteLeaveType(id) {
-                state.leaveTypes = state.leaveTypes.filter(lt => lt.id !== id);
-                state.leaveRecords = Object.fromEntries(
-                    Object.entries(state.leaveRecords).filter(([date, record]) => record.typeId !== id)
+            deleteLeaveType(id) {
+                this.state.leaveTypes = this.state.leaveTypes.filter(lt => lt.id !== id);
+                this.state.leaveRecords = Object.fromEntries(
+                    Object.entries(this.state.leaveRecords).filter(([date, record]) => record.typeId !== id)
                 );
-                if (state.selectedLeaveType === id) {
-                    state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
+                if (this.state.selectedLeaveType === id) {
+                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                 }
-                hideModal();
-                saveState();
-                render();
-                showToast('Leave type deleted.', 'success');
+                this.hideModal();
+                this.saveState();
+                this.render();
+                this.showToast('Leave type deleted.', 'success');
             }
 
-            // ===== DATA MANAGEMENT =====
-            function exportData() {
+            exportData() {
                 try {
                     const dataToExport = {
-                        leaveTypes: state.leaveTypes,
-                        leaveRecords: state.leaveRecords,
-                        theme: state.theme,
+                        leaveTypes: this.state.leaveTypes,
+                        leaveRecords: this.state.leaveRecords,
+                        theme: this.state.theme,
                         exportDate: new Date().toISOString(),
                         version: '1.1'
                     };
@@ -2226,14 +2970,14 @@
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    showToast('Data exported successfully!', 'success');
+                    this.showToast('Data exported successfully!', 'success');
                 } catch (error) {
                     console.error('Export error:', error);
-                    showToast('Failed to export data', 'error');
+                    this.showToast('Failed to export data', 'error');
                 }
             }
 
-            function importData(e) {
+            importData(e) {
                 const file = e.target.files[0];
                 if (!file) return;
                 const reader = new FileReader();
@@ -2243,28 +2987,28 @@
                         if (!data.leaveTypes || !Array.isArray(data.leaveTypes) || typeof data.leaveRecords !== 'object') {
                             throw new Error('Invalid file format');
                         }
-                        state.leaveTypes = data.leaveTypes;
-                        state.leaveRecords = data.leaveRecords;
+                        this.state.leaveTypes = data.leaveTypes;
+                        this.state.leaveRecords = data.leaveRecords;
                         if (data.theme) {
-                            state.theme = data.theme;
-                            applyTheme();
+                            this.state.theme = data.theme;
+                            this.applyTheme();
                         }
-                        state.selectedLeaveType = state.leaveTypes.length > 0 ? state.leaveTypes[0].id : null;
-                        saveState();
-                        render();
-                        showToast('Data imported successfully!', 'success');
+                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
+                        this.saveState();
+                        this.render();
+                        this.showToast('Data imported successfully!', 'success');
                     } catch (error) {
                         console.error('Import error:', error);
-                        showToast('Import failed. Please check file format.', 'error');
+                        this.showToast('Import failed. Please check file format.', 'error');
                     }
                 };
-                reader.onerror = () => showToast('Failed to read the file', 'error');
+                reader.onerror = () => this.showToast('Failed to read the file', 'error');
                 reader.readAsText(file);
                 e.target.value = '';
             }
 
-            function showResetConfirmation() {
-                showModal('Confirm Reset', `
+            showResetConfirmation() {
+                this.showModal('Confirm Reset', `
                     <div class="space-y-4 text-center">
                         <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
                         <p class="text-lg font-semibold mb-2">Reset All Data?</p>
@@ -2279,27 +3023,20 @@
                 `);
             }
 
-            function resetAllData() {
-                state.leaveTypes = [];
-                state.leaveRecords = {};
-                state.selectedLeaveType = null;
-                hideModal();
-                saveState();
-                render();
-                showToast('All data has been reset!', 'success');
+            resetAllData() {
+                this.state.leaveTypes = [];
+                this.state.leaveRecords = {};
+                this.state.selectedLeaveType = null;
+                this.hideModal();
+                this.saveState();
+                this.render();
+                this.showToast('All data has been reset!', 'success');
             }
+        }
 
-            // ===== INITIALIZATION =====
-            function init() {
-                loadState();
-                applyTheme();
-                setupEventListeners();
-                render();
-                console.log('Leave Buddy (Optimized) initialized successfully!');
-            }
-
-            // Start the application
-            init();
+        document.addEventListener('DOMContentLoaded', () => {
+            window.leaveBuddyApp = new LeaveBuddyApp();
+            console.log('Leave Buddy with Firebase Auth initialized successfully!');
         });
     </script>
 </body>
