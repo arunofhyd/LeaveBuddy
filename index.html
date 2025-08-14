@@ -1570,76 +1570,77 @@
     </style>
 </head>
 <body>
-    <div id="app-wrapper" class="relative min-h-screen">
-        <div id="login-container" class="is-visible min-h-screen flex flex-col items-center justify-center p-4">
-            <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
-                <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
-                    <div class="text-center mb-8">
-                        <div class="flex items-center justify-center gap-4 mb-6">
-                            <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
-                        </div>
-                        <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
-                        <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
+<div id="app-wrapper" class="relative min-h-screen">
+    <div id="login-container" class="is-visible min-h-screen flex flex-col items-center justify-center p-4">
+        <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
+            <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
+                <div class="text-center mb-8">
+                    <div class="flex items-center justify-center gap-4 mb-6">
+                        <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
                     </div>
-
-                    <div class="space-y-4 text-left">
-                        <input type="email" id="email-input" placeholder="Email" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
-                        
-                        <div class="relative">
-                            <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
-                            <button type="button" id="password-toggle-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" aria-label="Toggle password visibility">
-                                <i id="password-toggle-icon" class="fas fa-eye" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-end">
-                        <button id="forgot-password-btn" class="text-sm hover:underline focus:outline-none transition-colors login-text-secondary">Forgot Password?</button>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <button id="email-signin-btn" class="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
-                            <span class="button-content">Sign In</span>
-                            <i class="fas fa-spinner fa-spin hidden"></i>
-                        </button>
-                        <button id="email-signup-btn" class="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
-                            <span class="button-content">Sign Up</span>
-                            <i class="fas fa-spinner fa-spin hidden"></i>
-                        </button>
-                    </div>
-
-                    <div class="relative flex items-center my-6">
-                        <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
-                        <span class="flex-shrink mx-4 text-sm font-medium login-text-secondary">OR</span>
-                        <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <button id="google-signin-btn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg flex items-center justify-center text-lg font-semibold transition-all hover:scale-105">
-                            <span class="flex items-center">
-                                <img src="assets/google.png" class="w-6 h-6 mr-3" alt="Google icon">
-                                <span class="button-content">Continue with Google</span>
-                            </span>
-                            <i class="fas fa-spinner fa-spin hidden"></i>
-                        </button>
-                        <button id="anon-continue-btn" class="w-full btn-secondary py-2 px-4 rounded-lg text-lg font-semibold transition-all hover:scale-105">
-                            <div class="flex flex-col items-center">
-                                <span>Continue Offline</span>
-                                <span class="text-xs font-normal login-text-secondary mt-1">(Saves data only on this device)</span>
-                            </div>
-                        </button>
-                    </div>
-                    <p id="user-id-display" class="text-xs mt-6 break-all text-center login-text-secondary"></p>
+                    <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
+                    <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
                 </div>
+
+                <div class="space-y-4 text-left">
+                    <input type="email" id="email-input" placeholder="Email" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
+                    
+                    <div class="relative">
+                        <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
+                        <button type="button" id="password-toggle-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" aria-label="Toggle password visibility">
+                            <i id="password-toggle-icon" class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button id="forgot-password-btn" class="text-sm hover:underline focus:outline-none transition-colors login-text-secondary">Forgot Password?</button>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button id="email-signin-btn" class="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
+                        <span class="button-content">Sign In</span>
+                        <i class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                    <button id="email-signup-btn" class="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
+                        <span class="button-content">Sign Up</span>
+                        <i class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                </div>
+
+                <div class="relative flex items-center my-6">
+                    <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
+                    <span class="flex-shrink mx-4 text-sm font-medium login-text-secondary">OR</span>
+                    <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <button id="google-signin-btn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg flex items-center justify-center text-lg font-semibold transition-all hover:scale-105">
+                        <span class="flex items-center">
+                            <img src="assets/google.png" class="w-6 h-6 mr-3" alt="Google icon">
+                            <span class="button-content">Continue with Google</span>
+                        </span>
+                        <i class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                    <button id="anon-continue-btn" class="w-full btn-secondary py-2 px-4 rounded-lg text-lg font-semibold transition-all hover:scale-105">
+                        <div class="flex flex-col items-center">
+                            <span>Continue Offline</span>
+                            <span class="text-xs font-normal login-text-secondary mt-1">(Saves data only on this device)</span>
+                        </div>
+                    </button>
+                </div>
+                <p id="user-id-display" class="text-xs mt-6 break-all text-center login-text-secondary"></p>
             </div>
-            <footer class="footer" role="contentinfo">
-                <a href="mailto:arunthomas04042001@gmail.com"
-                   title="Contact the developer">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
-                    Reach out to the developer
-                </a>
-            </footer>
         </div>
+
+        <div class="text-center mt-8 md:mt-12">
+            <a href="mailto:arunthomas04042001@gmail.com" class="inline-flex items-center gap-2 text-sm login-text-secondary hover:underline transition-colors">
+                <i class="fas fa-envelope"></i>
+                Reach out to the developer
+            </a>
+        </div>
+    </div>
+</div>
 
         <div id="app-container" class="is-hidden absolute inset-0">
             <header class="app-header" role="banner">
