@@ -52,9 +52,9 @@
             --login-card-bg: rgba(255, 255, 255, 0.1);
             --login-card-border: rgba(255, 255, 255, 0.2);
             --login-divider-color: rgba(255, 255, 255, 0.3);
-            --login-input-text: #1e293b;
-            --login-input-bg: #f8fafc;
-            --login-input-border: #e2e8f0;
+            --login-input-text: #f8fafc;
+            --login-input-bg: rgba(255, 255, 255, 0.1); /* Darker variant for dark theme */
+            --login-input-border: rgba(255, 255, 255, 0.2);
         }
         
         /* Light theme variables */
@@ -141,6 +141,17 @@
         }
         .border-login-input-border {
             border-color: var(--login-input-border);
+        }
+
+        /* Dark mode specific input styling */
+        body:not(.light-theme) .login-input-text {
+            color: var(--login-text-primary);
+        }
+        body:not(.light-theme) .bg-login-input-bg {
+            background-color: var(--bg-secondary);
+        }
+        body:not(.light-theme) .border-login-input-border {
+            border-color: var(--border-color);
         }
         
         /* ===== FADE TRANSITION UTILITIES ===== */
@@ -1597,7 +1608,7 @@
                         </button>
                     </div>
 
-                    <div class="relative flex py-4 items-center">
+                    <div class="relative flex items-center my-6">
                         <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
                         <span class="flex-shrink mx-4 text-sm font-medium login-text-secondary">OR</span>
                         <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
