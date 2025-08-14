@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="google-site-verification" content="iExbroKtO4ZRq3ZjUsyY8JJowXvx-yHOy4yQq0iS6vY" />
+    <meta name="google-site-verification" content="WRsy4WRJ0atAtw_tRfGLcnzrKRt_7liBfQRSDw2eo0Y" />
     <title>Leave Buddy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1562,15 +1562,15 @@
     <div id="app-wrapper" class="relative min-h-screen">
         <div id="login-container" class="is-visible min-h-screen flex flex-col items-center justify-center p-4">
             <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
-                <div class="text-center mb-8">
-                    <div class="flex items-center justify-center gap-4 mb-6">
-                        <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
-                    </div>
-                    <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
-                    <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
-                </div>
-
                 <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
+                    <div class="text-center mb-8">
+                        <div class="flex items-center justify-center gap-4 mb-6">
+                            <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
+                        </div>
+                        <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
+                        <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
+                    </div>
+
                     <div class="space-y-4 text-left">
                         <input type="email" id="email-input" placeholder="Email" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
                         
@@ -1598,9 +1598,9 @@
                     </div>
 
                     <div class="relative flex py-4 items-center">
-                        <div class="flex-grow border-t border-white/30 login-divider"></div>
+                        <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
                         <span class="flex-shrink mx-4 text-sm font-medium login-text-secondary">OR</span>
-                        <div class="flex-grow border-t border-white/30 login-divider"></div>
+                        <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
                     </div>
 
                     <div class="space-y-4">
@@ -1981,7 +1981,7 @@
                     if (content) content.classList.add('hidden');
                     if (spinner) spinner.classList.remove('hidden');
                     button.disabled = true;
-                    button.style.pointerEvents = 'none'; // Prevent multiple clicks during loading
+                    button.style.pointerEvents = 'none';
                 } else {
                     if (content) content.classList.remove('hidden');
                     if (spinner) spinner.classList.add('hidden');
