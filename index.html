@@ -243,6 +243,13 @@
                 padding: 0 4rem 5rem 4rem; /* Even more padding for the main card */
             }
         }
+
+        /* --- Mobile Optimizations --- */
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 0 16px 24px 16px; 
+            }
+        }
         
         /* ===== MODERN HEADER ===== */
         .app-header {
@@ -368,6 +375,24 @@
             background: var(--bg-tertiary);
             color: var(--main-color-light);
         }
+
+        /* --- Mobile Optimizations --- */
+        @media (max-width: 767px) {
+            .app-header {
+                padding: 16px;
+                margin: 0 -16px 24px -16px;
+            }
+            .app-header-content {
+                max-width: none;
+                padding: 0;
+            }
+            .app-header-title {
+                position: static;
+                transform: none;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
         
         /* ===== ENHANCED CALENDAR SECTION ===== */
         .calendar-section {
@@ -480,6 +505,22 @@
         .month-year-display:hover,
         .month-year-display:active {
             color: var(--main-color-light); 
+        }
+
+        /* --- Mobile Optimizations --- */
+        @media (max-width: 767px) {
+            .calendar-header {
+                margin-bottom: 24px;
+                padding: 0;
+            }
+            .month-year-display {
+                min-width: 150px;
+            }
+            .calendar-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
         }
         
         /* ===== HORIZONTAL SCROLLING LEAVE TYPE SELECTOR ===== */
@@ -643,6 +684,27 @@
             color: #fff !important;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
+
+        /* --- Mobile Optimizations --- */
+        @media (max-width: 767px) {
+            .leave-type-selector {
+                gap: 8px;
+                margin: 20px 0;
+            }
+            .leave-type-pills-container {
+                gap: 6px;
+            }
+            .leave-type-pill {
+                padding: 6px 12px;
+                font-size: 13px;
+                min-height: 32px;
+            }
+            .add-leave-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+        }
         
         /* ===== PERFECT SQUARE CALENDAR GRID ===== */
         .calendar-grid-wrapper {
@@ -717,7 +779,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 50%; /* Changed to make it consistently circular */
+            border-radius: 50%;
             text-align: center;
             position: relative;
             background: var(--bg-secondary);
@@ -754,7 +816,7 @@
             .day-cell {
                 padding: 16px; 
                 font-size: 1.6em; 
-                border-radius: 50%; /* Changed to make it consistently circular */
+                border-radius: 50%;
             }
         }
         
@@ -808,12 +870,11 @@
         .day-cell.half-day {
             position: relative;
             background: linear-gradient(to right, var(--leave-color) 50%, var(--bg-secondary) 50%);
-            border-radius: 50%; /* Ensure half-day cells also have circular corners */
+            border-radius: 50%;
             border: 2px solid var(--border-color);
         }
-        
+
         .day-cell.half-day::before {
-            /* This pseudo-element is no longer needed but kept for style consistency. */
             display: none;
         }
         
@@ -830,6 +891,24 @@
             color: #fff !important;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
+
+        /* --- Mobile Optimizations --- */
+        @media (max-width: 767px) {
+            .calendar-weekdays {
+                font-size: 11px;
+                margin-bottom: 12px;
+                gap: 6px;
+            }
+            .calendar-grid {
+                gap: 6px;
+                padding: 0;
+            }
+            .day-cell {
+                padding: 6px;
+                font-size: clamp(12px, 3.2vw, 16px);
+            }
+        }
+        
         /* ===== ENHANCED STATS PANEL ===== */
         .stats-toggle-container {
             display: flex;
