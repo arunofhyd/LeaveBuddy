@@ -804,28 +804,23 @@
             box-shadow: var(--shadow-secondary);
         }
         
-        /* Fix for half-day visibility */
+        /* Fixed half-day visibility using linear-gradient */
         .day-cell.half-day {
             position: relative;
-            background: var(--bg-secondary) !important;
+            background: linear-gradient(to right, var(--leave-color) 50%, var(--bg-secondary) 50%);
+            border: 2px solid var(--border-color);
         }
         
         .day-cell.half-day::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 50%;
-            height: 100%;
-            background: var(--leave-color);
-            border-radius: 16px 0 0 16px;
-            z-index: 0;
+            /* This pseudo-element is no longer needed but kept for style consistency. */
+            display: none;
         }
         
         .day-cell.half-day .day-number {
             position: relative;
             z-index: 1;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            color: var(--text-primary);
         }
         
         /* ===== ENHANCED STATS PANEL ===== */
