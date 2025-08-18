@@ -307,6 +307,14 @@
             object-fit: cover;
         }
         
+        .app-header-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--main-color);
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+        
         /* Larger title for PC */
         @media (min-width: 768px) {
             .app-header-title h1 {
@@ -1710,141 +1718,141 @@
     </div>
 </div>
 
-    <div id="app-container" class="is-hidden absolute inset-0">
-        <header class="app-header" role="banner">
-            <div class="app-header-content">
-                <div class="flex items-center gap-2">
-                     <button id="theme-toggle-btn" class="header-icon-btn" aria-label="Toggle theme" title="Toggle between light and dark theme">
-                        <i class="fas fa-sun" aria-hidden="true"></i>
-                    </button>
-                </div>
-                
-                <div class="app-header-title">
-                    <img src="assets/logo.png" alt="Leave Buddy Logo" loading="lazy">
-                    <h1>Leave Buddy</h1>
-                </div>
-                
-                <div class="flex items-center gap-2">
-                    <button id="logout-btn" class="header-icon-btn" aria-label="Sign out" title="Sign out">
-                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <main class="app-container" role="main">
-            <section class="calendar-section" aria-label="Leave calendar">
-                <div class="calendar-header">
-                    <button id="prev-month-btn"
-                            class="calendar-nav-btn"
-                            aria-label="Previous month"
-                            title="Go to previous month">
-                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                    </button>
-                    <h2 id="month-year"
-                        class="month-year-display"
-                        role="button"
-                        tabindex="0"
-                        aria-label="Current month and year, tap to change"
-                        title="Tap to select month and year"></h2>
-                    <button id="next-month-btn"
-                            class="calendar-nav-btn"
-                            aria-label="Next month"
-                            title="Go to next month">
-                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                    </button>
-                </div>
-
-                <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
-                    <button id="add-leave-btn-plus"
-                            class="add-leave-btn"
-                            aria-label="Add new leave type"
-                            title="Add new leave type">
-                        <i class="fas fa-plus" aria-hidden="true"></i>
-                    </button>
-                    <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
-                </div>
-
-                <div class="calendar-grid-wrapper">
-                    <div class="calendar-weekdays" role="row">
-                        <div role="columnheader">Sun</div>
-                        <div role="columnheader">Mon</div>
-                        <div role="columnheader">Tue</div>
-                        <div role="columnheader">Wed</div>
-                        <div role="columnheader">Thu</div>
-                        <div role="columnheader">Fri</div>
-                        <div role="columnheader">Sat</div>
-                    </div>
-                    <div id="calendar-grid"
-                         class="calendar-grid"
-                         role="grid"
-                         aria-label="Calendar days">
-                    </div>
-                </div>
-            </section>
-
-            <div class="stats-toggle-container">
-                <button id="toggle-stats-btn"
-                        class="stats-panel-toggle-btn"
-                        aria-expanded="false"
-                        aria-controls="stats-panel">
-                    <span id="toggle-text">Show Stats</span>
-                    <i id="toggle-icon"
-                       class="fas fa-chevron-down transition-transform"
-                       aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <section id="stats-panel"
-                     class="stats-panel"
-                     aria-label="Leave statistics">
-                <div id="stats-grid" class="stats-grid"></div>
-                <div id="empty-stats-state" class="is-hidden text-center p-8 text-[var(--text-muted)]">
-                    <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
-                    <p class="mb-4">Tap the '+' button above to add your first leave type.</p>
-                </div>
-                <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
-                    <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
-                        Data Management
-                    </h3>
-                    <div class="flex flex-col gap-4">
-                        <button id="export-data-btn"
-                                class="btn btn-secondary"
-                                title="Export your leave data">
-                            <i class="fas fa-download" aria-hidden="true"></i>
-                            Export Data
+        <div id="app-container" class="is-hidden absolute inset-0">
+            <header class="app-header" role="banner">
+                <div class="app-header-content">
+                    <div class="flex items-center gap-2">
+                         <button id="theme-toggle-btn" class="header-icon-btn" aria-label="Toggle theme" title="Toggle between light and dark theme">
+                            <i class="fas fa-sun" aria-hidden="true"></i>
                         </button>
-                        <button id="import-data-btn"
-                                class="btn btn-primary"
-                                title="Import leave data from file">
-                            <i class="fas fa-upload" aria-hidden="true"></i>
-                            Import Data
-                        </button>
-                        <input type="file"
-                               id="upload-data-input"
-                               class="is-hidden"
-                               accept=".json"
-                               aria-label="Select file to import">
                     </div>
-                    <button id="reset-data-btn"
-                            class="btn btn-danger w-full mt-4"
-                            title="Reset all leave data">
-                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                        Reset All Data
+                    
+                    <div class="app-header-title">
+                        <img src="assets/logo.png" alt="Leave Buddy Logo" loading="lazy">
+                        <h1>Leave Buddy</h1>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button id="logout-btn" class="header-icon-btn" aria-label="Sign out" title="Sign out">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="app-container" role="main">
+                <section class="calendar-section" aria-label="Leave calendar">
+                    <div class="calendar-header">
+                        <button id="prev-month-btn"
+                                class="calendar-nav-btn"
+                                aria-label="Previous month"
+                                title="Go to previous month">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <h2 id="month-year"
+                            class="month-year-display"
+                            role="button"
+                            tabindex="0"
+                            aria-label="Current month and year, tap to change"
+                            title="Tap to select month and year"></h2>
+                        <button id="next-month-btn"
+                                class="calendar-nav-btn"
+                                aria-label="Next month"
+                                title="Go to next month">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
+                        <button id="add-leave-btn-plus"
+                                class="add-leave-btn"
+                                aria-label="Add new leave type"
+                                title="Add new leave type">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
+                    </div>
+
+                    <div class="calendar-grid-wrapper">
+                        <div class="calendar-weekdays" role="row">
+                            <div role="columnheader">Sun</div>
+                            <div role="columnheader">Mon</div>
+                            <div role="columnheader">Tue</div>
+                            <div role="columnheader">Wed</div>
+                            <div role="columnheader">Thu</div>
+                            <div role="columnheader">Fri</div>
+                            <div role="columnheader">Sat</div>
+                        </div>
+                        <div id="calendar-grid"
+                             class="calendar-grid"
+                             role="grid"
+                             aria-label="Calendar days">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="stats-toggle-container">
+                    <button id="toggle-stats-btn"
+                            class="stats-panel-toggle-btn"
+                            aria-expanded="false"
+                            aria-controls="stats-panel">
+                        <span id="toggle-text">Show Stats</span>
+                        <i id="toggle-icon"
+                           class="fas fa-chevron-down transition-transform"
+                           aria-hidden="true"></i>
                     </button>
                 </div>
-            </section>
 
-            <footer class="footer" role="contentinfo">
-                <a href="mailto:arunthomas04042001@gmail.com"
-                   title="Contact the developer">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
-                    Reach out to the developer
-                </a>
-            </footer>
-        </main>
+                <section id="stats-panel"
+                         class="stats-panel"
+                         aria-label="Leave statistics">
+                    <div id="stats-grid" class="stats-grid"></div>
+                    <div id="empty-stats-state" class="is-hidden text-center p-8 text-[var(--text-muted)]">
+                        <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
+                        <p class="mb-4">Tap the '+' button above to add your first leave type.</p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
+                        <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
+                            Data Management
+                        </h3>
+                        <div class="flex flex-col gap-4">
+                            <button id="export-data-btn"
+                                    class="btn btn-secondary"
+                                    title="Export your leave data">
+                                <i class="fas fa-download" aria-hidden="true"></i>
+                                Export Data
+                            </button>
+                            <button id="import-data-btn"
+                                    class="btn btn-primary"
+                                    title="Import leave data from file">
+                                <i class="fas fa-upload" aria-hidden="true"></i>
+                                Import Data
+                            </button>
+                            <input type="file"
+                                   id="upload-data-input"
+                                   class="is-hidden"
+                                   accept=".json"
+                                   aria-label="Select file to import">
+                        </div>
+                        <button id="reset-data-btn"
+                                class="btn btn-danger w-full mt-4"
+                                title="Reset all leave data">
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            Reset All Data
+                        </button>
+                    </div>
+                </section>
+
+                <footer class="footer" role="contentinfo">
+                    <a href="mailto:arunthomas04042001@gmail.com"
+                       title="Contact the developer">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Reach out to the developer
+                    </a>
+                </footer>
+            </main>
+        </div>
     </div>
-</div>
 
     <div id="modal-container"
          class="modal-backdrop is-hidden"
@@ -1853,21 +1861,7 @@
          aria-hidden="true">
         <div id="modal-content" class="modal-content"></div>
     </div>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
-    
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -1948,7 +1942,6 @@
                 ];
 
                 this.STORAGE_KEY = 'leaveBuddyState';
-                this.OFFLINE_QUEUE_KEY = 'offlineQueue';
                 this.elements = {};
                 
                 this.initializeElements();
@@ -2001,14 +1994,7 @@
             }
 
             async initializeApp() {
-                // Wait for Firebase to be ready before setting up auth listener
-                this.waitForFirebase().then(() => {
-                    this.setupAuthStateListener();
-                    this.checkOfflineFirst();
-                }).catch(error => {
-                    console.error('Firebase initialization failed:', error);
-                    this.handleFallbackToOffline();
-                });
+                this.setupAuthStateListener();
             }
 
             waitForFirebase() {
@@ -2029,45 +2015,27 @@
             }
 
             setupAuthStateListener() {
-                window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
-                    this.state.user = user;
-                    this.state.isOfflineMode = !user;
-                    this.elements.userIdDisplay.textContent = '';
-                    
-                    if (!this.state.isOfflineMode) {
-                        this.showMainApp();
-                        this.loadData();
-                    } else {
-                        // User is signed out, or offline mode is chosen
-                        this.showLoginScreen();
-                        this.loadData();
-                    }
+                this.waitForFirebase().then(() => {
+                    window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
+                        this.state.user = user;
+                        // If a user is logged in, use online mode. Otherwise, default to offline mode.
+                        this.state.isOfflineMode = !user;
+                        this.elements.userIdDisplay.textContent = '';
+                        
+                        if (!this.state.isOfflineMode) {
+                            this.showMainApp();
+                            this.loadData();
+                        } else {
+                            this.showLoginScreen();
+                        }
+                    });
+                }).catch(error => {
+                    console.error('Firebase initialization failed:', error);
+                    // Handle case where Firebase isn't available
+                    this.state.isOfflineMode = true;
+                    this.showLoginScreen();
+                    this.loadData();
                 });
-            }
-
-            checkOfflineFirst() {
-                // Enable Firestore offline persistence
-                if (window.firebaseFirestore && 'enablePersistence' in window.firebaseFirestore.db) {
-                    window.firebaseFirestore.db.enablePersistence()
-                        .then(() => {
-                            console.log('Firestore offline persistence enabled.');
-                        })
-                        .catch((err) => {
-                            if (err.code === 'failed-precondition') {
-                                console.warn('Multiple tabs open, persistence could not be enabled.');
-                            } else if (err.code === 'unimplemented') {
-                                console.warn('The current browser does not support persistence.');
-                            } else {
-                                console.error('Firestore persistence failed:', err);
-                            }
-                        });
-                }
-            }
-
-            handleFallbackToOffline() {
-                this.state.isOfflineMode = true;
-                this.showLoginScreen();
-                this.loadStateFromLocalStorage();
             }
 
             showLoginScreen() {
@@ -2209,13 +2177,6 @@
                         if (e.key === 'Enter') this.handleEmailSignIn();
                     });
                 });
-
-                // Listen for online events to sync data
-                window.addEventListener('online', () => {
-                    if (this.state.user && !this.state.isOfflineMode) {
-                        this.syncOfflineQueue();
-                    }
-                });
             }
 
             async handleEmailSignIn() {
@@ -2355,7 +2316,6 @@
                         this.state.theme = data.theme || 'dark';
                         this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                         this.showToast('Data loaded from cloud!', 'success');
-                        this.syncOfflineQueue(); // Sync any pending local changes
                     } else {
                         this.showToast('No cloud data found. Checking local storage.', 'info');
                         this.loadStateFromLocalStorage();
@@ -2411,17 +2371,14 @@
                     version: '1.1'
                 };
 
-                // Check network status and online mode
-                if (navigator.onLine && !this.state.isOfflineMode) {
+                if (!this.state.isOfflineMode && this.state.user) {
                     await this.saveStateToFirestore(dataToSave);
                 } else {
                     this.saveStateToLocalStorage(dataToSave);
-                    this.addToOfflineQueue(dataToSave);
                 }
             }
             
             async saveStateToFirestore(dataToSave) {
-                if (!this.state.user) return;
                 try {
                     const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
                     await window.firebaseFirestore.setDoc(userDocRef, dataToSave);
@@ -2439,35 +2396,6 @@
                 } catch (error) {
                     console.error('Failed to save state locally:', error);
                     this.showToast('Failed to save data locally', 'error');
-                }
-            }
-
-            addToOfflineQueue(data) {
-                let queue = JSON.parse(localStorage.getItem(this.OFFLINE_QUEUE_KEY) || '[]');
-                queue.push(data);
-                localStorage.setItem(this.OFFLINE_QUEUE_KEY, JSON.stringify(queue));
-            }
-
-            async syncOfflineQueue() {
-                let queue = JSON.parse(localStorage.getItem(this.OFFLINE_QUEUE_KEY) || '[]');
-                if (queue.length === 0 || !this.state.user || !navigator.onLine) {
-                    return;
-                }
-
-                this.showToast('Syncing offline data...', 'info');
-
-                try {
-                    const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
-                    
-                    // Apply all queued changes in a single batch or latest state
-                    const latestState = queue[queue.length - 1];
-                    await window.firebaseFirestore.setDoc(userDocRef, latestState);
-
-                    localStorage.removeItem(this.OFFLINE_QUEUE_KEY);
-                    this.showToast('Offline data synced successfully!', 'success');
-                } catch (error) {
-                    console.error('Failed to sync offline data:', error);
-                    this.showToast('Sync failed. Will try again later.', 'error');
                 }
             }
 
@@ -2708,11 +2636,11 @@
                         </div>
                         <div class="progress-bar-bg">
                             <div class="progress-bar"
-                                    style="width: ${percentage}%; background-color: ${lt.color};"
-                                    role="progressbar"
-                                    aria-valuenow="${usedDays}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="${totalDays}">
+                                 style="width: ${percentage}%; background-color: ${lt.color};"
+                                 role="progressbar"
+                                 aria-valuenow="${usedDays}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="${totalDays}">
                             </div>
                             <div class="progress-percentage">${Math.round(percentage)}%</div>
                         </div>
