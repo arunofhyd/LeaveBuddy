@@ -604,14 +604,12 @@
             -ms-overflow-style: none;
             -webkit-mask-image: none;
             mask-image: none;
-            -webkit-mask-mode: initial;
-            mask-mode: initial;
         }
         
         /* Larger gap for pills on PC */
         @media (min-width: 1024px) {
             .leave-type-pills-container {
-                gap: 12px; /* Adjusted gap */
+                gap: 12px;
             }
         }
         
@@ -634,7 +632,7 @@
             box-shadow: var(--shadow-soft);
             position: relative;
             overflow: hidden;
-            min-height: 36px; /* Made smaller */
+            min-height: 36px;
             white-space: nowrap;
             flex-shrink: 0;
         }
@@ -735,7 +733,7 @@
         /* PC specific weekday header styles */
         @media (min-width: 1024px) { 
             .calendar-weekdays {
-                font-size: 1.1em; 
+                font-size: 1.1em;
                 padding: 1rem 0.5rem; 
                 margin-bottom: 20px; 
             }
@@ -755,7 +753,7 @@
         /* Mobile specific calendar grid gap */
         @media (max-width: 767px) {
             .calendar-grid {
-                gap: 6px; 
+                gap: 6px;
                 padding: 0; 
             }
             .calendar-weekdays {
@@ -772,18 +770,18 @@
         /* PC specific calendar grid gap */
         @media (min-width: 1024px) { 
             .calendar-grid {
-                gap: 1.5rem; 
+                gap: 1.5rem;
             }
         }
         
         @media (min-width: 1280px) { 
             .calendar-grid {
-                gap: 2rem; 
+                gap: 2rem;
             }
         }
         
         .day-cell {
-            aspect-ratio: 1; 
+            aspect-ratio: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -806,24 +804,24 @@
         /* Mobile specific day cell font size and activity indicator size */
         @media (max-width: 767px) {
             .day-cell {
-                font-size: clamp(12px, 3.5vw, 16px); 
+                font-size: clamp(12px, 3.5vw, 16px);
                 padding: 8px; 
             }
             .day-cell .day-number {
-                font-size: 0.9em; 
+                font-size: 0.9em;
             }
         }
         
         /* PC specific day cell styles */
         @media (min-width: 768px) {
             .day-cell {
-                padding: 12px; 
+                padding: 12px;
             }
         }
         
         @media (min-width: 1024px) { 
             .day-cell {
-                padding: 16px; 
+                padding: 16px;
                 font-size: 1.6em; 
                 border-radius: 50%;
             }
@@ -831,7 +829,7 @@
         
         @media (min-width: 1280px) { 
             .day-cell {
-                padding: 20px; 
+                padding: 20px;
                 font-size: 1.9em; 
             }
         }
@@ -1179,7 +1177,7 @@
         /* Adjust modal content for PC */
         @media (min-width: 768px) {
             .modal-content {
-                max-width: 500px; 
+                max-width: 500px;
                 padding: 32px;
             }
             .modal-header h2 {
@@ -1604,7 +1602,8 @@
             border-radius: 9999px;
             padding: 4px;
             border: 1px solid var(--border-color);
-            width: 150px; /* Fixed width for the toggle */
+            width: 150px;
+            /* Fixed width for the toggle */
         }
         
         .day-type-toggle-option {
@@ -1641,78 +1640,138 @@
         .delete-day-btn:hover {
             transform: scale(1.2);
         }
+        
+        /* ===== SPLASH SCREEN STYLES ===== */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/splashbg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-screen.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-text {
+            width: 80%; /* Adjust as needed */
+            max-width: 300px; /* Limit the max size */
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+<div id="splash-screen" class="splash-screen is-visible">
+    <img src="assets/splashtext.png" alt="Leave Buddy" class="splash-text">
+</div>
 <div id="app-wrapper" class="relative min-h-screen">
     <div id="login-container" class="is-visible min-h-screen flex flex-col items-center justify-center p-4">
         <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
             
             <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
                 <div class="text-center mb-8">
+               
                     <div class="flex items-center justify-center gap-4 mb-6">
                         <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
                     </div>
                     <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
+               
                     <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
                 </div>
                 <div class="space-y-4 text-left">
                     <input type="email" id="email-input" placeholder="Email" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
-                    
+                 
+    
                     <div class="relative">
                         <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
-                        <button type="button" id="password-toggle-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" aria-label="Toggle password visibility">
+                        <button type="button" id="password-toggle-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
+ aria-label="Toggle password visibility">
                             <i id="password-toggle-icon" class="fas fa-eye" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                
+      
+           
                 <div class="flex justify-end">
                     <button id="forgot-password-btn" class="text-sm hover:underline focus:outline-none transition-colors login-text-secondary">Forgot Password?</button>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4">
+             
+    <div class="grid grid-cols-2 gap-4">
                     <button id="email-signin-btn" class="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
                         <span class="button-content">Sign In</span>
                         <i class="fas fa-spinner fa-spin hidden"></i>
-                    </button>
+         
+            </button>
                     <button id="email-signup-btn" class="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center transition-all hover:scale-105">
                         <span class="button-content">Sign Up</span>
                         <i class="fas fa-spinner fa-spin hidden"></i>
-                    </button>
+    
+                 </button>
                 </div>
 
                 <div class="relative flex items-center my-6">
                     <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
-                    <span class="flex-shrink mx-4 text-sm font-medium login-text-secondary">OR</span>
+                    <span class="flex-shrink mx-4 text-sm font-medium 
+ login-text-secondary">OR</span>
                     <div class="flex-grow border-t border-[var(--login-divider-color)]"></div>
                 </div>
 
                 <div class="space-y-4">
                     <button id="google-signin-btn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg flex items-center justify-center text-lg font-semibold transition-all hover:scale-105">
-                        <span class="flex items-center">
+       
+                         <span class="flex items-center">
                             <img src="assets/google.png" class="w-6 h-6 mr-3" alt="Google icon">
                             <span class="button-content">Continue with Google</span>
-                        </span>
+                
+         </span>
                         <i class="fas fa-spinner fa-spin hidden"></i>
                     </button>
                     <button id="anon-continue-btn" class="w-full btn-secondary py-2 px-4 rounded-lg text-lg font-semibold transition-all hover:scale-105">
-                        <div class="flex flex-col items-center">
+              
+                          <div class="flex flex-col items-center">
                             <span>Continue Offline</span>
                             <span class="text-xs font-normal login-text-secondary mt-1">(Saves data only on this device)</span>
-                        </div>
+                     
+    </div>
                     </button>
                 </div>
                 <p id="user-id-display" class="text-xs mt-6 break-all text-center login-text-secondary"></p>
             </div>
             
-            <div class="text-center mt-8 md:mt-12">
+            <div class="text-center mt-8 
+ md:mt-12">
                 <a href="mailto:arunthomas04042001@gmail.com" class="inline-flex items-center gap-2 text-sm login-text-secondary hover:underline transition-colors">
                     <i class="fas fa-envelope"></i>
                     Reach out to the developer
                 </a>
             </div>
-        </div>
+  
+          </div>
 
         <footer class="footer" role="contentinfo"></footer>
     </div>
@@ -1722,131 +1781,164 @@
             <header class="app-header" role="banner">
                 <div class="app-header-content">
                     <div class="flex items-center gap-2">
-                         <button id="theme-toggle-btn" class="header-icon-btn" aria-label="Toggle theme" title="Toggle between light and dark theme">
+              
+             <button id="theme-toggle-btn" class="header-icon-btn" aria-label="Toggle theme" title="Toggle between light and dark theme">
                             <i class="fas fa-sun" aria-hidden="true"></i>
                         </button>
                     </div>
-                    
+    
+                 
                     <div class="app-header-title">
                         <img src="assets/logo.png" alt="Leave Buddy Logo" loading="lazy">
                         <h1>Leave Buddy</h1>
-                    </div>
+         
+             </div>
                     
                     <div class="flex items-center gap-2">
                         <button id="logout-btn" class="header-icon-btn" aria-label="Sign out" title="Sign out">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                
+              <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
             </header>
 
-            <main class="app-container" role="main">
+            <main 
+ class="app-container" role="main">
                 <section class="calendar-section" aria-label="Leave calendar">
                     <div class="calendar-header">
                         <button id="prev-month-btn"
                                 class="calendar-nav-btn"
+  
                                 aria-label="Previous month"
                                 title="Go to previous month">
                             <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                        </button>
+   
+                       </button>
                         <h2 id="month-year"
                             class="month-year-display"
-                            role="button"
+                          
+    role="button"
                             tabindex="0"
                             aria-label="Current month and year, tap to change"
                             title="Tap to select month and year"></h2>
-                        <button id="next-month-btn"
+   
+                       <button id="next-month-btn"
                                 class="calendar-nav-btn"
                                 aria-label="Next month"
-                                title="Go to next month">
+             
+                     title="Go to next month">
                             <i class="fas fa-chevron-right" aria-hidden="true"></i>
                         </button>
                     </div>
 
-                    <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
+   
+                  <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
                         <button id="add-leave-btn-plus"
                                 class="add-leave-btn"
-                                aria-label="Add new leave type"
+                     
+            aria-label="Add new leave type"
                                 title="Add new leave type">
                             <i class="fas fa-plus" aria-hidden="true"></i>
-                        </button>
+                    
+     </button>
                         <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
                     </div>
 
                     <div class="calendar-grid-wrapper">
                         <div class="calendar-weekdays" role="row">
-                            <div role="columnheader">Sun</div>
+   
+                          <div role="columnheader">Sun</div>
                             <div role="columnheader">Mon</div>
                             <div role="columnheader">Tue</div>
-                            <div role="columnheader">Wed</div>
+                
+             <div role="columnheader">Wed</div>
                             <div role="columnheader">Thu</div>
                             <div role="columnheader">Fri</div>
-                            <div role="columnheader">Sat</div>
+                            <div 
+ role="columnheader">Sat</div>
                         </div>
                         <div id="calendar-grid"
                              class="calendar-grid"
-                             role="grid"
+                      
+        role="grid"
                              aria-label="Calendar days">
                         </div>
                     </div>
                 </section>
 
-                <div class="stats-toggle-container">
+   
+              <div class="stats-toggle-container">
                     <button id="toggle-stats-btn"
                             class="stats-panel-toggle-btn"
                             aria-expanded="false"
-                            aria-controls="stats-panel">
+         
+                    aria-controls="stats-panel">
                         <span id="toggle-text">Show Stats</span>
                         <i id="toggle-icon"
                            class="fas fa-chevron-down transition-transform"
+ 
                            aria-hidden="true"></i>
                     </button>
                 </div>
 
                 <section id="stats-panel"
-                         class="stats-panel"
+                     
+         class="stats-panel"
                          aria-label="Leave statistics">
                     <div id="stats-grid" class="stats-grid"></div>
                     <div id="empty-stats-state" class="is-hidden text-center p-8 text-[var(--text-muted)]">
-                        <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
+                       
+  <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
                         <p class="mb-4">Tap the '+' button above to add your first leave type.</p>
                     </div>
                     <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
-                        <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
+             
+                          <h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">
                             Data Management
                         </h3>
                         <div class="flex flex-col gap-4">
-                            <button id="export-data-btn"
+    
+                          <button id="export-data-btn"
                                     class="btn btn-secondary"
-                                    title="Export your leave data">
+                                    title="Export your 
+ leave data">
                                 <i class="fas fa-download" aria-hidden="true"></i>
                                 Export Data
                             </button>
-                            <button id="import-data-btn"
+   
+                           <button id="import-data-btn"
                                     class="btn btn-primary"
-                                    title="Import leave data from file">
+                                    title="Import 
+ leave data from file">
                                 <i class="fas fa-upload" aria-hidden="true"></i>
                                 Import Data
                             </button>
-                            <input type="file"
+ 
+                           <input type="file"
                                    id="upload-data-input"
                                    class="is-hidden"
+  
                                    accept=".json"
                                    aria-label="Select file to import">
                         </div>
-                        <button id="reset-data-btn"
+     
+                   <button id="reset-data-btn"
                                 class="btn btn-danger w-full mt-4"
                                 title="Reset all leave data">
-                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+          
+                      <i class="fas fa-trash-alt" aria-hidden="true"></i>
                             Reset All Data
                         </button>
                     </div>
-                </section>
+     
+           </section>
 
                 <footer class="footer" role="contentinfo">
                     <a href="mailto:arunthomas04042001@gmail.com"
                        title="Contact the developer">
-                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <i 
+ class="fas fa-envelope" aria-hidden="true"></i>
                         Reach out to the developer
                     </a>
                 </footer>
@@ -1855,6 +1947,7 @@
     </div>
 
     <div id="modal-container"
+     
          class="modal-backdrop is-hidden"
          role="dialog"
          aria-modal="true"
@@ -1864,11 +1957,9 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-        // New Firestore imports for cloud data persistence
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-        // Firebase configuration
+ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+ // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDNBa9TBaFXiFqNCQ28jTdyYks63_bOk5I",
             authDomain: "leavebuddyaoh.firebaseapp.com",
@@ -1877,14 +1968,12 @@
             messagingSenderId: "207787772122",
             appId: "1:207787772122:web:19e6751e26580e6925bde3"
         };
-
-        // Initialize Firebase
+ // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app); // Initialize Firestore
+ const db = getFirestore(app); // Initialize Firestore
         const googleProvider = new GoogleAuthProvider();
-
-        // Make Firebase available globally
+ // Make Firebase available globally
         window.firebaseAuth = {
             auth,
             signInWithEmailAndPassword,
@@ -1893,10 +1982,10 @@
             GoogleAuthProvider: googleProvider,
             signOut,
             onAuthStateChanged,
+ 
             sendPasswordResetEmail
         };
-
-        window.firebaseFirestore = {
+ window.firebaseFirestore = {
             db,
             doc,
             setDoc,
@@ -1904,44 +1993,45 @@
             collection,
             onSnapshot
         };
-    </script>
+ </script>
 
     <script>
         'use strict';
-
-        // Application state management and Firebase authentication
+ // Application state management and Firebase authentication
         class LeaveBuddyApp {
             constructor() {
                 this.state = {
                     focusedDate: new Date(),
                     leaveTypes: [],
-                    leaveRecords: {},
+          
+           leaveRecords: {},
                     selectedLeaveType: null,
                     isDragging: false,
                     selectedDates: new Set(),
                     dragMode: null,
-                    statsPanelOpen: false,
+    
+                 statsPanelOpen: false,
                     theme: 'dark',
                     user: null,
                     isOfflineMode: false
                 };
-
-                this.LEAVE_COLORS = [
+ this.LEAVE_COLORS = [
                     '#6366f1', // Indigo
                     '#14b8a6', // Teal
                     '#f59e0b', // Amber
                     '#10b981', // Emerald
-                    '#8b5cf6', // Violet
+          
+           '#8b5cf6', // Violet
                     '#06b6d4', // Cyan
                     '#ec4899', // Pink
                     '#ef4444', // Red
-                    '#ff6363', // Coral
+                    '#ff6363', // 
+ Coral
                     '#00ced1', // Dark Turquoise
                     '#ffd700', // Gold (NEW)
                     '#2e8b57'  // Sea Green (NEW)
                 ];
-
-                this.STORAGE_KEY = 'leaveBuddyState';
+ this.STORAGE_KEY = 'leaveBuddyState';
                 this.elements = {};
                 
                 this.initializeElements();
@@ -1953,126 +2043,142 @@
                 // Get all DOM elements
                 this.elements = {
                     // Containers for fade transition
-                    appWrapper: document.getElementById('app-wrapper'),
+                
+     appWrapper: document.getElementById('app-wrapper'),
                     loginContainer: document.getElementById('login-container'),
                     appContainer: document.getElementById('app-container'),
                     
                     // Login elements
-                    emailInput: document.getElementById('email-input'),
+           
+           emailInput: document.getElementById('email-input'),
                     passwordInput: document.getElementById('password-input'),
                     passwordToggleBtn: document.getElementById('password-toggle-btn'),
                     passwordToggleIcon: document.getElementById('password-toggle-icon'),
                     emailSigninBtn: document.getElementById('email-signin-btn'),
-                    emailSignupBtn: document.getElementById('email-signup-btn'),
+      
+                  emailSignupBtn: document.getElementById('email-signup-btn'),
                     googleSigninBtn: document.getElementById('google-signin-btn'),
                     anonContinueBtn: document.getElementById('anon-continue-btn'),
                     forgotPasswordBtn: document.getElementById('forgot-password-btn'),
                     userIdDisplay: document.getElementById('user-id-display'),
+ 
                     
                     // App elements
                     calendarGrid: document.getElementById('calendar-grid'),
                     monthYearDisplay: document.getElementById('month-year'),
-                    prevMonthBtn: document.getElementById('prev-month-btn'),
+                 
+                 prevMonthBtn: document.getElementById('prev-month-btn'),
                     nextMonthBtn: document.getElementById('next-month-btn'),
                     leaveTypePillContainer: document.getElementById('leave-type-pill-container'),
                     addLeaveBtnPlus: document.getElementById('add-leave-btn-plus'),
                     statsGrid: document.getElementById('stats-grid'),
-                    emptyStatsState: document.getElementById('empty-stats-state'),
+            
+           emptyStatsState: document.getElementById('empty-stats-state'),
                     modalContainer: document.getElementById('modal-container'),
                     modalContent: document.getElementById('modal-content'),
                     exportDataBtn: document.getElementById('export-data-btn'),
                     importDataBtn: document.getElementById('import-data-btn'),
+       
                     uploadDataInput: document.getElementById('upload-data-input'),
                     resetDataBtn: document.getElementById('reset-data-btn'),
                     statsPanel: document.getElementById('stats-panel'),
                     toggleStatsBtn: document.getElementById('toggle-stats-btn'),
                     toggleText: document.getElementById('toggle-text'),
-                    toggleIcon: document.getElementById('toggle-icon'),
+  
+                   toggleIcon: document.getElementById('toggle-icon'),
                     themeToggleBtn: document.getElementById('theme-toggle-btn'),
                     logoutBtn: document.getElementById('logout-btn')
                 };
-            }
+ }
 
             async initializeApp() {
                 this.setupAuthStateListener();
-            }
+ }
 
             waitForFirebase() {
                 return new Promise((resolve, reject) => {
                     const timeout = setTimeout(() => reject(new Error('Firebase timeout')), 10000);
                     
-                    const checkFirebase = () => {
+                  
+                 const checkFirebase = () => {
                         if (window.firebaseAuth && window.firebaseFirestore) {
                             clearTimeout(timeout);
                             resolve();
-                        } else {
+         
+                } else {
                             setTimeout(checkFirebase, 100);
                         }
                     };
-                    
+          
+           
                     checkFirebase();
                 });
-            }
+ }
 
             setupAuthStateListener() {
                 this.waitForFirebase().then(() => {
                     window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
                         this.state.user = user;
-                        // If a user is logged in, use online mode. Otherwise, default to offline mode.
+                    
+     // If a user is logged in, use online mode. Otherwise, default to offline mode.
                         this.state.isOfflineMode = !user;
                         this.elements.userIdDisplay.textContent = '';
                         
-                        if (!this.state.isOfflineMode) {
+      
+                      if (!this.state.isOfflineMode) {
                             this.showMainApp();
                             this.loadData();
-                        } else {
+                        
+ } else {
                             this.showLoginScreen();
                         }
                     });
                 }).catch(error => {
-                    console.error('Firebase initialization failed:', error);
+        
+              console.error('Firebase initialization failed:', error);
                     // Handle case where Firebase isn't available
                     this.state.isOfflineMode = true;
-                    this.showLoginScreen();
+ this.showLoginScreen();
                     this.loadData();
                 });
             }
 
             showLoginScreen() {
                 this.elements.appContainer.classList.remove('is-visible');
-                this.elements.appContainer.classList.add('is-hidden');
+ this.elements.appContainer.classList.add('is-hidden');
 
                 setTimeout(() => {
                     this.elements.loginContainer.classList.remove('is-hidden');
                     this.elements.loginContainer.classList.add('is-visible');
                     this.applyTheme();
                 }, 500);
-            }
+ }
 
             showMainApp() {
                 this.elements.loginContainer.classList.remove('is-visible');
-                this.elements.loginContainer.classList.add('is-hidden');
+ this.elements.loginContainer.classList.add('is-hidden');
 
                 setTimeout(() => {
                     this.elements.appContainer.classList.remove('is-hidden');
                     this.elements.appContainer.classList.add('is-visible');
                     this.applyTheme();
                     this.render();
-                }, 500);
+                }, 
+ 500);
             }
 
             setButtonState(button, isLoading) {
                 const spinner = button.querySelector('.fa-spinner');
-                const content = button.querySelector('.button-content');
+ const content = button.querySelector('.button-content');
 
                 if (isLoading) {
                     if (content) content.classList.add('hidden');
-                    if (spinner) spinner.classList.remove('hidden');
+ if (spinner) spinner.classList.remove('hidden');
                     button.disabled = true;
                     button.style.pointerEvents = 'none';
                 } else {
                     if (content) content.classList.remove('hidden');
-                    if (spinner) spinner.classList.add('hidden');
+ if (spinner) spinner.classList.add('hidden');
                     button.disabled = false;
                     button.style.pointerEvents = 'auto';
                 }
@@ -2081,187 +2187,177 @@
             setupEventListeners() {
                 document.addEventListener('click', (e) => {
                     const isPillOrAddButton = e.target.closest('#leave-type-pill-container') || e.target.closest('#add-leave-btn-plus');
-                    const isCalendarClick = e.target.closest('.calendar-section');
+                    const isCalendarClick 
+ = e.target.closest('.calendar-section');
                     
                     if (!isPillOrAddButton && !isCalendarClick) {
                         if (this.state.selectedLeaveType) {
-                            this.state.selectedLeaveType = null;
+                            this.state.selectedLeaveType 
+ = null;
                             this.renderLeaveTypePills();
                         }
                     }
                 });
-
-                this.elements.passwordToggleBtn?.addEventListener('click', () => {
+ this.elements.passwordToggleBtn?.addEventListener('click', () => {
                     const isPassword = this.elements.passwordInput.type === 'password';
                     this.elements.passwordInput.type = isPassword ? 'text' : 'password';
                     
                     this.elements.passwordToggleIcon.classList.toggle('fa-eye', !isPassword);
-                    this.elements.passwordToggleIcon.classList.toggle('fa-eye-slash', isPassword);
+     
+                this.elements.passwordToggleIcon.classList.toggle('fa-eye-slash', isPassword);
                 });
-
-                this.elements.emailSigninBtn?.addEventListener('click', () => this.handleEmailSignIn());
+ this.elements.emailSigninBtn?.addEventListener('click', () => this.handleEmailSignIn());
                 this.elements.emailSignupBtn?.addEventListener('click', () => this.handleEmailSignUp());
                 this.elements.googleSigninBtn?.addEventListener('click', () => this.handleGoogleSignIn());
                 this.elements.anonContinueBtn?.addEventListener('click', () => this.handleOfflineMode());
                 this.elements.forgotPasswordBtn?.addEventListener('click', () => this.handleForgotPassword());
-
-                this.elements.leaveTypePillContainer?.addEventListener('click', (e) => {
+ this.elements.leaveTypePillContainer?.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const btn = e.target.closest('button');
                     if (btn && btn.dataset.id) {
                         this.state.selectedLeaveType = btn.dataset.id;
-                        this.renderLeaveTypePills();
+    
+                      this.renderLeaveTypePills();
                         if (navigator.vibrate) navigator.vibrate(30);
                     }
                 });
-
-                this.elements.prevMonthBtn?.addEventListener('click', () => {
+ this.elements.prevMonthBtn?.addEventListener('click', () => {
                     this.state.focusedDate.setMonth(this.state.focusedDate.getMonth() - 1);
                     this.renderCalendar();
                 });
-
-                this.elements.nextMonthBtn?.addEventListener('click', () => {
+ this.elements.nextMonthBtn?.addEventListener('click', () => {
                     this.state.focusedDate.setMonth(this.state.focusedDate.getMonth() + 1);
                     this.renderCalendar();
                 });
-
-                this.elements.monthYearDisplay?.addEventListener('click', () => this.showMonthYearPickerModal());
+ this.elements.monthYearDisplay?.addEventListener('click', () => this.showMonthYearPickerModal());
                 this.elements.addLeaveBtnPlus?.addEventListener('click', () => {
                     this.state.selectedLeaveType = null;
                     this.renderLeaveTypePills();
                     this.showLeaveTypeModal();
                 });
-
-                this.elements.toggleStatsBtn?.addEventListener('click', () => {
+ this.elements.toggleStatsBtn?.addEventListener('click', () => {
                     this.state.statsPanelOpen = !this.state.statsPanelOpen;
                     this.elements.statsPanel.classList.toggle('open', this.state.statsPanelOpen);
                     this.elements.toggleText.textContent = this.state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
                     this.elements.toggleIcon.classList.toggle('fa-chevron-down', !this.state.statsPanelOpen);
-                    this.elements.toggleIcon.classList.toggle('fa-chevron-up', this.state.statsPanelOpen);
+     
+                this.elements.toggleIcon.classList.toggle('fa-chevron-up', this.state.statsPanelOpen);
                     this.elements.toggleStatsBtn.setAttribute('aria-expanded', this.state.statsPanelOpen);
                 });
-
-                this.elements.themeToggleBtn?.addEventListener('click', () => this.toggleTheme());
+ this.elements.themeToggleBtn?.addEventListener('click', () => this.toggleTheme());
                 this.elements.logoutBtn?.addEventListener('click', () => this.handleSignOut());
 
                 this.elements.statsGrid?.addEventListener('click', (e) => {
                     const target = e.target.closest('[data-action="edit-leave-type-stats"]');
                     if (target) {
                         const id = target.dataset.id;
-                        const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
+                 
+                 const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
                         if (leaveType) this.showLeaveTypeModal(leaveType);
                     }
                 });
-
-                this.elements.exportDataBtn?.addEventListener('click', () => this.exportData());
+ this.elements.exportDataBtn?.addEventListener('click', () => this.exportData());
                 this.elements.importDataBtn?.addEventListener('click', () => this.elements.uploadDataInput.click());
                 this.elements.uploadDataInput?.addEventListener('change', (e) => this.importData(e));
                 this.elements.resetDataBtn?.addEventListener('click', () => this.showResetConfirmation());
-
-                this.elements.modalContent?.addEventListener('click', (e) => {
+ this.elements.modalContent?.addEventListener('click', (e) => {
                     this.handleModalActions(e);
                 });
-                
-                document.addEventListener('keydown', (e) => {
+ document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && !this.elements.modalContainer.classList.contains('is-hidden')) {
                         this.hideModal();
                     }
                 });
-                
-                this.elements.modalContainer?.addEventListener('click', (e) => {
+ this.elements.modalContainer?.addEventListener('click', (e) => {
                     if (e.target === this.elements.modalContainer) this.hideModal();
                 });
-
-                [this.elements.emailInput, this.elements.passwordInput].forEach(input => {
+ this.elements.emailInput, this.elements.passwordInput].forEach(input => {
                     input?.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter') this.handleEmailSignIn();
                     });
                 });
-            }
+ }
 
             async handleEmailSignIn() {
                 const email = this.elements.emailInput.value.trim();
-                const password = this.elements.passwordInput.value;
+ const password = this.elements.passwordInput.value;
 
                 if (!email || !password) {
                     this.showToast('Please enter both email and password', 'error');
-                    return;
+ return;
                 }
 
                 this.setButtonState(this.elements.emailSigninBtn, true);
-
-                try {
+ try {
                     await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth.auth, email, password);
-                    this.showToast('Successfully signed in!', 'success');
+ this.showToast('Successfully signed in!', 'success');
                 } catch (error) {
                     console.error('Sign in error:', error);
-                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+ this.showToast(this.getAuthErrorMessage(error.code), 'error');
                     this.setButtonState(this.elements.emailSigninBtn, false);
                 }
             }
 
             async handleEmailSignUp() {
                 const email = this.elements.emailInput.value.trim();
-                const password = this.elements.passwordInput.value;
+ const password = this.elements.passwordInput.value;
 
                 if (!email || !password) {
                     this.showToast('Please enter both email and password', 'error');
-                    return;
+ return;
                 }
 
                 if (password.length < 6) {
                     this.showToast('Password must be at least 6 characters', 'error');
-                    return;
+ return;
                 }
 
                 this.setButtonState(this.elements.emailSignupBtn, true);
-
-                try {
+ try {
                     await window.firebaseAuth.createUserWithEmailAndPassword(window.firebaseAuth.auth, email, password);
-                    this.showToast('Account created successfully!', 'success');
+ this.showToast('Account created successfully!', 'success');
                 } catch (error) {
                     console.error('Sign up error:', error);
-                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+ this.showToast(this.getAuthErrorMessage(error.code), 'error');
                     this.setButtonState(this.elements.emailSignupBtn, false);
                 }
             }
 
             async handleGoogleSignIn() {
                 this.setButtonState(this.elements.googleSigninBtn, true);
-
-                try {
+ try {
                     await window.firebaseAuth.signInWithPopup(window.firebaseAuth.auth, window.firebaseAuth.GoogleAuthProvider);
-                    this.showToast('Successfully signed in with Google!', 'success');
+ this.showToast('Successfully signed in with Google!', 'success');
                 } catch (error) {
                     console.error('Google sign in error:', error);
-                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+ this.showToast(this.getAuthErrorMessage(error.code), 'error');
                     this.setButtonState(this.elements.googleSigninBtn, false);
                 }
             }
 
             handleOfflineMode() {
                 this.state.isOfflineMode = true;
-                this.state.user = null;
+ this.state.user = null;
                 this.elements.userIdDisplay.textContent = '';
                 this.loadStateFromLocalStorage();
                 this.showMainApp();
                 this.showToast('Continuing offline - data will be saved locally', 'info');
-            }
+ }
 
             async handleForgotPassword() {
                 const email = this.elements.emailInput.value.trim();
-                if (!email) {
+ if (!email) {
                     this.showToast('Please enter your email address first', 'error');
-                    this.elements.emailInput.focus();
+ this.elements.emailInput.focus();
                     return;
                 }
 
                 try {
                     await window.firebaseAuth.sendPasswordResetEmail(window.firebaseAuth.auth, email);
-                    this.showToast('Password reset email sent! Check your inbox.', 'success');
+ this.showToast('Password reset email sent! Check your inbox.', 'success');
                 } catch (error) {
                     console.error('Password reset error:', error);
-                    this.showToast(this.getAuthErrorMessage(error.code), 'error');
+ this.showToast(this.getAuthErrorMessage(error.code), 'error');
                 }
             }
 
@@ -2269,15 +2365,15 @@
                 try {
                     if (this.state.isOfflineMode) {
                         this.state.isOfflineMode = false;
-                        this.showLoginScreen();
+ this.showLoginScreen();
                         this.showToast('Signed out of offline mode', 'info');
                     } else {
                         await window.firebaseAuth.signOut(window.firebaseAuth.auth);
-                        this.showToast('Successfully signed out', 'success');
+ this.showToast('Successfully signed out', 'success');
                     }
                 } catch (error) {
                     console.error('Sign out error:', error);
-                    this.showToast('Failed to sign out', 'error');
+ this.showToast('Failed to sign out', 'error');
                 }
             }
 
@@ -2285,80 +2381,87 @@
                 const errorMessages = {
                     'auth/user-not-found': 'No account found with this email address',
                     'auth/wrong-password': 'Incorrect password',
-                    'auth/email-already-in-use': 'An account with this email already exists',
+  
+                   'auth/email-already-in-use': 'An account with this email already exists',
                     'auth/weak-password': 'Password is too weak',
                     'auth/invalid-email': 'Invalid email address',
                     'auth/popup-closed-by-user': 'Sign-in popup was closed before completion',
-                    'auth/cancelled-popup-request': 'Sign-in was cancelled',
-                    'auth/too-many-requests': 'Too many attempts. Please try again later',
+  
+                   'auth/cancelled-popup-request': 'Sign-in was cancelled',
+                    'auth/too-many-requests': 'Too many attempts.
+ Please try again later',
                 };
-                return errorMessages[errorCode] || 'Authentication failed. Please try again.';
+ return errorMessages[errorCode] || 'Authentication failed. Please try again.';
             }
 
             async loadData() {
                 if (!this.state.isOfflineMode && this.state.user) {
                     await this.loadDataFromFirestore();
-                } else {
+ } else {
                     this.loadStateFromLocalStorage();
-                }
+ }
                 this.render();
-            }
+ }
 
             async loadDataFromFirestore() {
                 try {
                     const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
-                    const docSnap = await window.firebaseFirestore.getDoc(userDocRef);
+ const docSnap = await window.firebaseFirestore.getDoc(userDocRef);
 
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        this.state.leaveTypes = data.leaveTypes || [];
+ this.state.leaveTypes = data.leaveTypes || [];
                         this.state.leaveRecords = data.leaveRecords || {};
                         this.state.theme = data.theme || 'dark';
-                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
+ this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                         this.showToast('Data loaded from cloud!', 'success');
-                    } else {
+ } else {
                         this.showToast('No cloud data found. Checking local storage.', 'info');
-                        this.loadStateFromLocalStorage();
+ this.loadStateFromLocalStorage();
                         if (this.state.leaveTypes.length > 0) {
                             this.showToast('Local data found. Saving to cloud...', 'info');
-                            await this.saveStateToFirestore();
+ await this.saveStateToFirestore();
                         }
                     }
                 } catch (error) {
                     console.error("Error fetching Firestore data:", error);
-                    this.showToast('Failed to load data from cloud. Falling back to local storage.', 'error');
+ this.showToast('Failed to load data from cloud. Falling back to local storage.', 'error');
                     this.loadStateFromLocalStorage();
-                }
+ }
             }
 
             loadStateFromLocalStorage() {
                 try {
                     const saved = localStorage.getItem(this.STORAGE_KEY);
-                    if (saved) {
+ if (saved) {
                         const parsedState = JSON.parse(saved);
-                        this.state.leaveTypes = parsedState.leaveTypes || [];
+ this.state.leaveTypes = parsedState.leaveTypes || [];
                         
                         if (parsedState.leaveRecords) {
                             this.state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
                                 acc[date] = typeof value === 'string'
-                                    ? { typeId: value, isHalfDay: false }
+                      
+                ? { typeId: value, isHalfDay: false }
                                     : value; 
                                 return acc;
-                            }, {});
-                        }
+         
+                   }, {});
+ }
                         
-                        this.state.theme = parsedState.theme || 'dark';
+                        this.state.theme = parsedState.theme ||
+ 'dark';
                         this.showToast('Data loaded from local storage!', 'success');
                     } else {
                         this.state.leaveTypes = [];
-                        this.state.leaveRecords = {};
+ this.state.leaveRecords = {};
                         this.state.theme = 'dark';
                         this.showToast('No local data found. Starting fresh.', 'info');
-                    }
-                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
+ }
+                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ?
+ this.state.leaveTypes[0].id : null;
                 } catch (error) {
                     console.error('Failed to load state from local storage:', error);
-                    localStorage.removeItem(this.STORAGE_KEY);
+ localStorage.removeItem(this.STORAGE_KEY);
                     this.showToast('Failed to load saved data', 'error');
                 }
             }
@@ -2367,413 +2470,432 @@
                 const dataToSave = {
                     leaveTypes: this.state.leaveTypes,
                     leaveRecords: this.state.leaveRecords,
-                    theme: this.state.theme,
+      
+                  theme: this.state.theme,
                     version: '1.1'
                 };
-
-                if (!this.state.isOfflineMode && this.state.user) {
+ if (!this.state.isOfflineMode && this.state.user) {
                     await this.saveStateToFirestore(dataToSave);
-                } else {
+ } else {
                     this.saveStateToLocalStorage(dataToSave);
-                }
+ }
             }
             
             async saveStateToFirestore(dataToSave) {
                 try {
                     const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
-                    await window.firebaseFirestore.setDoc(userDocRef, dataToSave);
+ await window.firebaseFirestore.setDoc(userDocRef, dataToSave);
                     this.showToast('Data saved to cloud!', 'success');
                 } catch (error) {
                     console.error('Failed to save state to Firestore:', error);
-                    this.showToast('Failed to save data to cloud.', 'error');
+ this.showToast('Failed to save data to cloud.', 'error');
                 }
             }
 
             saveStateToLocalStorage(dataToSave) {
                 try {
                     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToSave));
-                    this.showToast('Data saved locally!', 'success');
+ this.showToast('Data saved locally!', 'success');
                 } catch (error) {
                     console.error('Failed to save state locally:', error);
-                    this.showToast('Failed to save data locally', 'error');
+ this.showToast('Failed to save data locally', 'error');
                 }
             }
 
             toggleTheme() {
-                this.state.theme = this.state.theme === 'dark' ? 'light' : 'dark';
+                this.state.theme = this.state.theme === 'dark' ?
+ 'light' : 'dark';
                 this.applyTheme();
                 this.saveState();
             }
 
             applyTheme() {
                 document.body.classList.toggle('light-theme', this.state.theme === 'light');
-                const icon = this.state.theme === 'light' ? 'fa-moon' : 'fa-sun';
-                if (this.elements.themeToggleBtn) {
+ const icon = this.state.theme === 'light' ? 'fa-moon' : 'fa-sun';
+ if (this.elements.themeToggleBtn) {
                     this.elements.themeToggleBtn.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i>`;
-                }
-                const themeColor = this.state.theme === 'light' ? '#f8fafc' : '#1e293b';
+ }
+                const themeColor = this.state.theme === 'light' ?
+ '#f8fafc' : '#1e293b';
                 document.querySelector('meta[name="theme-color"]').content = themeColor;
                 this.applyLoginTheme();
             }
             
             applyLoginTheme() {
                 const loginContainer = this.elements.loginContainer;
-                if (this.state.theme === 'light') {
+ if (this.state.theme === 'light') {
                     loginContainer.classList.add('light-theme-login');
-                    loginContainer.classList.remove('dark-theme-login');
+ loginContainer.classList.remove('dark-theme-login');
                 } else {
                     loginContainer.classList.add('dark-theme-login');
-                    loginContainer.classList.remove('light-theme-login');
+ loginContainer.classList.remove('light-theme-login');
                 }
             }
 
             showToast(message, type = 'info') {
                 const existingToast = document.querySelector('.toast');
-                if (existingToast) {
+ if (existingToast) {
                     existingToast.remove();
-                }
+ }
                 
                 const iconMap = {
                     success: 'fa-check-circle',
                     error: 'fa-exclamation-triangle',
                     info: 'fa-info-circle'
+  
                 };
                 
                 const toast = document.createElement('div');
-                toast.className = `toast toast-${type}`;
+ toast.className = `toast toast-${type}`;
                 toast.innerHTML = `
                     <i class="fas ${iconMap[type]}" aria-hidden="true"></i>
                     <span>${message}</span>
                 `;
-                document.body.appendChild(toast);
+ document.body.appendChild(toast);
                 
                 requestAnimationFrame(() => {
                     toast.classList.add('show');
                     if (navigator.vibrate) {
                         navigator.vibrate(type === 'error' ? [100, 50, 100] : 50);
                     }
-                });
-
-                setTimeout(() => {
+   
+               });
+ setTimeout(() => {
                     toast.classList.remove('show');
                     setTimeout(() => toast.remove(), 500);
                 }, 4000);
-            }
+ }
 
             showModal(title, content) {
                 this.elements.modalContainer.classList.remove('is-hidden');
-                this.elements.modalContainer.setAttribute('aria-hidden', 'false');
+ this.elements.modalContainer.setAttribute('aria-hidden', 'false');
                 this.elements.modalContent.innerHTML = `
                     <div class="modal-header">
                         <h2>${title}</h2>
                         <button class="close-modal-btn"
-                                data-action="close-modal"
+                          
+             data-action="close-modal"
                                 aria-label="Close modal">
                             <i class="fas fa-times" aria-hidden="true"></i>
                         </button>
-                    </div>
+      
+                 </div>
                     ${content}
                 `;
-                
-                const firstFocusable = this.elements.modalContent.querySelector('input, button, select, textarea');
+ const firstFocusable = this.elements.modalContent.querySelector('input, button, select, textarea');
                 if (firstFocusable) {
                     setTimeout(() => firstFocusable.focus(), 100);
-                }
+ }
                 
                 document.body.style.overflow = 'hidden';
-            }
+ }
 
             hideModal() {
                 this.elements.modalContainer.classList.add('is-hidden');
-                this.elements.modalContainer.setAttribute('aria-hidden', 'true');
+ this.elements.modalContainer.setAttribute('aria-hidden', 'true');
                 this.elements.modalContent.innerHTML = '';
                 document.body.style.overflow = '';
             }
 
             toISODateString(date) {
                 const pad = num => (num < 10 ? '0' : '') + num;
-                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+ return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
             }
 
             generateId() {
                 return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            }
+ }
 
             render() {
                 this.renderCalendar();
-                this.renderStats();
+ this.renderStats();
             }
 
             renderCalendar() {
                 this.renderLeaveTypePills();
-                this.renderCalendarGrid();
+ this.renderCalendarGrid();
                 this.setupTouchInteractions();
             }
 
             renderLeaveTypePills() {
                 if (!this.elements.leaveTypePillContainer) return;
-                
-                const pillsHtml = this.state.leaveTypes.map(lt => {
+ const pillsHtml = this.state.leaveTypes.map(lt => {
                     const isSelected = this.state.selectedLeaveType === lt.id;
                     const colorStyle = `background-color: ${lt.color};`;
                     return `
-                        <button class="leave-type-pill ${isSelected ? 'active' : ''}"
+                        <button 
+ class="leave-type-pill ${isSelected ? 'active' : ''}"
                                 data-id="${lt.id}"
                                 style="${colorStyle}"
-                                role="radio"
+                               
+  role="radio"
                                 aria-checked="${isSelected}"
                                 title="Select ${lt.name}">
                             ${lt.name}
-                        </button>
+      
+                   </button>
                     `;
-                }).join('');
-                this.elements.leaveTypePillContainer.innerHTML = pillsHtml;
+ }).join('');
+ this.elements.leaveTypePillContainer.innerHTML = pillsHtml;
             }
 
             renderCalendarGrid() {
                 if (!this.elements.calendarGrid || !this.elements.monthYearDisplay) return;
-                
-                const year = this.state.focusedDate.getFullYear();
+ const year = this.state.focusedDate.getFullYear();
                 const month = this.state.focusedDate.getMonth();
                 this.elements.monthYearDisplay.textContent = `${this.state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
-                
-                const firstDayOfMonth = new Date(year, month, 1);
+ const firstDayOfMonth = new Date(year, month, 1);
                 const lastDayOfMonth = new Date(year, month + 1, 0);
                 const firstDayIndex = firstDayOfMonth.getDay();
-                const todayStr = this.toISODateString(new Date());
+ const todayStr = this.toISODateString(new Date());
 
                 this.elements.calendarGrid.innerHTML = '';
 
                 for (let i = 0; i < firstDayIndex; i++) {
                     const emptyDiv = document.createElement('div');
-                    emptyDiv.className = 'day-cell other-month';
+ emptyDiv.className = 'day-cell other-month';
                     emptyDiv.setAttribute('aria-hidden', 'true');
                     this.elements.calendarGrid.appendChild(emptyDiv);
                 }
 
                 for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                     const dayDate = new Date(year, month, i);
-                    const dayStr = this.toISODateString(dayDate);
+ const dayStr = this.toISODateString(dayDate);
                     const dayEl = document.createElement('div');
                     dayEl.className = 'day-cell';
                     dayEl.innerHTML = `<span class="day-number">${i}</span>`;
                     dayEl.dataset.date = dayStr;
                     dayEl.setAttribute('role', 'gridcell');
-                    dayEl.setAttribute('tabindex', '0');
+ dayEl.setAttribute('tabindex', '0');
                     dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()}`);
 
                     if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
                     if (dayStr === todayStr) dayEl.classList.add('today');
 
                     const leaveRecord = this.state.leaveRecords[dayStr];
-                    if (leaveRecord) {
+ if (leaveRecord) {
                         const leaveType = this.state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
-                        if (leaveType) {
+ if (leaveType) {
                             if (leaveRecord.isHalfDay) {
                                 dayEl.classList.add('half-day');
-                                dayEl.style.setProperty('--leave-color', leaveType.color);
+ dayEl.style.setProperty('--leave-color', leaveType.color);
                                 dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()} - Half day ${leaveType.name}`);
                             } else {
                                 dayEl.style.backgroundColor = leaveType.color;
-                                dayEl.classList.add('has-leave');
+ dayEl.classList.add('has-leave');
                                 dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()} - Full day ${leaveType.name}`);
                             }
                         }
                     }
                     this.elements.calendarGrid.appendChild(dayEl);
-                }
+ }
             }
 
             renderStats() {
                 if (!this.elements.statsGrid || !this.elements.emptyStatsState) return;
-                
-                if (this.state.leaveTypes.length === 0) {
+ if (this.state.leaveTypes.length === 0) {
                     this.elements.statsGrid.classList.add('is-hidden');
-                    this.elements.emptyStatsState.classList.remove('is-hidden');
+ this.elements.emptyStatsState.classList.remove('is-hidden');
                     return;
                 }
                 
                 this.elements.statsGrid.classList.remove('is-hidden');
-                this.elements.emptyStatsState.classList.add('is-hidden');
+ this.elements.emptyStatsState.classList.add('is-hidden');
                 this.elements.statsGrid.innerHTML = '';
 
                 this.state.leaveTypes.forEach(lt => {
                     const usedDays = Object.values(this.state.leaveRecords)
                         .filter(record => record.typeId === lt.id)
                         .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-                    
+         
+           
                     const totalDays = lt.total;
                     const remaining = Math.max(0, totalDays - usedDays);
                     const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
-                    
-                    const card = document.createElement('div');
+       
+                          const card = document.createElement('div');
                     card.className = 'stats-card';
                     card.style.setProperty('--card-color', lt.color);
-                    card.innerHTML = `
+                    card.innerHTML 
+ = `
                         <div class="flex items-center justify-between mb-4">
                             <h3>${lt.name}</h3>
                             <button class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-2 rounded-full hover:bg-[var(--bg-tertiary)]"
-                                    data-action="edit-leave-type-stats"
+         
+                            data-action="edit-leave-type-stats"
                                     data-id="${lt.id}"
-                                    aria-label="Edit ${lt.name}"
+                                    aria-label="Edit 
+ ${lt.name}"
                                     title="Edit leave type">
                                 <i class="fas fa-edit" aria-hidden="true"></i>
-                            </button>
+                           
+  </button>
                         </div>
                         <div class="balance-info">
                             <div class="balance-item used">
-                                <span class="balance-number">${usedDays.toFixed(1)}</span>
+                    
+             <span class="balance-number">${usedDays.toFixed(1)}</span>
                                 <span class="balance-label">Used</span>
                             </div>
-                            <div class="balance-item remaining">
+                          
+    <div class="balance-item remaining">
                                 <span class="balance-number">${remaining.toFixed(1)}</span>
                                 <span class="balance-label">Remaining</span>
                             </div>
-                            <div class="balance-item">
+  
+                           <div class="balance-item">
                                 <span class="balance-number">${totalDays}</span>
                                 <span class="balance-label">Total</span>
-                            </div>
+       
+                      </div>
                         </div>
                         <div class="progress-bar-bg">
                             <div class="progress-bar"
-                                 style="width: ${percentage}%; background-color: ${lt.color};"
+ 
+                                 style="width: ${percentage}%;
+ background-color: ${lt.color};"
                                  role="progressbar"
                                  aria-valuenow="${usedDays}"
-                                 aria-valuemin="0"
+                                 
+ aria-valuemin="0"
                                  aria-valuemax="${totalDays}">
                             </div>
                             <div class="progress-percentage">${Math.round(percentage)}%</div>
-                        </div>
+          
+                </div>
                     `;
                     this.elements.statsGrid.appendChild(card);
                 });
             }
 
             setupTouchInteractions() {
-                if (!this.elements.calendarGrid) return;
+     
+           if (!this.elements.calendarGrid) return;
                 
                 let touchStartCell = null;
                 let isTouch = false;
                 let isMouseDown = false;
+              
                 let mouseStartCell = null;
 
                 const handleDragStart = (cell) => {
                     if (!cell || cell.classList.contains('other-month')) return false;
                     if (!this.state.selectedLeaveType) {
-                        this.showToast('Please select a leave type first!', 'info');
+                        this.showToast('Please select a 
+ leave type first!', 'info');
                         return false;
                     }
                     this.state.selectedDates.clear();
-                    const dateStr = cell.dataset.date;
+ const dateStr = cell.dataset.date;
                     const recordExists = this.state.leaveRecords[dateStr];
                     this.state.dragMode = (recordExists && recordExists.typeId === this.state.selectedLeaveType) ? 'remove' : 'add';
                     this.state.selectedDates.add(dateStr);
-                    this.updateDragVisuals();
+ this.updateDragVisuals();
                     if (navigator.vibrate) navigator.vibrate(50);
                     return true;
                 };
 
                 const handleDragMove = (cell) => {
                     if (!cell || cell.classList.contains('other-month')) return;
-                    const startCell = isTouch ? touchStartCell : mouseStartCell;
+ const startCell = isTouch ? touchStartCell : mouseStartCell;
                     if (!startCell) return;
                     this.state.selectedDates.clear();
                     const dates = this.getDatesBetween(startCell.dataset.date, cell.dataset.date);
                     dates.forEach(d => this.state.selectedDates.add(d));
-                    this.updateDragVisuals();
+ this.updateDragVisuals();
                 };
 
                 const handleDragEnd = () => {
                     if (this.state.selectedDates.size > 0) {
                         this.applySelectedDates();
-                    }
+ }
                     this.updateDragVisuals();
-                };
+ };
 
                 this.elements.calendarGrid.addEventListener('touchstart', (e) => {
                     const targetCell = e.target.closest('.day-cell');
                     if (handleDragStart(targetCell)) {
                         e.preventDefault();
                         isTouch = true;
+ 
                         touchStartCell = targetCell;
                     }
                 }, { passive: false });
-
-                this.elements.calendarGrid.addEventListener('touchmove', (e) => {
+ this.elements.calendarGrid.addEventListener('touchmove', (e) => {
                     if (!isTouch) return;
                     e.preventDefault();
                     const touch = e.touches[0];
                     const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-                    handleDragMove(targetElement?.closest('.day-cell'));
+        
+              handleDragMove(targetElement?.closest('.day-cell'));
                 }, { passive: false });
-
-                this.elements.calendarGrid.addEventListener('touchend', (e) => {
+ this.elements.calendarGrid.addEventListener('touchend', (e) => {
                     if (isTouch) {
                         e.preventDefault();
                         handleDragEnd();
                     }
-                    isTouch = false;
+       
+                isTouch = false;
                     touchStartCell = null;
                 });
-
-                this.elements.calendarGrid.addEventListener('mousedown', (e) => {
+ this.elements.calendarGrid.addEventListener('mousedown', (e) => {
                     if (isTouch) return;
                     const targetCell = e.target.closest('.day-cell');
                     if (handleDragStart(targetCell)) {
                         e.preventDefault();
-                        isMouseDown = true;
+      
+                     isMouseDown = true;
                         mouseStartCell = targetCell;
                     }
                 });
-
-                this.elements.calendarGrid.addEventListener('mouseover', (e) => {
+ this.elements.calendarGrid.addEventListener('mouseover', (e) => {
                     if (!isMouseDown || isTouch) return;
                     handleDragMove(e.target.closest('.day-cell'));
                 });
-
-                document.addEventListener('mouseup', () => {
+ document.addEventListener('mouseup', () => {
                     if (isMouseDown && !isTouch) {
                         handleDragEnd();
                     }
                     isMouseDown = false;
-                    mouseStartCell = null;
+       
+                mouseStartCell = null;
                 });
-            }
+ }
 
             getDatesBetween(startStr, endStr) {
                 const dates = [];
-                let start = new Date(startStr);
+ let start = new Date(startStr);
                 let end = new Date(endStr);
                 if (start > end) [start, end] = [end, start];
-                let current = new Date(start);
+ let current = new Date(start);
                 while (current <= end) {
                     dates.push(this.toISODateString(current));
-                    current.setDate(current.getDate() + 1);
+ current.setDate(current.getDate() + 1);
                 }
                 return dates;
-            }
+ }
 
             updateDragVisuals() {
                 if (!this.elements.calendarGrid) return;
-                document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
+ document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
                     const dateStr = cell.dataset.date;
                     cell.classList.toggle('selected', this.state.selectedDates.has(dateStr));
                 });
-            }
+ }
 
             applySelectedDates() {
                 if (this.state.selectedDates.size === 0 || !this.state.selectedLeaveType) return;
-
-                if (this.state.dragMode === 'add') {
+ if (this.state.dragMode === 'add') {
                     this.showHalfDaySelectionModal(Array.from(this.state.selectedDates));
-                } else {
+ } else {
                     const datesToRemove = Array.from(this.state.selectedDates).filter(dateStr => {
                         const record = this.state.leaveRecords[dateStr];
                         return record && record.typeId === this.state.selectedLeaveType;
-                    });
+                 
+                 });
                     if (datesToRemove.length > 0) {
                         datesToRemove.forEach(dateStr => delete this.state.leaveRecords[dateStr]);
-                        this.saveState();
+ this.saveState();
                         this.render();
                         this.showToast(`${datesToRemove.length} day(s) removed!`, 'success');
                     }
@@ -2781,285 +2903,306 @@
             }
 
             showHalfDaySelectionModal(dates) {
-                dates.sort(); 
-                const listItems = dates.map(dateStr => {
+                dates.sort();
+ const listItems = dates.map(dateStr => {
                     const date = new Date(dateStr);
                     const formattedDate = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
                     return `
-                        <li class="day-type-item" data-date="${dateStr}">
+                   
+                <li class="day-type-item" data-date="${dateStr}">
                             <span class="day-type-date">${formattedDate}</span>
                             <div class="flex items-center">
                                 <div class="day-type-toggle">
-                                    <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half Day</button>
+ 
+                                     <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half Day</button>
                                     <button class="day-type-toggle-option active" data-action="toggle-day-type" data-type="full">Full Day</button>
-                                </div>
+                    
+              </div>
                                 <button class="delete-day-btn" data-action="delete-day-from-modal" aria-label="Delete this day">
                                     <i class="fas fa-trash-alt"></i>
-                                </button>
+             
+                    </button>
                             </div>
                         </li>
                     `;
-                }).join('');
+ }).join('');
 
                 const content = `
                     <ul id="half-day-list" class="day-type-list mb-6">${listItems}</ul>
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                         <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-action="save-half-day-selections">
+                  
+                <button type="button" class="btn btn-primary" data-action="save-half-day-selections">
                             <i class="fas fa-save" aria-hidden="true"></i> Save Changes
                         </button>
                     </div>
-                `;
+             
+    `;
                 this.showModal('Select Leave Duration', content);
             }
 
             showLeaveTypeModal(leaveType = null) {
                 const isEditing = !!leaveType;
-                const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
-                const initialName = leaveType ? leaveType.name : '';
+ const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
+                const initialName = leaveType ?
+ leaveType.name : '';
                 const initialTotal = leaveType ? leaveType.total : '';
                 const initialColor = leaveType ? leaveType.color : this.LEAVE_COLORS[0];
-
-                const colorOptions = this.LEAVE_COLORS.map(color => `
+ const colorOptions = this.LEAVE_COLORS.map(color => `
                     <button type="button"
                             class="color-option ${color === initialColor ? 'selected' : ''}"
                             data-color="${color}"
-                            data-action="select-color"
+           
+                       data-action="select-color"
                             style="background-color: ${color};"
                             aria-label="Select color ${color}"
-                            title="Select this color">
+                        
+      title="Select this color">
                     </button>
                 `).join('');
-
-                this.showModal(modalTitle, `
+ this.showModal(modalTitle, `
                     <form class="space-y-6">
                         <div class="form-group">
                             <label for="leave-name" class="form-label">Leave Type Name *</label>
-                            <input type="text" id="leave-name" class="form-input" value="${initialName}" placeholder="e.g., Annual Leave" required>
+                    
+                <input type="text" id="leave-name" class="form-input" value="${initialName}" placeholder="e.g., Annual Leave" required>
                         </div>
                         <div class="form-group">
                             <label for="leave-total" class="form-label">Total Days per Year *</label>
+ 
                             <input type="number" id="leave-total" class="form-input" value="${initialTotal}" placeholder="e.g., 20" min="0" step="0.5" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Choose Color *</label>
+               
+                          <label class="form-label">Choose Color *</label>
                             <div class="color-picker">${colorOptions}</div>
                         </div>
-                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                            ${isEditing ? `
+                        <div class="flex items-center justify-end gap-3 pt-4 border-t 
+ border-[var(--border-color)]">
+                            ${isEditing ?
+ `
                                 <button type="button" class="btn btn-danger" data-action="delete-leave-type" data-id="${leaveType.id}">
                                     <i class="fas fa-trash" aria-hidden="true"></i> Delete
-                                </button>
+                       
+                  </button>
                             ` : ''}
                             <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}">
+                            <button 
+ type="button" class="btn btn-primary" data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}">
                                 <i class="fas fa-save" aria-hidden="true"></i> Save
                             </button>
                         </div>
-                    </form>
+    
+                 </form>
                 `);
-            }
+ }
 
             showMonthYearPickerModal() {
                 const currentYear = this.state.focusedDate.getFullYear();
-                const currentMonth = this.state.focusedDate.getMonth();
+ const currentMonth = this.state.focusedDate.getMonth();
                 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                
-                const monthGrid = monthNames.map((name, index) => `
+ const monthGrid = monthNames.map((name, index) => `
                     <button type="button"
                             class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
                             data-action="select-month-from-picker"
-                            data-month="${index}"
+        
+                      data-month="${index}"
                             aria-pressed="${index === currentMonth}">
                         ${name.substr(0, 3)}
                     </button>
+     
                 `).join('');
-
-                const content = `
+ const content = `
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <button type="button" class="btn btn-secondary" data-action="picker-prev-year" aria-label="Previous year">
-                                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+               
+                 <i class="fas fa-chevron-left" aria-hidden="true"></i>
                             </button>
                             <span id="picker-year-display" class="text-lg sm:text-xl font-bold text-[var(--main-color)]">${currentYear}</span>
-                            <button type="button" class="btn btn-secondary" data-action="picker-next-year" aria-label="Next year">
+                   
+                   <button type="button" class="btn btn-secondary" data-action="picker-next-year" aria-label="Next year">
                                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
                             </button>
-                        </div>
+                      
+    </div>
                         <div class="grid grid-cols-3 gap-2 sm:gap-3">${monthGrid}</div>
                     </div>
                 `;
-
-                this.showModal('Select Month & Year', content);
+ this.showModal('Select Month & Year', content);
             }
 
             updateMonthYearPickerDisplay() {
                 const pickerYearDisplay = document.getElementById('picker-year-display');
-                if (pickerYearDisplay) {
+ if (pickerYearDisplay) {
                     pickerYearDisplay.textContent = this.state.focusedDate.getFullYear();
-                }
+ }
                 const monthButtons = document.querySelectorAll('[data-action="select-month-from-picker"]');
-                const currentMonth = this.state.focusedDate.getMonth();
+ const currentMonth = this.state.focusedDate.getMonth();
                 monthButtons.forEach((btn, index) => {
                     btn.classList.toggle('ring-2', index === currentMonth);
                     btn.classList.toggle('ring-[var(--main-color)]', index === currentMonth);
                     btn.setAttribute('aria-pressed', index === currentMonth);
                 });
-            }
+ }
 
             handleModalActions(e) {
                 e.stopPropagation();
-                const target = e.target.closest('[data-action]');
+ const target = e.target.closest('[data-action]');
                 if (!target) return;
                 const action = target.dataset.action;
                 const id = target.dataset.id;
-
-                switch (action) {
-                    case 'save-leave-type': this.saveLeaveType(id); break;
+ switch (action) {
+                    case 'save-leave-type': this.saveLeaveType(id);
+ break;
                     case 'delete-leave-type': this.showDeleteConfirmation(id); break;
                     case 'confirm-delete-leave': this.deleteLeaveType(id); break;
                     case 'select-color': this.selectColor(target); break;
-                    case 'picker-prev-year':
+ case 'picker-prev-year':
                         this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() - 1);
-                        this.updateMonthYearPickerDisplay();
+ this.updateMonthYearPickerDisplay();
                         break;
                     case 'picker-next-year':
                         this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() + 1);
-                        this.updateMonthYearPickerDisplay();
+ this.updateMonthYearPickerDisplay();
                         break;
                     case 'select-month-from-picker':
                         this.state.focusedDate.setMonth(parseInt(target.dataset.month));
-                        this.hideModal();
+ this.hideModal();
                         this.renderCalendar();
                         break;
                     case 'confirm-reset': this.resetAllData(); break;
                     case 'close-modal': this.hideModal(); break;
-                    case 'toggle-day-type': {
+ case 'toggle-day-type': {
                         const item = target.closest('.day-type-item');
-                        const fullDayBtn = item.querySelector('[data-type="full"]');
+ const fullDayBtn = item.querySelector('[data-type="full"]');
                         const halfDayBtn = item.querySelector('[data-type="half"]');
                         const isFull = target.dataset.type === 'full';
                         fullDayBtn.classList.toggle('active', isFull);
                         halfDayBtn.classList.toggle('active', !isFull);
                         break;
-                    }
+ }
                     case 'delete-day-from-modal': {
                         const item = target.closest('.day-type-item');
-                        if (item) item.remove();
+ if (item) item.remove();
                         this.showToast('Day removed from list.', 'info');
                         break;
                     }
-                    case 'save-half-day-selections': this.saveHalfDaySelections(e); break;
+                    case 'save-half-day-selections': this.saveHalfDaySelections(e);
+ break;
                 }
             }
 
             saveHalfDaySelections(e) {
                 e.preventDefault();
-                const leaveType = this.state.leaveTypes.find(lt => lt.id === this.state.selectedLeaveType);
+ const leaveType = this.state.leaveTypes.find(lt => lt.id === this.state.selectedLeaveType);
                 if (!leaveType) {
                     this.hideModal();
-                    return;
+ return;
                 }
 
                 const dayItems = this.elements.modalContent.querySelectorAll('.day-type-item');
-                let totalDaysToDebit = 0;
+ let totalDaysToDebit = 0;
                 const changes = {};
 
                 dayItems.forEach(item => {
                     const dateStr = item.dataset.date;
                     const isHalfDay = item.querySelector('[data-type="half"]').classList.contains('active');
                     totalDaysToDebit += isHalfDay ? 0.5 : 1;
-                    changes[dateStr] = { typeId: leaveType.id, isHalfDay };
+                  
+                   changes[dateStr] = { typeId: leaveType.id, isHalfDay };
                 });
-
-                const currentUsed = Object.values(this.state.leaveRecords)
+ const currentUsed = Object.values(this.state.leaveRecords)
                     .filter(record => record.typeId === leaveType.id)
                     .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-
-                if (currentUsed + totalDaysToDebit > leaveType.total) {
+ if (currentUsed + totalDaysToDebit > leaveType.total) {
                     this.showToast(`Cannot add ${totalDaysToDebit} day(s). Not enough balance!`, 'error');
-                    return;
+ return;
                 }
 
                 Object.assign(this.state.leaveRecords, changes);
                 this.hideModal();
-                this.saveState();
+ this.saveState();
                 this.render();
                 this.showToast(`${totalDaysToDebit} day(s) added successfully!`, 'success');
             }
 
             saveLeaveType(id) {
                 const nameInput = document.getElementById('leave-name');
-                const totalInput = document.getElementById('leave-total');
+ const totalInput = document.getElementById('leave-total');
                 const selectedColorBtn = document.querySelector('.color-option.selected');
                 
                 if (!nameInput.value.trim() || !totalInput.value || !selectedColorBtn) {
                     this.showToast('Please fill all required fields.', 'error');
-                    return;
+ return;
                 }
                 
                 const name = nameInput.value.trim();
-                const total = parseFloat(totalInput.value);
+ const total = parseFloat(totalInput.value);
                 const color = selectedColorBtn.dataset.color;
                 
                 if (isNaN(total) || total < 0) {
                     this.showToast('Please enter a valid non-negative number of days.', 'error');
-                    totalInput.focus();
+ totalInput.focus();
                     return;
                 }
 
                 if (id) {
                     const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
-                    if (leaveType) {
+ if (leaveType) {
                         leaveType.name = name;
-                        leaveType.total = total;
+ leaveType.total = total;
                         leaveType.color = color;
                         this.showToast('Leave type updated!', 'success');
-                    }
+ }
                 } else {
                     const newId = this.generateId();
-                    this.state.leaveTypes.push({ id: newId, name, total, color });
+ this.state.leaveTypes.push({ id: newId, name, total, color });
                     this.showToast('Leave type created!', 'success');
-                }
+ }
                 
                 this.hideModal();
-                this.saveState();
+ this.saveState();
                 this.render();
             }
 
             selectColor(target) {
                 document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
-                target.classList.add('selected');
+ target.classList.add('selected');
             }
 
             showDeleteConfirmation(id) {
                 const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
-                if (!leaveType) return;
+ if (!leaveType) return;
                 this.showModal('Confirm Deletion', `
                     <div class="space-y-4 text-center">
                         <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
-                        <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
+                 
+                <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
                         <p class="text-sm text-[var(--text-muted)]">This action is permanent and will remove all recorded leave days of this type.</p>
                         <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                            <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                        
+      <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
                             <button type="button" class="btn btn-danger" data-action="confirm-delete-leave" data-id="${id}">
                                 <i class="fas fa-trash" aria-hidden="true"></i> Delete
                             </button>
-                        </div>
+                
+         </div>
                     </div>
                 `);
-            }
+ }
 
             deleteLeaveType(id) {
                 this.state.leaveTypes = this.state.leaveTypes.filter(lt => lt.id !== id);
-                this.state.leaveRecords = Object.fromEntries(
+ this.state.leaveRecords = Object.fromEntries(
                     Object.entries(this.state.leaveRecords).filter(([date, record]) => record.typeId !== id)
                 );
-                if (this.state.selectedLeaveType === id) {
-                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
+ if (this.state.selectedLeaveType === id) {
+                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ?
+ this.state.leaveTypes[0].id : null;
                 }
                 this.hideModal();
-                this.saveState();
+ this.saveState();
                 this.render();
                 this.showToast('Leave type deleted.', 'success');
             }
@@ -3068,90 +3211,101 @@
                 try {
                     const dataToExport = {
                         leaveTypes: this.state.leaveTypes,
-                        leaveRecords: this.state.leaveRecords,
+                
+              leaveRecords: this.state.leaveRecords,
                         theme: this.state.theme,
                         exportDate: new Date().toISOString(),
                         version: '1.1'
-                    };
+               
+               };
                     const dataStr = JSON.stringify(dataToExport, null, 2);
-                    const blob = new Blob([dataStr], { type: 'application/json' });
+ const blob = new Blob([dataStr], { type: 'application/json' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
+ a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
                     a.style.display = 'none';
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
                     this.showToast('Data exported successfully!', 'success');
-                } catch (error) {
+ } catch (error) {
                     console.error('Export error:', error);
-                    this.showToast('Failed to export data', 'error');
+ this.showToast('Failed to export data', 'error');
                 }
             }
 
             importData(e) {
                 const file = e.target.files[0];
-                if (!file) return;
+ if (!file) return;
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     try {
                         const data = JSON.parse(event.target.result);
-                        if (!data.leaveTypes || !Array.isArray(data.leaveTypes) || typeof data.leaveRecords !== 'object') {
+ if (!data.leaveTypes || !Array.isArray(data.leaveTypes) || typeof data.leaveRecords !== 'object') {
                             throw new Error('Invalid file format');
-                        }
+ }
                         this.state.leaveTypes = data.leaveTypes;
-                        this.state.leaveRecords = data.leaveRecords;
+ this.state.leaveRecords = data.leaveRecords;
                         if (data.theme) {
                             this.state.theme = data.theme;
-                            this.applyTheme();
+ this.applyTheme();
                         }
-                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
+                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ?
+ this.state.leaveTypes[0].id : null;
                         this.saveState();
                         this.render();
                         this.showToast('Data imported successfully!', 'success');
                     } catch (error) {
                         console.error('Import error:', error);
-                        this.showToast('Import failed. Please check file format.', 'error');
+ this.showToast('Import failed. Please check file format.', 'error');
                     }
                 };
-                reader.onerror = () => this.showToast('Failed to read the file', 'error');
+ reader.onerror = () => this.showToast('Failed to read the file', 'error');
                 reader.readAsText(file);
                 e.target.value = '';
-            }
+ }
 
             showResetConfirmation() {
                 this.showModal('Confirm Reset', `
                     <div class="space-y-4 text-center">
                         <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
-                        <p class="text-lg font-semibold mb-2">Reset All Data?</p>
+                 
+                <p class="text-lg font-semibold mb-2">Reset All Data?</p>
                         <p class="text-sm text-[var(--text-muted)]">This is permanent. Consider exporting your data first.</p>
                         <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                            <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                        
+      <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
                             <button type="button" class="btn btn-danger" data-action="confirm-reset">
                                 <i class="fas fa-trash-alt" aria-hidden="true"></i> Reset
-                            </button>
+                        
+     </button>
                         </div>
                     </div>
                 `);
-            }
+ }
 
             resetAllData() {
                 this.state.leaveTypes = [];
-                this.state.leaveRecords = {};
+ this.state.leaveRecords = {};
                 this.state.selectedLeaveType = null;
                 this.hideModal();
                 this.saveState();
                 this.render();
                 this.showToast('All data has been reset!', 'success');
-            }
+ }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             window.leaveBuddyApp = new LeaveBuddyApp();
             console.log('Leave Buddy with Firebase Auth initialized successfully!');
         });
-    </script>
+        
+        window.addEventListener('load', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            splashScreen.classList.add('is-hidden');
+        });
+ </script>
 </body>
 </html>
