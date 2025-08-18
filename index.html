@@ -11,12 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="assets/logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="assets/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="assets/logo.png">
-    <link rel="shortcut icon" href="assets/logo.png">
+    <link rel="icon" href="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop" type="image/png">
+    <link rel="apple-touch-icon" href="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=16&h=16&fit=crop">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=48&h=48&fit=crop">
+    <link rel="shortcut icon" href="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop">
     
     <meta name="theme-color" content="#1e293b">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1640,28 +1640,119 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/splashbg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             z-index: 100;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .splash-screen.is-hidden {
+        .splash-screen.fade-out {
             opacity: 0;
-            visibility: hidden;
+            transform: translateY(-20px);
             pointer-events: none;
         }
 
-        .splash-text {
-            width: 80%; /* Adjust as needed */
-            max-width: 300px; /* Limit the max size */
-            animation: fadeIn 1s ease-out forwards;
+        .splash-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--main-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+            animation: splashPulse 2s ease-in-out infinite;
+        }
+
+        .splash-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .splash-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        .swipe-prompt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards, bounce 2s ease-in-out 2.5s infinite;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .swipe-prompt:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.05);
+        }
+
+        .swipe-text {
+            color: var(--main-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .swipe-arrow {
+            font-size: 1.5rem;
+            color: var(--main-color);
+            animation: bounceArrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes splashPulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+            }
+            50% { 
+                transform: scale(1.05); 
+                box-shadow: 0 25px 50px rgba(99, 102, 241, 0.6);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes bounceArrow {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-2px);
+            }
         }
 
         @keyframes fadeIn {
@@ -1674,12 +1765,79 @@
                 transform: translateY(0);
             }
         }
+
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+            margin-top: 2rem;
+        }
+
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--main-color);
+            border-radius: 50%;
+            animation: loadingDot 1.4s ease-in-out infinite both;
+        }
+
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+        .loading-dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes loadingDot {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile optimizations for splash screen */
+        @media (max-width: 768px) {
+            .splash-title {
+                font-size: 2rem;
+            }
+            .splash-subtitle {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .splash-logo {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="splash-screen" class="splash-screen is-visible">
-        <img src="assets/splashtext.png" alt="Leave Buddy" class="splash-text">
+    <!-- Enhanced Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-logo">
+            <i class="fas fa-calendar-check"></i>
+        </div>
+        <h1 class="splash-title">Leave Buddy</h1>
+        <p class="splash-subtitle">Your Personal Leave Management Tool</p>
+        
+        <!-- Loading indicator -->
+        <div id="loading-indicator" class="loading-dots">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+        
+        <!-- Swipe up prompt (hidden initially) -->
+        <div id="swipe-prompt" class="swipe-prompt" style="display: none;">
+            <div class="swipe-text">Swipe up to begin</div>
+            <div class="swipe-arrow">
+                <i class="fas fa-chevron-up"></i>
+            </div>
+        </div>
     </div>
+
     <div id="app-wrapper" class="relative min-h-screen">
         <div id="login-container" class="is-hidden min-h-screen flex flex-col items-center justify-center p-4">
             <div class="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg flex flex-col items-center justify-center">
@@ -1688,7 +1846,9 @@
                     <div class="text-center mb-8">
                     
                         <div class="flex items-center justify-center gap-4 mb-6">
-                            <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-calendar-check text-white text-2xl"></i>
+                            </div>
                         </div>
                         <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
                     
@@ -1737,7 +1897,9 @@
                         <button id="google-signin-btn" class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg flex items-center justify-center text-lg font-semibold transition-all hover:scale-105">
                 
                             <span class="flex items-center">
-                                <img src="assets/google.png" class="w-6 h-6 mr-3" alt="Google icon">
+                                <div class="w-6 h-6 mr-3 bg-gradient-to-r from-blue-500 via-red-500 to-yellow-500 rounded flex items-center justify-center">
+                                    <i class="fab fa-google text-white text-sm"></i>
+                                </div>
                                 <span class="button-content">Continue with Google</span>
                         
                 </span>
@@ -1780,7 +1942,9 @@
         
                       
                         <div class="app-header-title">
-                            <img src="assets/logo.png" alt="Leave Buddy Logo" loading="lazy">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-calendar-check text-white"></i>
+                            </div>
                             <h1>Leave Buddy</h1>
               
                 </div>
@@ -2004,7 +2168,8 @@
                         statsPanelOpen: false,
                         theme: 'dark',
                         user: null,
-                        isOfflineMode: false
+                        isOfflineMode: false,
+                        isInitialized: false
                     };
                     this.LEAVE_COLORS = [
                         '#6366f1', // Indigo
@@ -2038,6 +2203,8 @@
                         loginContainer: document.getElementById('login-container'),
                         appContainer: document.getElementById('app-container'),
                         splashScreen: document.getElementById('splash-screen'),
+                        loadingIndicator: document.getElementById('loading-indicator'),
+                        swipePrompt: document.getElementById('swipe-prompt'),
                         
                         // Login elements
                         
@@ -2083,7 +2250,137 @@
                 }
 
                 async initializeApp() {
-                    this.setupAuthStateListener();
+                    // Start the loading process
+                    this.showSplashScreen();
+                    
+                    // Initialize Firebase and check authentication
+                    await this.initializeFirebaseAuth();
+                    
+                    // Mark as initialized
+                    this.state.isInitialized = true;
+                    
+                    // Show swipe up prompt
+                    this.showSwipeUpPrompt();
+                }
+
+                showSplashScreen() {
+                    this.elements.splashScreen.style.display = 'flex';
+                    this.elements.loadingIndicator.style.display = 'flex';
+                    this.elements.swipePrompt.style.display = 'none';
+                }
+
+                async initializeFirebaseAuth() {
+                    try {
+                        await this.waitForFirebase();
+                        await this.setupAuthStateListener();
+                    } catch (error) {
+                        console.warn('Firebase initialization failed, using offline mode:', error);
+                        this.state.isOfflineMode = true;
+                        this.loadStateFromLocalStorage();
+                    }
+                }
+
+                showSwipeUpPrompt() {
+                    // Hide loading indicator and show swipe prompt
+                    this.elements.loadingIndicator.style.display = 'none';
+                    this.elements.swipePrompt.style.display = 'flex';
+                    
+                    // Set up swipe/click handlers
+                    this.setupSwipeHandlers();
+                }
+
+                setupSwipeHandlers() {
+                    let startY = 0;
+                    let isSwipeStarted = false;
+
+                    // Touch events for swipe up
+                    this.elements.swipePrompt.addEventListener('touchstart', (e) => {
+                        startY = e.touches[0].clientY;
+                        isSwipeStarted = true;
+                    }, { passive: true });
+
+                    this.elements.swipePrompt.addEventListener('touchmove', (e) => {
+                        if (!isSwipeStarted) return;
+                        
+                        const currentY = e.touches[0].clientY;
+                        const deltaY = startY - currentY;
+                        
+                        // If swiped up more than 50px, trigger transition
+                        if (deltaY > 50) {
+                            this.handleSwipeUp();
+                            isSwipeStarted = false;
+                        }
+                    }, { passive: true });
+
+                    this.elements.swipePrompt.addEventListener('touchend', () => {
+                        isSwipeStarted = false;
+                    }, { passive: true });
+
+                    // Click/tap event as fallback
+                    this.elements.swipePrompt.addEventListener('click', () => {
+                        this.handleSwipeUp();
+                    });
+
+                    // Keyboard support
+                    this.elements.swipePrompt.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.handleSwipeUp();
+                        }
+                    });
+
+                    // Make it focusable
+                    this.elements.swipePrompt.setAttribute('tabindex', '0');
+                }
+
+                handleSwipeUp() {
+                    // Add fade out effect
+                    this.elements.splashScreen.classList.add('fade-out');
+                    
+                    setTimeout(() => {
+                        this.elements.splashScreen.style.display = 'none';
+                        this.determineNextScreen();
+                    }, 500);
+                }
+
+                determineNextScreen() {
+                    // Check if user has previous session data
+                    const hasStoredAuth = this.checkStoredAuth();
+                    const hasLocalData = this.hasLocalStorageData();
+                    
+                    if (hasStoredAuth || (this.state.user && !this.state.isOfflineMode)) {
+                        // User is authenticated, go to main app
+                        this.showMainApp();
+                    } else if (hasLocalData && this.state.isOfflineMode) {
+                        // Has offline data, continue offline
+                        this.showMainApp();
+                    } else {
+                        // No previous session, show login
+                        this.showLoginScreen();
+                    }
+                }
+
+                checkStoredAuth() {
+                    // Check if there's any stored authentication state
+                    try {
+                        const authData = localStorage.getItem('firebase:authUser:AIzaSyDNBa9TBaFXiFqNCQ28jTdyYks63_bOk5I:[DEFAULT]');
+                        return !!authData;
+                    } catch {
+                        return false;
+                    }
+                }
+
+                hasLocalStorageData() {
+                    try {
+                        const saved = localStorage.getItem(this.STORAGE_KEY);
+                        if (saved) {
+                            const parsedState = JSON.parse(saved);
+                            return !!(parsedState.leaveTypes && parsedState.leaveTypes.length > 0);
+                        }
+                    } catch {
+                        return false;
+                    }
+                    return false;
                 }
 
                 waitForFirebase() {
@@ -2106,36 +2403,27 @@
                     });
                 }
 
-                setupAuthStateListener() {
-                    this.waitForFirebase().then(() => {
-                        window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
+                async setupAuthStateListener() {
+                    return new Promise((resolve) => {
+                        window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, async (user) => {
                             this.state.user = user;
                             
                             // If a user is logged in, use online mode. Otherwise, default to offline mode.
                             this.state.isOfflineMode = !user;
                             this.elements.userIdDisplay.textContent = '';
                             
-                            
-                            if (!this.state.isOfflineMode) {
-                                this.showMainApp();
-                                this.loadData();
-                            
+                            if (!this.state.isOfflineMode && user) {
+                                await this.loadData();
                             } else {
-                                this.showLoginScreen();
+                                this.loadStateFromLocalStorage();
                             }
+                            
+                            resolve();
                         });
-                    }).catch(error => {
-                        
-                        console.error('Firebase initialization failed:', error);
-                        // Handle case where Firebase isn't available
-                        this.state.isOfflineMode = true;
-                        this.showLoginScreen();
-                        this.loadData();
                     });
                 }
 
                 showLoginScreen() {
-                    this.elements.splashScreen.classList.add('is-hidden');
                     this.elements.appContainer.classList.remove('is-visible');
                     this.elements.appContainer.classList.add('is-hidden');
 
@@ -2143,11 +2431,10 @@
                         this.elements.loginContainer.classList.remove('is-hidden');
                         this.elements.loginContainer.classList.add('is-visible');
                         this.applyTheme();
-                    }, 500);
+                    }, 100);
                 }
 
                 showMainApp() {
-                    this.elements.splashScreen.classList.add('is-hidden');
                     this.elements.loginContainer.classList.remove('is-visible');
                     this.elements.loginContainer.classList.add('is-hidden');
 
@@ -2156,7 +2443,7 @@
                         this.elements.appContainer.classList.add('is-visible');
                         this.applyTheme();
                         this.render();
-                    }, 500);
+                    }, 100);
                 }
 
                 setButtonState(button, isLoading) {
@@ -2260,7 +2547,7 @@
                     this.elements.modalContainer?.addEventListener('click', (e) => {
                         if (e.target === this.elements.modalContainer) this.hideModal();
                     });
-                    this.elements.emailInput, this.elements.passwordInput].forEach(input => {
+                    [this.elements.emailInput, this.elements.passwordInput].forEach(input => {
                         input?.addEventListener('keydown', (e) => {
                             if (e.key === 'Enter') this.handleEmailSignIn();
                         });
@@ -2280,6 +2567,7 @@
                     try {
                         await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth.auth, email, password);
                         this.showToast('Successfully signed in!', 'success');
+                        this.showMainApp();
                     } catch (error) {
                         console.error('Sign in error:', error);
                         this.showToast(this.getAuthErrorMessage(error.code), 'error');
@@ -2305,6 +2593,7 @@
                     try {
                         await window.firebaseAuth.createUserWithEmailAndPassword(window.firebaseAuth.auth, email, password);
                         this.showToast('Account created successfully!', 'success');
+                        this.showMainApp();
                     } catch (error) {
                         console.error('Sign up error:', error);
                         this.showToast(this.getAuthErrorMessage(error.code), 'error');
@@ -2317,6 +2606,7 @@
                     try {
                         await window.firebaseAuth.signInWithPopup(window.firebaseAuth.auth, window.firebaseAuth.GoogleAuthProvider);
                         this.showToast('Successfully signed in with Google!', 'success');
+                        this.showMainApp();
                     } catch (error) {
                         console.error('Google sign in error:', error);
                         this.showToast(this.getAuthErrorMessage(error.code), 'error');
@@ -2359,6 +2649,7 @@
                         } else {
                             await window.firebaseAuth.signOut(window.firebaseAuth.auth);
                             this.showToast('Successfully signed out', 'success');
+                            this.showLoginScreen();
                         }
                     } catch (error) {
                         console.error('Sign out error:', error);
@@ -2388,7 +2679,9 @@
                     } else {
                         this.loadStateFromLocalStorage();
                     }
-                    this.render();
+                    if (this.state.isInitialized) {
+                        this.render();
+                    }
                 }
 
                 async loadDataFromFirestore() {
@@ -3276,7 +3569,7 @@
 
             document.addEventListener('DOMContentLoaded', () => {
                 window.leaveBuddyApp = new LeaveBuddyApp();
-                console.log('Leave Buddy with Firebase Auth initialized successfully!');
+                console.log('Leave Buddy with enhanced splash screen initialized successfully!');
             });
         </script>
 </body>
