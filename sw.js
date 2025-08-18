@@ -1,4 +1,4 @@
-const CACHE_NAME = 'leave-buddy-cache-v1';
+const CACHE_NAME = 'leave-buddy-cache-v2'; // Use a new cache version to force an update
 const urlsToCache = [
   './',
   'index.html',
@@ -15,39 +15,19 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', (event) => {
+  console.log('Service Worker: Installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Service Worker: Caching assets');
-      return cache.addAll(urlsToCache);
-    })
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        console.log('Service Worker: Serving from cache', event.request.url);
-        return response;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        // Cache new network requests
-        if (networkResponse && networkResponse.status === 200) {
-          const clonedResponse = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, clonedResponse);
-          });
-        }
-        return networkResponse;
-      });
-    }).catch(() => {
-      // Fallback for offline pages
-      return caches.match('index.html');
-    })
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('Service Worker: Caching critical assets');
+        return cache.addAll(urlsToCache);
+      })
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker: Activating...');
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -59,6 +39,49 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  // Check if the request is for a network-only resource (like Firebase API calls)
+  if (event.request.url.includes('firebase')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+  
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // If a cached response is found, return it immediately
+        if (response) {
+          console.log('Service Worker: Serving from cache:', event.request.url);
+          return response;
+        }
+
+        // Otherwise, fetch from the network
+        console.log('Service Worker: Fetching from network:', event.request.url);
+        return fetch(event.request)
+          .then((networkResponse) => {
+            // Check if the response is valid
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+              return networkResponse;
+            }
+
+            // Cache the new network response for future use
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+
+            return networkResponse;
+          })
+          .catch(() => {
+            // This is the fallback for when both cache and network fail
+            console.log('Service Worker: Network failed, falling back to cache...');
+            return caches.match('index.html');
+          });
+      })
   );
 });
