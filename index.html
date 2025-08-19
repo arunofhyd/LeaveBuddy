@@ -348,6 +348,7 @@
             box-shadow: var(--shadow-secondary);
         }
         
+        /* Update your existing .header-icon-btn rule */
         .header-icon-btn {
             display: flex;
             align-items: center;
@@ -362,10 +363,39 @@
             transition: all 0.3s ease;
             font-size: 18px;
         }
-        
-        .header-icon-btn:hover {
+
+           .header-icon-btn:hover {
             background: var(--bg-tertiary);
             color: var(--main-color-light);
+        }
+        
+        /* Add this new rule for the Gemini Star icon */
+        #gemini-btn .fa-star {
+            font-size: 20px; /* Adjust size for visual impact */
+            background: linear-gradient(45deg, #1e90ff, #00ced1, #a5b4fc); /* A blue-cyan-purple gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: var(--main-color); /* Fallback for browsers that don't support gradients */
+            transition: all 0.3s ease;
+        }
+        #gemini-btn:hover .fa-star {
+            animation: geminiShine 1.5s infinite alternate; /* Apply a shimmering animation */
+            transform: scale(1.1); /* Keep the slight scale-up */
+            box-shadow: 0 0 20px rgba(30, 144, 255, 0.7); /* Brighter, more blueish glow */
+            background: linear-gradient(45deg, #a5b4fc, #00ced1, #1e90ff); /* Slightly shifted gradient on hover */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        @keyframes geminiShine {
+            from {
+                opacity: 1;
+                transform: scale(1.1) rotate(-5deg);
+            }
+            to {
+                opacity: 0.8;
+                transform: scale(1.2) rotate(5deg);
+            }
         }
 
         /* --- Mobile Optimizations --- */
@@ -1994,43 +2024,7 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
         import { generateText } from "./gemini.js";
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDNBa9TBaFXiFqNCQ28jTdyYks63_bOk5I",
-            authDomain: "leavebuddyaoh.firebaseapp.com",
-            projectId: "leavebuddyaoh",
-            storageBucket: "leavebuddyaoh.firebasestorage.app",
-            messagingSenderId: "207787772122",
-            appId: "1:207787772122:web:19e6751e26580e6925bde3"
-        };
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app); // Initialize Firestore
-        const googleProvider = new GoogleAuthProvider();
-        // Make Firebase available globally
-        window.firebaseAuth = {
-            auth,
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword,
-            signInWithPopup,
-            GoogleAuthProvider: googleProvider,
-            signOut,
-            onAuthStateChanged,
-            sendPasswordResetEmail
-        };
-        window.firebaseFirestore = {
-            db,
-            doc,
-            setDoc,
-            getDoc,
-            collection,
-            onSnapshot
-        };
-    </script>
 
-    <script>
-        'use strict';
         // Application state management and Firebase authentication
         class LeaveBuddyApp {
             constructor() {
@@ -3441,6 +3435,40 @@ Please be concise and directly address the user's question based on this context
                 this.showToast('All data has been reset!', 'success');
             }
         }
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNBa9TBaFXiFqNCQ28jTdyYks63_bOk5I",
+            authDomain: "leavebuddyaoh.firebaseapp.com",
+            projectId: "leavebuddyaoh",
+            storageBucket: "leavebuddyaoh.firebasestorage.app",
+            messagingSenderId: "207787772122",
+            appId: "1:207787772122:web:19e6751e26580e6925bde3"
+        };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app); // Initialize Firestore
+        const googleProvider = new GoogleAuthProvider();
+        // Make Firebase available globally
+        window.firebaseAuth = {
+            auth,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            signInWithPopup,
+            GoogleAuthProvider: googleProvider,
+            signOut,
+            onAuthStateChanged,
+            sendPasswordResetEmail
+        };
+        window.firebaseFirestore = {
+            db,
+            doc,
+            setDoc,
+            getDoc,
+            collection,
+            onSnapshot
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
             window.leaveBuddyApp = new LeaveBuddyApp();
