@@ -2021,10 +2021,9 @@
             async initializeApp() {
                 this.showSplashLoading();
                 await this.setupAuthStateListener();
-                setTimeout(() => {
-                    this.state.appLoaded = true;
-                    this.showSplashSwipeUp();
-                }, 1500);
+                // **REMOVED** arbitrary 1.5s delay to make the app feel faster.
+                this.state.appLoaded = true;
+                this.showSplashSwipeUp();
             }
 
             showSplashLoading() {
@@ -2141,11 +2140,10 @@
                 this.elements.appContainer.classList.remove('is-visible');
                 this.elements.appContainer.classList.add('is-hidden');
 
-                setTimeout(() => {
-                    this.elements.loginContainer.classList.remove('is-hidden');
-                    this.elements.loginContainer.classList.add('is-visible');
-                    this.applyTheme();
-                }, 500);
+                // **REMOVED** 500ms delay for an instant transition.
+                this.elements.loginContainer.classList.remove('is-hidden');
+                this.elements.loginContainer.classList.add('is-visible');
+                this.applyTheme();
             }
 
             showMainApp() {
@@ -2153,12 +2151,11 @@
                 this.elements.loginContainer.classList.remove('is-visible');
                 this.elements.loginContainer.classList.add('is-hidden');
 
-                setTimeout(() => {
-                    this.elements.appContainer.classList.remove('is-hidden');
-                    this.elements.appContainer.classList.add('is-visible');
-                    this.applyTheme();
-                    this.render();
-                }, 500);
+                // **REMOVED** 500ms delay for an instant transition.
+                this.elements.appContainer.classList.remove('is-hidden');
+                this.elements.appContainer.classList.add('is-visible');
+                this.applyTheme();
+                this.render();
             }
 
             setButtonState(button, isLoading) {
@@ -2453,8 +2450,8 @@
                         if (parsedState.leaveRecords) {
                             this.state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
                                 acc[date] = typeof value === 'string'
-                                 ? { typeId: value, isHalfDay: false }
-                                 : value; 
+                                  ? { typeId: value, isHalfDay: false }
+                                  : value; 
                                 return acc;
                             }, {});
                         }
@@ -2611,11 +2608,11 @@
                     const colorStyle = `background-color: ${lt.color};`;
                     return `
                         <button class="leave-type-pill ${isSelected ? 'active' : ''}"
-                             data-id="${lt.id}"
-                             style="${colorStyle}"
-                             role="radio"
-                             aria-checked="${isSelected}"
-                             title="Select ${lt.name}">
+                                data-id="${lt.id}"
+                                style="${colorStyle}"
+                                role="radio"
+                                aria-checked="${isSelected}"
+                                title="Select ${lt.name}">
                             ${lt.name}
                         </button>
                     `;
@@ -2910,12 +2907,12 @@
                 const initialColor = leaveType ? leaveType.color : this.LEAVE_COLORS[0];
                 const colorOptions = this.LEAVE_COLORS.map(color => `
                     <button type="button"
-                             class="color-option ${color === initialColor ? 'selected' : ''}"
-                             data-color="${color}"
-                             data-action="select-color"
-                             style="background-color: ${color};"
-                             aria-label="Select color ${color}"
-                             title="Select this color">
+                            class="color-option ${color === initialColor ? 'selected' : ''}"
+                            data-color="${color}"
+                            data-action="select-color"
+                            style="background-color: ${color};"
+                            aria-label="Select color ${color}"
+                            title="Select this color">
                     </button>
                 `).join('');
 
@@ -2953,10 +2950,10 @@
                 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 const monthGrid = monthNames.map((name, index) => `
                     <button type="button"
-                             class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
-                             data-action="select-month-from-picker"
-                             data-month="${index}"
-                             aria-pressed="${index === currentMonth}">
+                            class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
+                            data-action="select-month-from-picker"
+                            data-month="${index}"
+                            aria-pressed="${index === currentMonth}">
                         ${name.substr(0, 3)}
                     </button>
                 `).join('');
