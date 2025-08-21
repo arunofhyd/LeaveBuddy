@@ -1019,8 +1019,7 @@
         /* Enhanced balance display */
         .balance-info {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
             gap: 16px;
             margin-bottom: 20px;
         }
@@ -1044,9 +1043,8 @@
         }
         
         .balance-item {
-            flex: 1;
-            min-width: 80px;
-            max-width: calc(33.33% - 12px); /* Prevents them from getting too wide on large screens */
+            flex: 1; /* This makes each item grow and shrink equally */
+            min-width: 80px; /* This prevents the boxes from becoming too small */
             text-align: center;
             padding: 16px 12px;
             border-radius: 12px;
