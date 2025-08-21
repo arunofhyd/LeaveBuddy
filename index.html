@@ -657,15 +657,15 @@
         
         .leave-type-pill.active {
             /* Increased glow and pulsing animation for better visibility */
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.6), var(--shadow-secondary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.9), var(--shadow-secondary);
             transform: scale(1.05);
             animation: pulse-pill 2s infinite;
         }
         
-        /* New keyframes for the pill pulse animation */
+        /* CHANGE #2: Reduced the glow effect here */
         @keyframes pulse-pill {
-            0%, 100% { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.6), var(--shadow-secondary); }
-            50% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.4), var(--shadow-secondary); }
+            0%, 100% { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.9), var(--shadow-secondary); }
+            50% { box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.7), var(--shadow-secondary); }
         }
         
         /* This new rule ensures that the date number in light mode is readable on a colored background */
@@ -1132,7 +1132,10 @@
         }
         
         .progress-percentage {
-            position: relative; /* Use relative to stay on top of the bar */
+            position: absolute; /* Use absolute to center the text correctly over the bar */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 2; /* Ensure it's above the progress bar */
             font-size: 11px;
             font-weight: 700;
@@ -1690,7 +1693,8 @@
             font-weight: 600;
             text-align: center;
             opacity: 0;
-            animation: bounceIn 1s ease-out 2s forwards, bounce 2s ease-in-out 3s infinite;
+            /* CHANGE #1: Reduced animation delay here */
+            animation: bounceIn 1s ease-out 0.5s forwards, bounce 2s ease-in-out 1.5s infinite;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             pointer-events: none;
             user-select: none;
@@ -1794,7 +1798,7 @@
                 <div class="login-card-bg rounded-3xl shadow-2xl border p-8 w-full space-y-6">
                     <div class="text-center mb-8">
                         <div class="flex items-center justify-center gap-4 mb-6">
-                            <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16">
+                            <img src="assets/logo.png" alt="Leave Buddy Logo" class="w-16 h-16 rounded-full">
                         </div>
                         <h1 class="text-4xl font-bold login-text-primary mb-2">Leave Buddy</h1>
                         <p class="text-lg login-text-secondary">Your Personal Leave Management Tool</p>
@@ -1804,7 +1808,7 @@
                         <div class="relative">
                             <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-2.5 text-base login-input-text bg-login-input-bg border-2 border-login-input-border rounded-lg shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all">
                             <button type="button" id="password-toggle-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600" 
-     aria-label="Toggle password visibility">
+aria-label="Toggle password visibility">
                                 <i id="password-toggle-icon" class="fas fa-eye" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -1877,29 +1881,29 @@
                 <section class="calendar-section" aria-label="Leave calendar">
                     <div class="calendar-header">
                         <button id="prev-month-btn"
-                                           class="calendar-nav-btn"
-                                           aria-label="Previous month"
-                                           title="Go to previous month">
+                                class="calendar-nav-btn"
+                                aria-label="Previous month"
+                                title="Go to previous month">
                             <i class="fas fa-chevron-left" aria-hidden="true"></i>
                        </button>
                         <h2 id="month-year"
-                                 class="month-year-display"
-                                 role="button"
-                                 tabindex="0"
-                                 aria-label="Current month and year, tap to change"
-                                 title="Tap to select month and year"></h2>
+                            class="month-year-display"
+                            role="button"
+                            tabindex="0"
+                            aria-label="Current month and year, tap to change"
+                            title="Tap to select month and year"></h2>
                        <button id="next-month-btn"
-                                           class="calendar-nav-btn"
-                                           aria-label="Next month"
-                                           title="Go to next month">
+                                class="calendar-nav-btn"
+                                aria-label="Next month"
+                                title="Go to next month">
                             <i class="fas fa-chevron-right" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="leave-type-selector" role="radiogroup" aria-label="Select leave type">
                         <button id="add-leave-btn-plus"
-                                           class="add-leave-btn"
-                                           aria-label="Add new leave type"
-                                           title="Add new leave type">
+                                class="add-leave-btn"
+                                aria-label="Add new leave type"
+                                title="Add new leave type">
                             <i class="fas fa-plus" aria-hidden="true"></i>
                         </button>
                         <div id="leave-type-pill-container" class="leave-type-pills-container"></div>
@@ -1915,26 +1919,26 @@
                             <div role="columnheader">Sat</div>
                         </div>
                         <div id="calendar-grid"
-                                 class="calendar-grid"
-                                 role="grid"
-                                 aria-label="Calendar days">
+                             class="calendar-grid"
+                             role="grid"
+                             aria-label="Calendar days">
                         </div>
                     </div>
                 </section>
               <div class="stats-toggle-container">
                     <button id="toggle-stats-btn"
-                                 class="stats-panel-toggle-btn"
-                                 aria-expanded="false"
-                                 aria-controls="stats-panel">
+                            class="stats-panel-toggle-btn"
+                            aria-expanded="false"
+                            aria-controls="stats-panel">
                         <span id="toggle-text">Show Stats</span>
                         <i id="toggle-icon"
-                                 class="fas fa-chevron-down transition-transform"
-                                 aria-hidden="true"></i>
+                           class="fas fa-chevron-down transition-transform"
+                           aria-hidden="true"></i>
                     </button>
                 </div>
                 <section id="stats-panel"
-                                 class="stats-panel"
-                                 aria-label="Leave statistics">
+                         class="stats-panel"
+                         aria-label="Leave statistics">
                     <div id="stats-grid" class="stats-grid"></div>
                     <div id="empty-stats-state" class="is-hidden text-center p-8 text-[var(--text-muted)]">
                         <h3 class="text-xl font-semibold text-[var(--text-secondary)] mb-2">No Leave Types Yet</h3>
@@ -1946,34 +1950,34 @@
                         </h3>
                         <div class="flex flex-col gap-4">
                             <button id="export-data-btn"
-                                           class="btn btn-secondary"
-                                           title="Export your leave data">
+                                    class="btn btn-secondary"
+                                    title="Export your leave data">
                                 <i class="fas fa-download" aria-hidden="true"></i>
                                 Export Data
                             </button>
                            <button id="import-data-btn"
-                                           class="btn btn-primary"
-                                           title="Import leave data from file">
+                                    class="btn btn-primary"
+                                    title="Import leave data from file">
                                 <i class="fas fa-upload" aria-hidden="true"></i>
                                 Import Data
                             </button>
                            <input type="file"
-                                           id="upload-data-input"
-                                           class="is-hidden"
-                                           accept=".json"
-                                           aria-label="Select file to import">
+                                   id="upload-data-input"
+                                   class="is-hidden"
+                                   accept=".json"
+                                   aria-label="Select file to import">
                         </div>
                        <button id="reset-data-btn"
-                                           class="btn btn-danger w-full mt-4"
-                                           title="Reset all leave data">
-                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                                Reset All Data
+                                class="btn btn-danger w-full mt-4"
+                                title="Reset all leave data">
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            Reset All Data
                         </button>
                     </div>
                </section>
                 <footer class="footer" role="contentinfo">
                     <a href="mailto:arunthomas04042001@gmail.com"
-                               title="Contact the developer">
+                       title="Contact the developer">
                         <i class="fas fa-envelope" aria-hidden="true"></i>
                         Reach out to the developer
                     </a>
@@ -2561,8 +2565,8 @@
                         if (parsedState.leaveRecords) {
                             this.state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
                                 acc[date] = typeof value === 'string'
-                                 ? { typeId: value, isHalfDay: false }
-                                 : value;
+                                  ? { typeId: value, isHalfDay: false }
+                                  : value;
                                 return acc;
                             }, {});
                         }
@@ -2685,8 +2689,8 @@
                     <div class="modal-header">
                         <h2>${title}</h2>
                         <button class="close-modal-btn"
-                                   data-action="close-modal"
-                                   aria-label="Close modal">
+                                data-action="close-modal"
+                                aria-label="Close modal">
                             <i class="fas fa-times" aria-hidden="true"></i>
                         </button>
                 </div>
@@ -2734,12 +2738,12 @@
                     const colorStyle = `background-color: ${lt.color};`;
                     return `
                         <button 
- class="leave-type-pill ${isSelected ? 'active' : ''}"
-                                 data-id="${lt.id}"
-                                 style="${colorStyle}"
-                                 role="radio"
-                                 aria-checked="${isSelected}"
-                                 title="Select ${lt.name}">
+class="leave-type-pill ${isSelected ? 'active' : ''}"
+                                data-id="${lt.id}"
+                                style="${colorStyle}"
+                                role="radio"
+                                aria-checked="${isSelected}"
+                                title="Select ${lt.name}">
                             ${lt.name}
                         </button>
                     `;
@@ -2841,7 +2845,8 @@
                             </div>
                             <div class="balance-item remaining">
                                 <span class="balance-number">${remaining.toFixed(1)}</span>
-                                <span class="balance-label">Remaining</span>
+                                <span class="balance-label balance-label-full">BALANCE</span>
+                                <span class="balance-label balance-label-short hidden">BAL.</span>
                             </div>
                            <div class="balance-item">
                                 <span class="balance-number">${totalDays}</span>
@@ -2850,16 +2855,40 @@
                         </div>
                         <div class="progress-bar-bg">
                             <div class="progress-bar"
-                                            style="width: ${percentage}%; background-color: ${lt.color};"
-                                            role="progressbar"
-                                            aria-valuenow="${usedDays}"
-                                            aria-valuemin="0"
-                                            aria-valuemax="${totalDays}">
+                                         style="width: ${percentage}%; background-color: ${lt.color};"
+                                         role="progressbar"
+                                         aria-valuenow="${usedDays}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="${totalDays}">
                             </div>
                             <div class="progress-percentage">${Math.round(percentage)}%</div>
                         </div>
                     `;
                     this.elements.statsGrid.appendChild(card);
+                });
+
+                // Logic to handle dynamic "BALANCE" label
+                const remainingItems = document.querySelectorAll('.balance-item.remaining');
+                remainingItems.forEach(item => {
+                    const fullLabel = item.querySelector('.balance-label-full');
+                    const shortLabel = item.querySelector('.balance-label-short');
+
+                    // Check for overflow
+                    const checkOverflow = () => {
+                        if (fullLabel.offsetWidth > item.offsetWidth) {
+                            // If it overflows, show the short label and hide the full label
+                            shortLabel.classList.remove('hidden');
+                            fullLabel.classList.add('hidden');
+                        } else {
+                            // If it fits, show the full label and hide the short label
+                            fullLabel.classList.remove('hidden');
+                            shortLabel.classList.add('hidden');
+                        }
+                    };
+                    
+                    // Run once and also on window resize
+                    checkOverflow();
+                    window.addEventListener('resize', checkOverflow);
                 });
             }
 
@@ -3032,12 +3061,12 @@
                 const initialColor = leaveType ? leaveType.color : this.LEAVE_COLORS[0];
                 const colorOptions = this.LEAVE_COLORS.map(color => `
                     <button type="button"
-                                 class="color-option ${color === initialColor ? 'selected' : ''}"
-                                 data-color="${color}"
-                                 data-action="select-color"
-                                 style="background-color: ${color};"
-                                 aria-label="Select color ${color}"
-                                 title="Select this color">
+                            class="color-option ${color === initialColor ? 'selected' : ''}"
+                            data-color="${color}"
+                            data-action="select-color"
+                            style="background-color: ${color};"
+                            aria-label="Select color ${color}"
+                            title="Select this color">
                     </button>
                 `).join('');
                 this.showModal(modalTitle, `
@@ -3076,10 +3105,10 @@
                 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 const monthGrid = monthNames.map((name, index) => `
                     <button type="button"
-                                 class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
-                                 data-action="select-month-from-picker"
-                                 data-month="${index}"
-                                 aria-pressed="${index === currentMonth}">
+                            class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
+                            data-action="select-month-from-picker"
+                            data-month="${index}"
+                            aria-pressed="${index === currentMonth}">
                         ${name.substr(0, 3)}
                     </button>
                 `).join('');
@@ -3250,7 +3279,7 @@
                             <button type="button" class="btn btn-danger" data-action="confirm-delete-leave" data-id="${id}">
                                 <i class="fas fa-trash" aria-hidden="true"></i> Delete
                             </button>
-            </div>
+                </div>
                     </div>
                 `);
             }
@@ -3337,7 +3366,7 @@
                             <button type="button" class="btn btn-danger" data-action="confirm-reset">
                                 <i class="fas fa-trash-alt" aria-hidden="true"></i> Reset
                             </button>
-            </div>
+                </div>
                     </div>
                 `);
             }
