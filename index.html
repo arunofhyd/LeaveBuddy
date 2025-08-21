@@ -160,14 +160,14 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.2s ease;
         }
         
         .is-hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.2s ease;
         }
         
         /* ===== BUTTON STYLES ===== */
@@ -2122,10 +2122,8 @@
                 await this.setupAuthStateListener();
                 
                 // Mark app as loaded and show swipe up text
-                setTimeout(() => {
                     this.state.appLoaded = true;
                     this.showSplashSwipeUp();
-                }, 1500); // Show loading for at least 1.5 seconds
             }
 
             showSplashLoading() {
@@ -2228,47 +2226,44 @@
                 });
             }
 
-            async setupAuthStateListener() {
-                try {
-                    await this.waitForFirebase();
+        async setupAuthStateListener() {
+            // Initialize Firebase in background, don't block UI
+            this.waitForFirebase().then(() => {
+                window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
+                    this.state.user = user;
+                    this.state.isOfflineMode = !user;
+                    this.elements.userIdDisplay.textContent = '';
                     
-                    window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
-                        this.state.user = user;
-                        this.state.isOfflineMode = !user;
-                        this.elements.userIdDisplay.textContent = '';
-                        
-                        // Save auth state for future sessions
-                        if (user) {
-                            const authData = {
-                                method: 'firebase',
-                                userData: {
-                                    uid: user.uid,
-                                    email: user.email,
-                                    displayName: user.displayName
-                                }
-                            };
-                            localStorage.setItem('leaveBuddyLastAuth', JSON.stringify(authData));
-                        } else {
-                            localStorage.removeItem('leaveBuddyLastAuth');
-                        }
-                    });
-                } catch (error) {
-                    console.error('Firebase initialization failed:', error);
-                    // Handle case where Firebase isn't available
-                    this.state.isOfflineMode = true;
-                }
-            }
+                    // Save auth state for future sessions
+                    if (user) {
+                        const authData = {
+                            method: 'firebase',
+                            userData: {
+                                uid: user.uid,
+                                email: user.email,
+                                displayName: user.displayName
+                            }
+                        };
+                        localStorage.setItem('leaveBuddyLastAuth', JSON.stringify(authData));
+                    } else {
+                        localStorage.removeItem('leaveBuddyLastAuth');
+                    }
+                });
+            }).catch((error) => {
+                console.error('Firebase initialization failed:', error);
+                this.state.isOfflineMode = true;
+            });
+        }
+
 
             showLoginScreen() {
                 this.elements.splashScreen.classList.add('is-hidden');
                 this.elements.appContainer.classList.remove('is-visible');
                 this.elements.appContainer.classList.add('is-hidden');
 
-                setTimeout(() => {
                     this.elements.loginContainer.classList.remove('is-hidden');
                     this.elements.loginContainer.classList.add('is-visible');
                     this.applyTheme();
-                }, 500);
             }
 
             showMainApp() {
@@ -2276,12 +2271,10 @@
                 this.elements.loginContainer.classList.remove('is-visible');
                 this.elements.loginContainer.classList.add('is-hidden');
 
-                setTimeout(() => {
                     this.elements.appContainer.classList.remove('is-hidden');
                     this.elements.appContainer.classList.add('is-visible');
                     this.applyTheme();
                     this.render();
-                }, 500);
             }
 
             setButtonState(button, isLoading) {
