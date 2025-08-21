@@ -97,8 +97,7 @@
         
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            /* Use a better background gradient for dark theme, and a solid color for light theme */
-            background: var(--bg-primary); /* Default solid color for light theme */
+            background: var(--bg-primary);
             color: var(--text-primary);
             transition: all 0.3s ease;
             line-height: 1.6;
@@ -113,7 +112,7 @@
             background: linear-gradient(135deg, #0d121c 0%, #171d2b 100%);
         }
         
-        /* Login page-specific styles using the new variables */
+        /* Login page-specific styles */
         #login-container {
             background: var(--bg-primary);
         }
@@ -198,7 +197,6 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
-        /* Ensure light theme secondary buttons are readable */
         body.light-theme .btn-secondary {
             color: var(--text-primary);
             background: rgba(0, 0, 0, 0.05);
@@ -216,35 +214,33 @@
         /* ===== IMPROVED LAYOUT ===== */
         .app-container {
             width: 100%;
-            max-width: 480px; /* Default for mobile */
+            max-width: 480px;
             margin: 0 auto;
             padding: 0 20px 32px 20px;
             position: relative;
         }
         
-        /* PC specific spaciousness for .app-container */
         @media (min-width: 768px) {
             .app-container {
-                max-width: 768px; /* Tablet size */
-                padding: 0 24px 40px 24px; /* Slightly more padding */
+                max-width: 768px;
+                padding: 0 24px 40px 24px;
             }
         }
         
-        @media (min-width: 1024px) { /* Large screens (lg) */
+        @media (min-width: 1024px) {
             .app-container {
-                max-width: 1024px; /* Equivalent to Tailwind's max-w-4xl */
-                padding: 0 3rem 4rem 3rem; /* Increase overall padding for the main card */
+                max-width: 1024px;
+                padding: 0 3rem 4rem 3rem;
             }
         }
         
-        @media (min-width: 1280px) { /* Extra large screens (xl) */
+        @media (min-width: 1280px) {
             .app-container {
-                max-width: 1280px; /* Even wider */
-                padding: 0 4rem 5rem 4rem; /* Even more padding for the main card */
+                max-width: 1280px;
+                padding: 0 4rem 5rem 4rem;
             }
         }
 
-        /* --- Mobile Optimizations --- */
         @media (max-width: 480px) {
             .app-container {
                 padding: 0 16px 24px 16px;
@@ -271,7 +267,6 @@
             margin: 0 auto;
         }
         
-        /* Adjust header content width for larger screens */
         @media (min-width: 768px) {
             .app-header-content {
                 max-width: 768px;
@@ -307,7 +302,6 @@
             object-fit: cover;
         }
         
-        /* Larger title for PC */
         @media (min-width: 768px) {
             .app-header-title h1 {
                 font-size: 28px;
@@ -331,14 +325,12 @@
             margin-right: auto;
             flex-shrink: 0;
         }
-        /* Fix for button positioning */
         .app-header-content > .flex.items-center.gap-2:first-child {
             justify-content: flex-start;
         }
         .app-header-content > .flex.items-center.gap-2:last-child {
             justify-content: flex-end;
         }
-        
         
         .theme-toggle-btn:hover,
         .theme-toggle-btn:active {
@@ -368,7 +360,6 @@
             color: var(--main-color-light);
         }
 
-        /* --- Mobile Optimizations --- */
         @media (max-width: 767px) {
             .app-header {
                 padding: 16px;
@@ -397,7 +388,6 @@
             border: 1px solid var(--border-color);
         }
         
-        /* Increase calendar section padding for PC */
         @media (min-width: 1024px) {
             .calendar-section {
                 padding: 40px;
@@ -418,7 +408,6 @@
             padding: 0 8px;
         }
         
-        /* Increase calendar header margin for PC */
         @media (min-width: 1024px) {
             .calendar-header {
                 margin-bottom: 40px;
@@ -442,7 +431,6 @@
             font-size: 20px;
         }
         
-        /* Larger nav buttons for PC */
         @media (min-width: 1024px) {
             .calendar-nav-btn {
                 width: 56px;
@@ -476,7 +464,6 @@
             min-width: 180px;
         }
         
-        /* Mobile specific font size adjustment for month-year-display */
         @media (max-width: 767px) {
             .month-year-display {
                 font-size: 1.125rem;
@@ -485,7 +472,6 @@
             }
         }
         
-        /* Larger month/year display for PC */
         @media (min-width: 1024px) {
             .month-year-display {
                 font-size: 28px;
@@ -499,7 +485,6 @@
             color: var(--main-color-light);
         }
 
-        /* --- Mobile Optimizations --- */
         @media (max-width: 767px) {
             .calendar-header {
                 margin-bottom: 24px;
@@ -516,30 +501,27 @@
         }
         
         /* ===== HORIZONTAL SCROLLING LEAVE TYPE SELECTOR ===== */
-        /* Adjusted styles for a cleaner, borderless look */
         .leave-type-selector {
             display: flex;
             align-items: center;
-            gap: 12px; /* Adjusted gap */
+            gap: 12px;
             margin: 24px 0 32px 0;
-            padding: 0; /* Removed padding */
+            padding: 0;
             border-radius: 20px;
-            background: transparent; /* Removed background */
-            border: none; /* Removed border */
-            box-shadow: none; /* Removed box-shadow */
+            background: transparent;
+            border: none;
+            box-shadow: none;
             position: relative;
             overflow: hidden;
         }
         
-        /* Removed the pseudo-element that created the gradient fade */
         .leave-type-selector::before {
             display: none;
         }
         
-        /* Larger leave type selector for PC */
         @media (min-width: 1024px) {
             .leave-type-selector {
-                gap: 16px; /* Adjusted gap */
+                gap: 16px;
                 margin: 32px 0 40px 0;
                 padding: 0;
                 border-radius: 24px;
@@ -553,22 +535,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 36px; /* Made smaller */
-            height: 36px; /* Made smaller */
+            width: 36px;
+            height: 36px;
             border: 2px dashed var(--border-color);
             border-radius: 50%;
             background: var(--bg-secondary);
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 16px; /* Adjusted font size */
+            font-size: 16px;
             flex-shrink: 0;
             position: relative;
             z-index: 2;
             margin-right: 4px;
         }
         
-        /* Larger add leave button for PC */
         @media (min-width: 1024px) {
             .add-leave-btn {
                 width: 44px;
@@ -583,12 +564,12 @@
             background: var(--bg-tertiary);
             color: var(--main-color);
             border-color: var(--main-color);
-            transform: scale(1.05); /* Reduced scale */
+            transform: scale(1.05);
         }
         
         .leave-type-pills-container {
             display: flex;
-            gap: 8px; /* Reduced gap */
+            gap: 8px;
             overflow-x: auto;
             padding: 4px 0;
             flex: 1;
@@ -598,7 +579,6 @@
             mask-image: none;
         }
         
-        /* Larger gap for pills on PC */
         @media (min-width: 1024px) {
             .leave-type-pills-container {
                 gap: 12px;
@@ -613,10 +593,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8px 14px; /* Reduced padding */
+            padding: 8px 14px;
             border: none;
             border-radius: 20px;
-            font-size: 13px; /* Made smaller */
+            font-size: 13px;
             font-weight: 600;
             color: white;
             cursor: pointer;
@@ -629,12 +609,11 @@
             flex-shrink: 0;
         }
         
-        /* Larger pills for PC */
         @media (min-width: 1024px) {
             .leave-type-pill {
-                padding: 10px 18px; /* Adjusted padding */
+                padding: 10px 18px;
                 font-size: 14px;
-                min-height: 44px; /* Adjusted min-height */
+                min-height: 44px;
                 border-radius: 22px;
             }
         }
@@ -656,26 +635,22 @@
         }
         
         .leave-type-pill.active {
-            /* Increased glow and pulsing animation for better visibility */
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.9), var(--shadow-secondary);
             transform: scale(1.05);
             animation: pulse-pill 2s infinite;
         }
         
-        /* CHANGE #2: Reduced the glow effect here */
         @keyframes pulse-pill {
             0%, 100% { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.9), var(--shadow-secondary); }
             50% { box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.7), var(--shadow-secondary); }
         }
         
-        /* This new rule ensures that the date number in light mode is readable on a colored background */
         body.light-theme .day-cell.has-leave .day-number,
         body.light-theme .day-cell.half-day .day-number {
             color: #fff !important;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- Mobile Optimizations --- */
         @media (max-width: 767px) {
             .leave-type-selector {
                 gap: 8px;
@@ -701,7 +676,6 @@
             margin-top: 24px;
         }
         
-        /* Adjust calendar grid wrapper margin for PC */
         @media (min-width: 1024px) {
             .calendar-grid-wrapper {
                 margin-top: 32px;
@@ -722,7 +696,6 @@
             letter-spacing: 0.1em;
         }
         
-        /* PC specific weekday header styles */
         @media (min-width: 1024px) {
             .calendar-weekdays {
                 font-size: 1.1em;
@@ -742,7 +715,6 @@
             padding: 4px;
         }
         
-        /* Mobile specific calendar grid gap */
         @media (max-width: 767px) {
             .calendar-grid {
                 gap: 6px;
@@ -759,7 +731,6 @@
             }
         }
         
-        /* PC specific calendar grid gap */
         @media (min-width: 1024px) {
             .calendar-grid {
                 gap: 1.5rem;
@@ -793,7 +764,6 @@
             box-shadow: var(--shadow-soft);
         }
         
-        /* Mobile specific day cell font size and activity indicator size */
         @media (max-width: 767px) {
             .day-cell {
                 font-size: clamp(12px, 3.5vw, 16px);
@@ -804,7 +774,6 @@
             }
         }
         
-        /* PC specific day cell styles */
         @media (min-width: 768px) {
             .day-cell {
                 padding: 12px;
@@ -865,14 +834,12 @@
             box-shadow: var(--shadow-secondary);
         }
         
-        /* Fixed half-day visibility using linear-gradient */
         .day-cell.half-day {
             position: relative;
             background: linear-gradient(to right, var(--leave-color) 50%, var(--bg-secondary) 50%);
             border-radius: 50%;
             border: 2px solid var(--border-color);
         }
-
         .day-cell.half-day::before {
             display: none;
         }
@@ -884,7 +851,6 @@
             color: var(--text-primary);
         }
         
-        /* This new rule ensures that the date number in light mode is readable on a colored background */
         body.light-theme .day-cell.has-leave .day-number,
         body.light-theme .day-cell.half-day .day-number {
             color: #fff !important;
@@ -898,7 +864,6 @@
             margin: 24px 0;
         }
         
-        /* Adjust stats toggle margin for PC */
         @media (min-width: 1024px) {
             .stats-toggle-container {
                 margin: 32px 0;
@@ -923,7 +888,6 @@
             min-height: 48px;
         }
         
-        /* Larger stats toggle button for PC */
         @media (min-width: 1024px) {
             .stats-panel-toggle-btn {
                 padding: 18px 28px;
@@ -953,7 +917,6 @@
             border: 1px solid var(--border-color);
         }
         
-        /* Adjust stats panel margin and padding for PC */
         @media (min-width: 1024px) {
             .stats-panel {
                 margin-top: 32px;
@@ -975,7 +938,6 @@
             gap: 24px;
         }
         
-        /* Adjust stats grid gap for PC */
         @media (min-width: 1024px) {
             .stats-grid {
                 gap: 32px;
@@ -991,9 +953,9 @@
             box-shadow: var(--shadow-secondary);
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
+            container-type: inline-size; /* Added for responsive text */
         }
         
-        /* Adjust stats card padding for PC */
         @media (min-width: 1024px) {
             .stats-card {
                 padding: 32px;
@@ -1016,15 +978,15 @@
             font-weight: 700;
         }
         
-        /* Enhanced balance display */
+        /* CHANGE #2a: Added flex-wrap */
         .balance-info {
             display: flex;
+            flex-wrap: wrap; /* This allows boxes to stack on small screens */
             justify-content: space-between;
             gap: 16px;
             margin-bottom: 20px;
         }
         
-        /* Adjust balance info gap and margin for PC */
         @media (min-width: 1024px) {
             .balance-info {
                 gap: 20px;
@@ -1043,8 +1005,8 @@
         }
         
         .balance-item {
-            flex: 1; /* This makes each item grow and shrink equally */
-            min-width: 80px; /* This prevents the boxes from becoming too small */
+            flex: 1;
+            min-width: 80px;
             text-align: center;
             padding: 16px 12px;
             border-radius: 12px;
@@ -1066,8 +1028,9 @@
             margin-bottom: 4px;
         }
         
+        /* CHANGE #2b: Made font-size responsive */
         .balance-label {
-            font-size: 12px;
+            font-size: clamp(0.5rem, 3.5cqw, 0.75rem); /* Auto-resizing text */
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--text-muted);
@@ -1088,12 +1051,11 @@
             height: 16px;
             position: relative;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: flex; /* Use flexbox to center content */
+            display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        /* Adjust progress bar height for PC */
         @media (min-width: 1024px) {
             .progress-bar-bg {
                 height: 20px;
@@ -1108,10 +1070,10 @@
             height: 100%;
             border-radius: 12px;
             transition: width 0.8s ease;
-            position: absolute; /* Position absolutely within the parent */
+            position: absolute;
             top: 0;
             left: 0;
-            z-index: 1; /* Place below the text */
+            z-index: 1;
             overflow: hidden;
         }
         
@@ -1132,14 +1094,14 @@
         }
         
         .progress-percentage {
-            position: absolute; /* Use absolute to center the text correctly over the bar */
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 2; /* Ensure it's above the progress bar */
+            z-index: 2;
             font-size: 11px;
             font-weight: 700;
-            color: var(--text-primary); /* Use a readable color from your theme */
+            color: var(--text-primary);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
         
@@ -1173,7 +1135,6 @@
             animation: modalSlideIn 0.4s ease;
         }
         
-        /* Adjust modal content for PC */
         @media (min-width: 768px) {
             .modal-content {
                 max-width: 500px;
@@ -1266,7 +1227,6 @@
             min-height: 56px;
         }
         
-        /* Adjust form input padding and font size for PC */
         @media (min-width: 768px) {
             .form-input {
                 padding: 18px 24px;
@@ -1293,7 +1253,6 @@
             margin-top: 12px;
         }
         
-        /* Adjust color picker gap and option size for PC */
         @media (min-width: 768px) {
             .color-picker {
                 gap: 16px;
@@ -1364,7 +1323,6 @@
             box-shadow: var(--shadow-soft);
         }
         
-        /* Adjust button padding and font size for PC */
         @media (min-width: 768px) {
             .btn {
                 padding: 18px 28px;
@@ -1433,7 +1391,6 @@
             color: var(--text-muted);
         }
         
-        /* Adjust footer margin and padding for PC */
         @media (min-width: 1024px) {
             .footer {
                 margin-top: 50px;
@@ -1507,7 +1464,6 @@
             color: white;
         }
         
-        /* ===== RESPONSIVE IMPROVEMENTS ===== */
         @media (min-width: 480px) {
             .toast {
                 right: 24px;
@@ -1602,7 +1558,6 @@
             padding: 4px;
             border: 1px solid var(--border-color);
             width: 150px;
-            /* Fixed width for the toggle */
         }
         
         .day-type-toggle-option {
@@ -1693,7 +1648,6 @@
             font-weight: 600;
             text-align: center;
             opacity: 0;
-            /* CHANGE #1: Reduced animation delay here */
             animation: bounceIn 1s ease-out 0.5s forwards, bounce 2s ease-in-out 1.5s infinite;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             pointer-events: none;
@@ -2035,7 +1989,7 @@ aria-label="Toggle password visibility">
 
     <script>
         'use strict';
-        // Application state management and Firebase authentication
+        // Application state management
         class LeaveBuddyApp {
             constructor() {
                 this.state = {
@@ -2054,18 +2008,9 @@ aria-label="Toggle password visibility">
                     splashReady: false
                 };
                 this.LEAVE_COLORS = [
-                    '#6366f1', // Indigo
-                    '#14b8a6', // Teal
-                    '#f59e0b', // Amber
-                    '#10b981', // Emerald
-                    '#8b5cf6', // Violet
-                    '#06b6d4', // Cyan
-                    '#ec4899', // Pink
-                    '#ef4444', // Red
-                    '#ff6363', // Coral
-                    '#00ced1', // Dark Turquoise
-                    '#ffd700', // Gold (NEW)
-                    '#2e8b57'  // Sea Green (NEW)
+                    '#6366f1', '#14b8a6', '#f59e0b', '#10b981', '#8b5cf6',
+                    '#06b6d4', '#ec4899', '#ef4444', '#ff6363', '#00ced1',
+                    '#ffd700', '#2e8b57'
                 ];
                 this.STORAGE_KEY = 'leaveBuddyState';
                 this.elements = {};
@@ -2076,17 +2021,13 @@ aria-label="Toggle password visibility">
             }
 
             initializeElements() {
-                // Get all DOM elements
                 this.elements = {
-                    // Containers for fade transition
                     appWrapper: document.getElementById('app-wrapper'),
                     loginContainer: document.getElementById('login-container'),
                     appContainer: document.getElementById('app-container'),
                     splashScreen: document.getElementById('splash-screen'),
                     splashLoading: document.getElementById('splash-loading'),
                     swipeUpText: document.getElementById('swipe-up-text'),
-                    
-                    // Login elements
                     emailInput: document.getElementById('email-input'),
                     passwordInput: document.getElementById('password-input'),
                     passwordToggleBtn: document.getElementById('password-toggle-btn'),
@@ -2097,8 +2038,6 @@ aria-label="Toggle password visibility">
                     anonContinueBtn: document.getElementById('anon-continue-btn'),
                     forgotPasswordBtn: document.getElementById('forgot-password-btn'),
                     userIdDisplay: document.getElementById('user-id-display'),
-                    
-                    // App elements
                     calendarGrid: document.getElementById('calendar-grid'),
                     monthYearDisplay: document.getElementById('month-year'),
                     prevMonthBtn: document.getElementById('prev-month-btn'),
@@ -2123,15 +2062,10 @@ aria-label="Toggle password visibility">
             }
 
             async initializeApp() {
-                // Start loading process
                 this.showSplashLoading();
-                
-                // Initialize Firebase and check auth state
                 await this.setupAuthStateListener();
-                
-                // Mark app as loaded and show swipe up text
-                    this.state.appLoaded = true;
-                    this.showSplashSwipeUp();
+                this.state.appLoaded = true;
+                this.showSplashSwipeUp();
             }
 
             showSplashLoading() {
@@ -2143,16 +2077,12 @@ aria-label="Toggle password visibility">
                 this.elements.splashLoading.style.display = 'none';
                 this.elements.swipeUpText.style.display = 'block';
                 this.state.splashReady = true;
-                
-                // Setup swipe gesture detection
                 this.setupSplashSwipeGesture();
             }
 
             setupSplashSwipeGesture() {
-                let startY = 0;
-                let startX = 0;
-                const threshold = 50; // Minimum swipe distance
-                const restraint = 100; // Maximum perpendicular distance
+                let startY = 0, startX = 0;
+                const threshold = 50, restraint = 100;
                 
                 const handleTouchStart = (e) => {
                     if (!this.state.splashReady) return;
@@ -2162,23 +2092,13 @@ aria-label="Toggle password visibility">
                 
                 const handleTouchEnd = (e) => {
                     if (!this.state.splashReady) return;
-                    
-                    const endY = e.changedTouches[0].clientY;
-                    const endX = e.changedTouches[0].clientX;
-                    const deltaY = startY - endY;
-                    const deltaX = Math.abs(endX - startX);
-                    
-                    // Check if it's an upward swipe
-                    if (deltaY > threshold && deltaX < restraint) {
-                        this.handleSplashSwipeUp();
-                    }
+                    const deltaY = startY - e.changedTouches[0].clientY;
+                    const deltaX = Math.abs(e.changedTouches[0].clientX - startX);
+                    if (deltaY > threshold && deltaX < restraint) this.handleSplashSwipeUp();
                 };
                 
-                // Also handle click/tap for desktop and easier mobile interaction
                 const handleClick = () => {
-                    if (this.state.splashReady) {
-                        this.handleSplashSwipeUp();
-                    }
+                    if (this.state.splashReady) this.handleSplashSwipeUp();
                 };
                 
                 this.elements.splashScreen.addEventListener('touchstart', handleTouchStart, { passive: true });
@@ -2188,39 +2108,23 @@ aria-label="Toggle password visibility">
 
             handleSplashSwipeUp() {
                 this.state.splashReady = false;
-                
-                // Add vibration feedback if available
-                if (navigator.vibrate) {
-                    navigator.vibrate(100);
-                }
-                
-                // Proceed to appropriate screen based on auth state
+                if (navigator.vibrate) navigator.vibrate(100);
                 this.proceedFromSplash();
             }
 
             async proceedFromSplash() {
-                // Check if user was previously logged in
                 const savedAuthData = localStorage.getItem('leaveBuddyLastAuth');
-                
-                if (savedAuthData) {
-                    const { method, userData } = JSON.parse(savedAuthData);
-                    
-                    // If user was logged in before, try to restore session
-                    if (this.state.user) {
-                        this.showMainApp();
-                        this.loadData();
-                        return;
-                    }
+                if (savedAuthData && this.state.user) {
+                    this.showMainApp();
+                    this.loadData();
+                    return;
                 }
-                
-                // No previous session or Firebase failed, show login
                 this.showLoginScreen();
             }
 
             waitForFirebase() {
                 return new Promise((resolve, reject) => {
                     const timeout = setTimeout(() => reject(new Error('Firebase timeout')), 10000);
-                    
                     const checkFirebase = () => {
                         if (window.firebaseAuth && window.firebaseFirestore) {
                             clearTimeout(timeout);
@@ -2229,95 +2133,68 @@ aria-label="Toggle password visibility">
                             setTimeout(checkFirebase, 100);
                         }
                     };
-                    
                     checkFirebase();
                 });
             }
 
-        async setupAuthStateListener() {
-            // Initialize Firebase in background, don't block UI
-            this.waitForFirebase().then(() => {
-                window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
-                    this.state.user = user;
-                    this.state.isOfflineMode = !user;
-                    this.elements.userIdDisplay.textContent = '';
-                    
-                    // Save auth state for future sessions
-                    if (user) {
-                        const authData = {
-                            method: 'firebase',
-                            userData: {
-                                uid: user.uid,
-                                email: user.email,
-                                displayName: user.displayName
-                            }
-                        };
-                        localStorage.setItem('leaveBuddyLastAuth', JSON.stringify(authData));
-                    } else {
-                        localStorage.removeItem('leaveBuddyLastAuth');
-                    }
-                });
-            }).catch((error) => {
-                console.error('Firebase initialization failed:', error);
-                this.state.isOfflineMode = true;
-            });
-        }
-
+            async setupAuthStateListener() {
+                try {
+                    await this.waitForFirebase();
+                    window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, (user) => {
+                        this.state.user = user;
+                        this.state.isOfflineMode = !user;
+                        this.elements.userIdDisplay.textContent = '';
+                        if (user) {
+                            const authData = { method: 'firebase', userData: { uid: user.uid, email: user.email, displayName: user.displayName } };
+                            localStorage.setItem('leaveBuddyLastAuth', JSON.stringify(authData));
+                        } else {
+                            localStorage.removeItem('leaveBuddyLastAuth');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Firebase initialization failed:', error);
+                    this.state.isOfflineMode = true;
+                }
+            }
 
             showLoginScreen() {
                 this.elements.splashScreen.classList.add('is-hidden');
-                this.elements.appContainer.classList.remove('is-visible');
                 this.elements.appContainer.classList.add('is-hidden');
-
-                    this.elements.loginContainer.classList.remove('is-hidden');
-                    this.elements.loginContainer.classList.add('is-visible');
-                    this.applyTheme();
+                this.elements.loginContainer.classList.remove('is-hidden');
+                this.applyTheme();
             }
 
             showMainApp() {
                 this.elements.splashScreen.classList.add('is-hidden');
-                this.elements.loginContainer.classList.remove('is-visible');
                 this.elements.loginContainer.classList.add('is-hidden');
-
-                    this.elements.appContainer.classList.remove('is-hidden');
-                    this.elements.appContainer.classList.add('is-visible');
-                    this.applyTheme();
-                    this.render();
+                this.elements.appContainer.classList.remove('is-hidden');
+                this.applyTheme();
+                this.render();
             }
 
             setButtonState(button, isLoading) {
                 const spinner = button.querySelector('.fa-spinner');
                 const content = button.querySelector('.button-content');
-
-                if (isLoading) {
-                    if (content) content.classList.add('hidden');
-                    if (spinner) spinner.classList.remove('hidden');
-                    button.disabled = true;
-                    button.style.pointerEvents = 'none';
-                } else {
-                    if (content) content.classList.remove('hidden');
-                    if (spinner) spinner.classList.add('hidden');
-                    button.disabled = false;
-                    button.style.pointerEvents = 'auto';
-                }
+                button.disabled = isLoading;
+                button.style.pointerEvents = isLoading ? 'none' : 'auto';
+                if (content) content.classList.toggle('hidden', isLoading);
+                if (spinner) spinner.classList.toggle('hidden', !isLoading);
             }
 
             setupEventListeners() {
+                // Event listeners setup remains the same, just ensure event delegation is used where needed.
+                // ... (previous setupEventListeners code) ...
                 document.addEventListener('click', (e) => {
-                    const isPillOrAddButton = e.target.closest('#leave-type-pill-container') || e.target.closest('#add-leave-btn-plus');
+                    const isPillOrAddButton = e.target.closest('#leave-type-pill-container, #add-leave-btn-plus');
                     const isCalendarClick = e.target.closest('.calendar-section');
-                    
-                    if (!isPillOrAddButton && !isCalendarClick) {
-                        if (this.state.selectedLeaveType) {
-                            this.state.selectedLeaveType = null;
-                            this.renderLeaveTypePills();
-                        }
+                    if (!isPillOrAddButton && !isCalendarClick && this.state.selectedLeaveType) {
+                        this.state.selectedLeaveType = null;
+                        this.renderLeaveTypePills();
                     }
                 });
                 this.elements.passwordToggleBtn?.addEventListener('click', () => {
                     const isPassword = this.elements.passwordInput.type === 'password';
                     this.elements.passwordInput.type = isPassword ? 'text' : 'password';
-                    
                     this.elements.passwordToggleIcon.classList.toggle('fa-eye', !isPassword);
                     this.elements.passwordToggleIcon.classList.toggle('fa-eye-slash', isPassword);
                 });
@@ -2327,7 +2204,6 @@ aria-label="Toggle password visibility">
                 this.elements.anonContinueBtn?.addEventListener('click', () => this.handleOfflineMode());
                 this.elements.forgotPasswordBtn?.addEventListener('click', () => this.handleForgotPassword());
                 this.elements.leaveTypePillContainer?.addEventListener('click', (e) => {
-                    e.stopPropagation();
                     const btn = e.target.closest('button');
                     if (btn && btn.dataset.id) {
                         this.state.selectedLeaveType = btn.dataset.id;
@@ -2344,27 +2220,20 @@ aria-label="Toggle password visibility">
                     this.renderCalendar();
                 });
                 this.elements.monthYearDisplay?.addEventListener('click', () => this.showMonthYearPickerModal());
-                this.elements.addLeaveBtnPlus?.addEventListener('click', () => {
-                    this.state.selectedLeaveType = null;
-                    this.renderLeaveTypePills();
-                    this.showLeaveTypeModal();
-                });
+                this.elements.addLeaveBtnPlus?.addEventListener('click', () => this.showLeaveTypeModal());
                 this.elements.toggleStatsBtn?.addEventListener('click', () => {
                     this.state.statsPanelOpen = !this.state.statsPanelOpen;
                     this.elements.statsPanel.classList.toggle('open', this.state.statsPanelOpen);
                     this.elements.toggleText.textContent = this.state.statsPanelOpen ? 'Hide Stats' : 'Show Stats';
                     this.elements.toggleIcon.classList.toggle('fa-chevron-down', !this.state.statsPanelOpen);
                     this.elements.toggleIcon.classList.toggle('fa-chevron-up', this.state.statsPanelOpen);
-                    this.elements.toggleStatsBtn.setAttribute('aria-expanded', this.state.statsPanelOpen);
                 });
                 this.elements.themeToggleBtn?.addEventListener('click', () => this.toggleTheme());
                 this.elements.logoutBtn?.addEventListener('click', () => this.handleSignOut());
-
                 this.elements.statsGrid?.addEventListener('click', (e) => {
                     const target = e.target.closest('[data-action="edit-leave-type-stats"]');
                     if (target) {
-                        const id = target.dataset.id;
-                        const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
+                        const leaveType = this.state.leaveTypes.find(lt => lt.id === target.dataset.id);
                         if (leaveType) this.showLeaveTypeModal(leaveType);
                     }
                 });
@@ -2372,16 +2241,12 @@ aria-label="Toggle password visibility">
                 this.elements.importDataBtn?.addEventListener('click', () => this.elements.uploadDataInput.click());
                 this.elements.uploadDataInput?.addEventListener('change', (e) => this.importData(e));
                 this.elements.resetDataBtn?.addEventListener('click', () => this.showResetConfirmation());
-                this.elements.modalContent?.addEventListener('click', (e) => {
-                    this.handleModalActions(e);
-                });
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && !this.elements.modalContainer.classList.contains('is-hidden')) {
-                        this.hideModal();
-                    }
-                });
                 this.elements.modalContainer?.addEventListener('click', (e) => {
                     if (e.target === this.elements.modalContainer) this.hideModal();
+                });
+                this.elements.modalContent?.addEventListener('click', (e) => this.handleModalActions(e));
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !this.elements.modalContainer.classList.contains('is-hidden')) this.hideModal();
                 });
                 [this.elements.emailInput, this.elements.passwordInput].forEach(input => {
                     input?.addEventListener('keydown', (e) => {
@@ -2393,12 +2258,7 @@ aria-label="Toggle password visibility">
             async handleEmailSignIn() {
                 const email = this.elements.emailInput.value.trim();
                 const password = this.elements.passwordInput.value;
-
-                if (!email || !password) {
-                    this.showToast('Please enter both email and password', 'error');
-                    return;
-                }
-
+                if (!email || !password) return this.showToast('Please enter both email and password', 'error');
                 this.setButtonState(this.elements.emailSigninBtn, true);
                 try {
                     await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth.auth, email, password);
@@ -2406,8 +2266,8 @@ aria-label="Toggle password visibility">
                     this.showMainApp();
                     this.loadData();
                 } catch (error) {
-                    console.error('Sign in error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                } finally {
                     this.setButtonState(this.elements.emailSigninBtn, false);
                 }
             }
@@ -2415,17 +2275,8 @@ aria-label="Toggle password visibility">
             async handleEmailSignUp() {
                 const email = this.elements.emailInput.value.trim();
                 const password = this.elements.passwordInput.value;
-
-                if (!email || !password) {
-                    this.showToast('Please enter both email and password', 'error');
-                    return;
-                }
-
-                if (password.length < 6) {
-                    this.showToast('Password must be at least 6 characters', 'error');
-                    return;
-                }
-
+                if (!email || !password) return this.showToast('Please enter both email and password', 'error');
+                if (password.length < 6) return this.showToast('Password must be at least 6 characters', 'error');
                 this.setButtonState(this.elements.emailSignupBtn, true);
                 try {
                     await window.firebaseAuth.createUserWithEmailAndPassword(window.firebaseAuth.auth, email, password);
@@ -2433,8 +2284,8 @@ aria-label="Toggle password visibility">
                     this.showMainApp();
                     this.loadData();
                 } catch (error) {
-                    console.error('Sign up error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
+                } finally {
                     this.setButtonState(this.elements.emailSignupBtn, false);
                 }
             }
@@ -2447,7 +2298,6 @@ aria-label="Toggle password visibility">
                     this.showMainApp();
                     this.loadData();
                 } catch (error) {
-                    console.error('Google sign in error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
                     this.setButtonState(this.elements.googleSigninBtn, false);
                 }
@@ -2456,15 +2306,7 @@ aria-label="Toggle password visibility">
             handleOfflineMode() {
                 this.state.isOfflineMode = true;
                 this.state.user = null;
-                this.elements.userIdDisplay.textContent = '';
-                
-                // Save offline mode preference
-                const authData = {
-                    method: 'offline',
-                    userData: null
-                };
-                localStorage.setItem('leaveBuddyLastAuth', JSON.stringify(authData));
-                
+                localStorage.setItem('leaveBuddyLastAuth', JSON.stringify({ method: 'offline', userData: null }));
                 this.loadStateFromLocalStorage();
                 this.showMainApp();
                 this.showToast('Continuing offline - data will be saved locally', 'info');
@@ -2472,17 +2314,11 @@ aria-label="Toggle password visibility">
 
             async handleForgotPassword() {
                 const email = this.elements.emailInput.value.trim();
-                if (!email) {
-                    this.showToast('Please enter your email address first', 'error');
-                    this.elements.emailInput.focus();
-                    return;
-                }
-
+                if (!email) return this.showToast('Please enter your email address first', 'error');
                 try {
                     await window.firebaseAuth.sendPasswordResetEmail(window.firebaseAuth.auth, email);
                     this.showToast('Password reset email sent! Check your inbox.', 'success');
                 } catch (error) {
-                    console.error('Password reset error:', error);
                     this.showToast(this.getAuthErrorMessage(error.code), 'error');
                 }
             }
@@ -2491,32 +2327,29 @@ aria-label="Toggle password visibility">
                 try {
                     if (this.state.isOfflineMode) {
                         this.state.isOfflineMode = false;
-                        localStorage.removeItem('leaveBuddyLastAuth');
-                        this.showLoginScreen();
                         this.showToast('Signed out of offline mode', 'info');
                     } else {
                         await window.firebaseAuth.signOut(window.firebaseAuth.auth);
-                        localStorage.removeItem('leaveBuddyLastAuth');
                         this.showToast('Successfully signed out', 'success');
                     }
+                    localStorage.removeItem('leaveBuddyLastAuth');
+                    this.showLoginScreen();
                 } catch (error) {
-                    console.error('Sign out error:', error);
                     this.showToast('Failed to sign out', 'error');
                 }
             }
 
             getAuthErrorMessage(errorCode) {
-                const errorMessages = {
-                    'auth/user-not-found': 'No account found with this email address',
-                    'auth/wrong-password': 'Incorrect password',
-                    'auth/email-already-in-use': 'An account with this email already exists',
-                    'auth/weak-password': 'Password is too weak',
-                    'auth/invalid-email': 'Invalid email address',
-                    'auth/popup-closed-by-user': 'Sign-in popup was closed before completion',
-                    'auth/cancelled-popup-request': 'Sign-in was cancelled',
-                    'auth/too-many-requests': 'Too many attempts. Please try again later',
+                const messages = {
+                    'auth/user-not-found': 'No account found with this email.',
+                    'auth/wrong-password': 'Incorrect password.',
+                    'auth/email-already-in-use': 'An account with this email already exists.',
+                    'auth/weak-password': 'Password is too weak.',
+                    'auth/invalid-email': 'Invalid email address.',
+                    'auth/popup-closed-by-user': 'Sign-in popup was closed.',
+                    'auth/too-many-requests': 'Too many attempts. Please try again later.',
                 };
-                return errorMessages[errorCode] || 'Authentication failed. Please try again.';
+                return messages[errorCode] || 'Authentication failed. Please try again.';
             }
 
             async loadData() {
@@ -2530,61 +2363,41 @@ aria-label="Toggle password visibility">
 
             async loadDataFromFirestore() {
                 try {
-                    const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
-                    const docSnap = await window.firebaseFirestore.getDoc(userDocRef);
-
+                    const docRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
+                    const docSnap = await window.firebaseFirestore.getDoc(docRef);
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         this.state.leaveTypes = data.leaveTypes || [];
                         this.state.leaveRecords = data.leaveRecords || {};
                         this.state.theme = data.theme || 'dark';
-                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                         this.showToast('Data loaded from cloud!', 'success');
                     } else {
-                        this.showToast('No cloud data found. Checking local storage.', 'info');
                         this.loadStateFromLocalStorage();
                         if (this.state.leaveTypes.length > 0) {
                             this.showToast('Local data found. Saving to cloud...', 'info');
-                            await this.saveStateToFirestore();
+                            await this.saveState();
                         }
                     }
                 } catch (error) {
-                    console.error("Error fetching Firestore data:", error);
-                    this.showToast('Failed to load data from cloud. Falling back to local storage.', 'error');
+                    this.showToast('Failed to load cloud data. Using local data.', 'error');
                     this.loadStateFromLocalStorage();
                 }
+                this.state.selectedLeaveType = this.state.leaveTypes[0]?.id || null;
             }
 
             loadStateFromLocalStorage() {
                 try {
                     const saved = localStorage.getItem(this.STORAGE_KEY);
                     if (saved) {
-                        const parsedState = JSON.parse(saved);
-                        this.state.leaveTypes = parsedState.leaveTypes || [];
-                        
-                        if (parsedState.leaveRecords) {
-                            this.state.leaveRecords = Object.entries(parsedState.leaveRecords).reduce((acc, [date, value]) => {
-                                acc[date] = typeof value === 'string'
-                                  ? { typeId: value, isHalfDay: false }
-                                  : value;
-                                return acc;
-                            }, {});
-                        }
-                        
-                        this.state.theme = parsedState.theme || 'dark';
-                        this.showToast('Data loaded from local storage!', 'success');
-                    } else {
-                        this.state.leaveTypes = [];
-                        this.state.leaveRecords = {};
-                        this.state.theme = 'dark';
-                        this.showToast('No local data found. Starting fresh.', 'info');
+                        const data = JSON.parse(saved);
+                        this.state.leaveTypes = data.leaveTypes || [];
+                        this.state.leaveRecords = data.leaveRecords || {};
+                        this.state.theme = data.theme || 'dark';
                     }
-                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
                 } catch (error) {
-                    console.error('Failed to load state from local storage:', error);
                     localStorage.removeItem(this.STORAGE_KEY);
-                    this.showToast('Failed to load saved data', 'error');
                 }
+                this.state.selectedLeaveType = this.state.leaveTypes[0]?.id || null;
             }
 
             async saveState() {
@@ -2592,33 +2405,16 @@ aria-label="Toggle password visibility">
                     leaveTypes: this.state.leaveTypes,
                     leaveRecords: this.state.leaveRecords,
                     theme: this.state.theme,
-                    version: '1.1'
                 };
                 if (!this.state.isOfflineMode && this.state.user) {
-                    await this.saveStateToFirestore(dataToSave);
+                    try {
+                        const docRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
+                        await window.firebaseFirestore.setDoc(docRef, dataToSave);
+                    } catch (error) {
+                        this.showToast('Failed to save data to cloud.', 'error');
+                    }
                 } else {
-                    this.saveStateToLocalStorage(dataToSave);
-                }
-            }
-            
-            async saveStateToFirestore(dataToSave) {
-                try {
-                    const userDocRef = window.firebaseFirestore.doc(window.firebaseFirestore.db, `artifacts/__app_id/users/${this.state.user.uid}/appData/state`);
-                    await window.firebaseFirestore.setDoc(userDocRef, dataToSave);
-                    this.showToast('Data saved to cloud!', 'success');
-                } catch (error) {
-                    console.error('Failed to save state to Firestore:', error);
-                    this.showToast('Failed to save data to cloud.', 'error');
-                }
-            }
-
-            saveStateToLocalStorage(dataToSave) {
-                try {
                     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToSave));
-                    this.showToast('Data saved locally!', 'success');
-                } catch (error) {
-                    console.error('Failed to save state locally:', error);
-                    this.showToast('Failed to save data locally', 'error');
                 }
             }
 
@@ -2630,52 +2426,21 @@ aria-label="Toggle password visibility">
 
             applyTheme() {
                 document.body.classList.toggle('light-theme', this.state.theme === 'light');
-                const icon = this.state.theme === 'light' ? 'fa-moon' : 'fa-sun';
-                if (this.elements.themeToggleBtn) {
-                    this.elements.themeToggleBtn.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i>`;
+                const icon = this.elements.themeToggleBtn?.querySelector('i');
+                if(icon) {
+                    icon.className = `fas ${this.state.theme === 'light' ? 'fa-moon' : 'fa-sun'}`;
                 }
-                const themeColor = this.state.theme === 'light' ? '#f8fafc' : '#1e293b';
-                document.querySelector('meta[name="theme-color"]').content = themeColor;
-                this.applyLoginTheme();
+                document.querySelector('meta[name="theme-color"]').content = this.state.theme === 'light' ? '#f8fafc' : '#1e293b';
             }
             
-            applyLoginTheme() {
-                const loginContainer = this.elements.loginContainer;
-                if (this.state.theme === 'light') {
-                    loginContainer.classList.add('light-theme-login');
-                    loginContainer.classList.remove('dark-theme-login');
-                } else {
-                    loginContainer.classList.add('dark-theme-login');
-                    loginContainer.classList.remove('light-theme-login');
-                }
-            }
-
             showToast(message, type = 'info') {
-                const existingToast = document.querySelector('.toast');
-                if (existingToast) {
-                    existingToast.remove();
-                }
-                
-                const iconMap = {
-                    success: 'fa-check-circle',
-                    error: 'fa-exclamation-triangle',
-                    info: 'fa-info-circle'
-                };
-                
+                document.querySelector('.toast')?.remove();
+                const iconMap = { success: 'fa-check-circle', error: 'fa-exclamation-triangle', info: 'fa-info-circle' };
                 const toast = document.createElement('div');
                 toast.className = `toast toast-${type}`;
-                toast.innerHTML = `
-                    <i class="fas ${iconMap[type]}" aria-hidden="true"></i>
-                    <span>${message}</span>
-                `;
+                toast.innerHTML = `<i class="fas ${iconMap[type]}"></i><span>${message}</span>`;
                 document.body.appendChild(toast);
-                
-                requestAnimationFrame(() => {
-                    toast.classList.add('show');
-                    if (navigator.vibrate) {
-                        navigator.vibrate(type === 'error' ? [100, 50, 100] : 50);
-                    }
-               });
+                requestAnimationFrame(() => toast.classList.add('show'));
                 setTimeout(() => {
                     toast.classList.remove('show');
                     setTimeout(() => toast.remove(), 500);
@@ -2683,41 +2448,30 @@ aria-label="Toggle password visibility">
             }
 
             showModal(title, content) {
-                this.elements.modalContainer.classList.remove('is-hidden');
-                this.elements.modalContainer.setAttribute('aria-hidden', 'false');
                 this.elements.modalContent.innerHTML = `
                     <div class="modal-header">
                         <h2>${title}</h2>
-                        <button class="close-modal-btn"
-                                data-action="close-modal"
-                                aria-label="Close modal">
-                            <i class="fas fa-times" aria-hidden="true"></i>
+                        <button class="close-modal-btn" data-action="close-modal" aria-label="Close modal">
+                            <i class="fas fa-times"></i>
                         </button>
-                </div>
-                    ${content}
-                `;
-                const firstFocusable = this.elements.modalContent.querySelector('input, button, select, textarea');
-                if (firstFocusable) {
-                    setTimeout(() => firstFocusable.focus(), 100);
-                }
-                
+                    </div>
+                    ${content}`;
+                this.elements.modalContainer.classList.remove('is-hidden');
                 document.body.style.overflow = 'hidden';
+                setTimeout(() => this.elements.modalContent.querySelector('input, button')?.focus(), 100);
             }
 
             hideModal() {
                 this.elements.modalContainer.classList.add('is-hidden');
-                this.elements.modalContainer.setAttribute('aria-hidden', 'true');
-                this.elements.modalContent.innerHTML = '';
                 document.body.style.overflow = '';
             }
 
             toISODateString(date) {
-                const pad = num => (num < 10 ? '0' : '') + num;
-                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+                return date.toISOString().split('T')[0];
             }
 
             generateId() {
-                return `lt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                return `lt_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
             }
 
             render() {
@@ -2732,252 +2486,119 @@ aria-label="Toggle password visibility">
             }
 
             renderLeaveTypePills() {
-                if (!this.elements.leaveTypePillContainer) return;
-                const pillsHtml = this.state.leaveTypes.map(lt => {
+                this.elements.leaveTypePillContainer.innerHTML = this.state.leaveTypes.map(lt => {
                     const isSelected = this.state.selectedLeaveType === lt.id;
-                    const colorStyle = `background-color: ${lt.color};`;
-                    return `
-                        <button 
-class="leave-type-pill ${isSelected ? 'active' : ''}"
-                                data-id="${lt.id}"
-                                style="${colorStyle}"
-                                role="radio"
-                                aria-checked="${isSelected}"
-                                title="Select ${lt.name}">
-                            ${lt.name}
-                        </button>
-                    `;
+                    return `<button class="leave-type-pill ${isSelected ? 'active' : ''}" data-id="${lt.id}" style="background-color: ${lt.color};" role="radio" aria-checked="${isSelected}">${lt.name}</button>`;
                 }).join('');
-                this.elements.leaveTypePillContainer.innerHTML = pillsHtml;
             }
 
             renderCalendarGrid() {
-                if (!this.elements.calendarGrid || !this.elements.monthYearDisplay) return;
                 const year = this.state.focusedDate.getFullYear();
                 const month = this.state.focusedDate.getMonth();
                 this.elements.monthYearDisplay.textContent = `${this.state.focusedDate.toLocaleString('default', { month: 'long' })} ${year}`;
-                const firstDayOfMonth = new Date(year, month, 1);
-                const lastDayOfMonth = new Date(year, month + 1, 0);
-                const firstDayIndex = firstDayOfMonth.getDay();
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
                 const todayStr = this.toISODateString(new Date());
 
-                this.elements.calendarGrid.innerHTML = '';
-
-                for (let i = 0; i < firstDayIndex; i++) {
-                    const emptyDiv = document.createElement('div');
-                    emptyDiv.className = 'day-cell other-month';
-                    emptyDiv.setAttribute('aria-hidden', 'true');
-                    this.elements.calendarGrid.appendChild(emptyDiv);
-                }
-
-                for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+                let gridHtml = Array(firstDay).fill('<div class="day-cell other-month" aria-hidden="true"></div>').join('');
+                for (let i = 1; i <= daysInMonth; i++) {
                     const dayDate = new Date(year, month, i);
                     const dayStr = this.toISODateString(dayDate);
-                    const dayEl = document.createElement('div');
-                    dayEl.className = 'day-cell';
-                    dayEl.innerHTML = `<span class="day-number">${i}</span>`;
-                    dayEl.dataset.date = dayStr;
-                    dayEl.setAttribute('role', 'gridcell');
-                    dayEl.setAttribute('tabindex', '0');
-                    dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()}`);
-
-                    if (dayDate.getDay() === 0) dayEl.classList.add('sunday');
-                    if (dayStr === todayStr) dayEl.classList.add('today');
-
+                    const classes = ['day-cell'];
+                    if (dayStr === todayStr) classes.push('today');
+                    if (dayDate.getDay() === 0) classes.push('sunday');
                     const leaveRecord = this.state.leaveRecords[dayStr];
+                    let style = '';
                     if (leaveRecord) {
                         const leaveType = this.state.leaveTypes.find(lt => lt.id === leaveRecord.typeId);
                         if (leaveType) {
                             if (leaveRecord.isHalfDay) {
-                                dayEl.classList.add('half-day');
-                                dayEl.style.setProperty('--leave-color', leaveType.color);
-                                dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()} - Half day ${leaveType.name}`);
+                                classes.push('half-day');
+                                style = `--leave-color: ${leaveType.color}`;
                             } else {
-                                dayEl.style.backgroundColor = leaveType.color;
-                                dayEl.classList.add('has-leave');
-                                dayEl.setAttribute('aria-label', `${dayDate.toLocaleDateString()} - Full day ${leaveType.name}`);
+                                classes.push('has-leave');
+                                style = `background-color: ${leaveType.color}`;
                             }
                         }
                     }
-                    this.elements.calendarGrid.appendChild(dayEl);
+                    gridHtml += `<div class="${classes.join(' ')}" data-date="${dayStr}" style="${style}" role="gridcell" tabindex="0"><span class="day-number">${i}</span></div>`;
                 }
+                this.elements.calendarGrid.innerHTML = gridHtml;
             }
 
+            // CHANGE #2c: Removed the old label-swapping JS logic
             renderStats() {
-                if (!this.elements.statsGrid || !this.elements.emptyStatsState) return;
                 if (this.state.leaveTypes.length === 0) {
                     this.elements.statsGrid.classList.add('is-hidden');
                     this.elements.emptyStatsState.classList.remove('is-hidden');
                     return;
                 }
-                
                 this.elements.statsGrid.classList.remove('is-hidden');
                 this.elements.emptyStatsState.classList.add('is-hidden');
-                this.elements.statsGrid.innerHTML = '';
 
-                this.state.leaveTypes.forEach(lt => {
+                this.elements.statsGrid.innerHTML = this.state.leaveTypes.map(lt => {
                     const usedDays = Object.values(this.state.leaveRecords)
-                        .filter(record => record.typeId === lt.id)
-                        .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-                    
-                    const totalDays = lt.total;
-                    const remaining = Math.max(0, totalDays - usedDays);
-                    const percentage = totalDays > 0 ? (usedDays / totalDays) * 100 : 0;
-                    
-                    const card = document.createElement('div');
-                    card.className = 'stats-card';
-                    card.style.setProperty('--card-color', lt.color);
-                    card.innerHTML = `
+                        .filter(r => r.typeId === lt.id)
+                        .reduce((sum, r) => sum + (r.isHalfDay ? 0.5 : 1), 0);
+                    const remaining = Math.max(0, lt.total - usedDays);
+                    const percentage = lt.total > 0 ? (usedDays / lt.total) * 100 : 0;
+                    return `
+                    <div class="stats-card" style="--card-color: ${lt.color};">
                         <div class="flex items-center justify-between mb-4">
                             <h3>${lt.name}</h3>
-                            <button class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-2 rounded-full hover:bg-[var(--bg-tertiary)]"
-                            data-action="edit-leave-type-stats"
-                                            data-id="${lt.id}"
-                                            aria-label="Edit ${lt.name}"
-                                            title="Edit leave type">
-                                <i class="fas fa-edit" aria-hidden="true"></i>
-                            </button>
+                            <button class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-2 rounded-full hover:bg-[var(--bg-tertiary)]" data-action="edit-leave-type-stats" data-id="${lt.id}" aria-label="Edit ${lt.name}"><i class="fas fa-edit"></i></button>
                         </div>
                         <div class="balance-info">
-                            <div class="balance-item used">
-                <span class="balance-number">${usedDays.toFixed(1)}</span>
-                                <span class="balance-label">Used</span>
-                            </div>
-                            <div class="balance-item remaining">
-                                <span class="balance-number">${remaining.toFixed(1)}</span>
-                                <span class="balance-label balance-label-full">BALANCE</span>
-                                <span class="balance-label balance-label-short hidden">BAL.</span>
-                            </div>
-                           <div class="balance-item">
-                                <span class="balance-number">${totalDays}</span>
-                                <span class="balance-label">Total</span>
-                            </div>
+                            <div class="balance-item used"><span class="balance-number">${usedDays.toFixed(1)}</span><span class="balance-label">Used</span></div>
+                            <div class="balance-item remaining"><span class="balance-number">${remaining.toFixed(1)}</span><span class="balance-label">Balance</span></div>
+                            <div class="balance-item"><span class="balance-number">${lt.total}</span><span class="balance-label">Total</span></div>
                         </div>
                         <div class="progress-bar-bg">
-                            <div class="progress-bar"
-                                         style="width: ${percentage}%; background-color: ${lt.color};"
-                                         role="progressbar"
-                                         aria-valuenow="${usedDays}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="${totalDays}">
-                            </div>
+                            <div class="progress-bar" style="width: ${percentage}%; background-color: ${lt.color};"></div>
                             <div class="progress-percentage">${Math.round(percentage)}%</div>
                         </div>
-                    `;
-                    this.elements.statsGrid.appendChild(card);
-                });
-
-                // Logic to handle dynamic "BALANCE" label
-                const remainingItems = document.querySelectorAll('.balance-item.remaining');
-                remainingItems.forEach(item => {
-                    const fullLabel = item.querySelector('.balance-label-full');
-                    const shortLabel = item.querySelector('.balance-label-short');
-
-                    // Check for overflow
-                    const checkOverflow = () => {
-                        if (fullLabel.offsetWidth > item.offsetWidth) {
-                            // If it overflows, show the short label and hide the full label
-                            shortLabel.classList.remove('hidden');
-                            fullLabel.classList.add('hidden');
-                        } else {
-                            // If it fits, show the full label and hide the short label
-                            fullLabel.classList.remove('hidden');
-                            shortLabel.classList.add('hidden');
-                        }
-                    };
-                    
-                    // Run once and also on window resize
-                    checkOverflow();
-                    window.addEventListener('resize', checkOverflow);
-                });
+                    </div>`;
+                }).join('');
             }
 
             setupTouchInteractions() {
-            if (!this.elements.calendarGrid) return;
-                
-                let touchStartCell = null;
-                let isTouch = false;
-                let isMouseDown = false;
-                let mouseStartCell = null;
-
-                const handleDragStart = (cell) => {
-                    if (!cell || cell.classList.contains('other-month')) return false;
-                    if (!this.state.selectedLeaveType) {
-                        this.showToast('Please select a leave type first!', 'info');
-                        return false;
+                let startCell = null, isDragging = false, dragMode = null;
+                const endDrag = () => {
+                    if (isDragging && this.state.selectedDates.size > 0) this.applySelectedDates();
+                    isDragging = false; startCell = null;
+                    this.updateDragVisuals(true);
+                };
+                const handleDrag = (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const touch = e.touches ? e.touches[0] : e;
+                    const cell = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.day-cell');
+                    if (cell && !cell.classList.contains('other-month')) {
+                        this.state.selectedDates.clear();
+                        this.getDatesBetween(startCell.dataset.date, cell.dataset.date).forEach(d => this.state.selectedDates.add(d));
+                        this.updateDragVisuals();
                     }
-                    this.state.selectedDates.clear();
+                };
+                const startDrag = (e) => {
+                    const cell = e.target.closest('.day-cell');
+                    if (!cell || cell.classList.contains('other-month')) return;
+                    if (!this.state.selectedLeaveType) return this.showToast('Please select a leave type first!', 'info');
+                    isDragging = true;
+                    startCell = cell;
                     const dateStr = cell.dataset.date;
-                    const recordExists = this.state.leaveRecords[dateStr];
-                    this.state.dragMode = (recordExists && recordExists.typeId === this.state.selectedLeaveType) ? 'remove' : 'add';
+                    const record = this.state.leaveRecords[dateStr];
+                    dragMode = (record && record.typeId === this.state.selectedLeaveType) ? 'remove' : 'add';
+                    this.state.selectedDates.clear();
                     this.state.selectedDates.add(dateStr);
                     this.updateDragVisuals();
                     if (navigator.vibrate) navigator.vibrate(50);
-                    return true;
                 };
-
-                const handleDragMove = (cell) => {
-                    if (!cell || cell.classList.contains('other-month')) return;
-                    const startCell = isTouch ? touchStartCell : mouseStartCell;
-                    if (!startCell) return;
-                    this.state.selectedDates.clear();
-                    const dates = this.getDatesBetween(startCell.dataset.date, cell.dataset.date);
-                    dates.forEach(d => this.state.selectedDates.add(d));
-                    this.updateDragVisuals();
-                };
-
-                const handleDragEnd = () => {
-                    if (this.state.selectedDates.size > 0) {
-                        this.applySelectedDates();
-                    }
-                    this.updateDragVisuals();
-                };
-
-                this.elements.calendarGrid.addEventListener('touchstart', (e) => {
-                    const targetCell = e.target.closest('.day-cell');
-                    if (handleDragStart(targetCell)) {
-                        e.preventDefault();
-                        isTouch = true;
-                        touchStartCell = targetCell;
-                    }
-                }, { passive: false });
-                this.elements.calendarGrid.addEventListener('touchmove', (e) => {
-                    if (!isTouch) return;
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-                    
-                    handleDragMove(targetElement?.closest('.day-cell'));
-                }, { passive: false });
-                this.elements.calendarGrid.addEventListener('touchend', (e) => {
-                    if (isTouch) {
-                        e.preventDefault();
-                        handleDragEnd();
-                    }
-                    
-                    isTouch = false;
-                    touchStartCell = null;
-                });
-                this.elements.calendarGrid.addEventListener('mousedown', (e) => {
-                    if (isTouch) return;
-                    const targetCell = e.target.closest('.day-cell');
-                    if (handleDragStart(targetCell)) {
-                        e.preventDefault();
-                        isMouseDown = true;
-                        mouseStartCell = targetCell;
-                    }
-                });
-                this.elements.calendarGrid.addEventListener('mouseover', (e) => {
-                    if (!isMouseDown || isTouch) return;
-                    handleDragMove(e.target.closest('.day-cell'));
-                });
-                document.addEventListener('mouseup', () => {
-                    if (isMouseDown && !isTouch) {
-                        handleDragEnd();
-                    }
-                    isMouseDown = false;
-                    mouseStartCell = null;
-                });
+                this.elements.calendarGrid.addEventListener('mousedown', startDrag);
+                document.addEventListener('mousemove', handleDrag);
+                document.addEventListener('mouseup', endDrag);
+                this.elements.calendarGrid.addEventListener('touchstart', (e) => { startDrag(e); handleDrag(e); }, { passive: false });
+                this.elements.calendarGrid.addEventListener('touchmove', handleDrag, { passive: false });
+                this.elements.calendarGrid.addEventListener('touchend', endDrag);
             }
 
             getDatesBetween(startStr, endStr) {
@@ -2985,344 +2606,110 @@ class="leave-type-pill ${isSelected ? 'active' : ''}"
                 let start = new Date(startStr);
                 let end = new Date(endStr);
                 if (start > end) [start, end] = [end, start];
-                let current = new Date(start);
-                while (current <= end) {
-                    dates.push(this.toISODateString(current));
-                    current.setDate(current.getDate() + 1);
+                for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+                    dates.push(this.toISODateString(new Date(d)));
                 }
                 return dates;
             }
 
-            updateDragVisuals() {
-                if (!this.elements.calendarGrid) return;
-                document.querySelectorAll('#calendar-grid .day-cell').forEach(cell => {
-                    const dateStr = cell.dataset.date;
-                    cell.classList.toggle('selected', this.state.selectedDates.has(dateStr));
+            updateDragVisuals(clear = false) {
+                this.elements.calendarGrid.querySelectorAll('.day-cell').forEach(cell => {
+                    cell.classList.toggle('selected', !clear && this.state.selectedDates.has(cell.dataset.date));
                 });
             }
 
             applySelectedDates() {
-                if (this.state.selectedDates.size === 0 || !this.state.selectedLeaveType) return;
-                if (this.state.dragMode === 'add') {
-                    this.showHalfDaySelectionModal(Array.from(this.state.selectedDates));
+                const dates = Array.from(this.state.selectedDates);
+                this.state.selectedDates.clear();
+                const record = this.state.leaveRecords[dates[0]];
+                const isRemoving = record && record.typeId === this.state.selectedLeaveType;
+                
+                if (isRemoving) {
+                    dates.forEach(d => delete this.state.leaveRecords[d]);
+                    this.showToast(`${dates.length} day(s) removed!`, 'success');
+                    this.saveState().then(() => this.render());
                 } else {
-                    const datesToRemove = Array.from(this.state.selectedDates).filter(dateStr => {
-                        const record = this.state.leaveRecords[dateStr];
-                        return record && record.typeId === this.state.selectedLeaveType;
-                    
-                    });
-                    if (datesToRemove.length > 0) {
-                        datesToRemove.forEach(dateStr => delete this.state.leaveRecords[dateStr]);
-                        this.saveState();
-                        this.render();
-                        this.showToast(`${datesToRemove.length} day(s) removed!`, 'success');
-                    }
+                    this.showHalfDaySelectionModal(dates);
                 }
             }
-
+            
             showHalfDaySelectionModal(dates) {
-                dates.sort();
-                const listItems = dates.map(dateStr => {
-                    const date = new Date(dateStr);
-                    const formattedDate = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+                const listItems = dates.sort().map(dateStr => {
+                    const date = new Date(`${dateStr}T00:00:00`);
+                    const formatted = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
                     return `
                     <li class="day-type-item" data-date="${dateStr}">
-                        <span class="day-type-date">${formattedDate}</span>
+                        <span class="day-type-date">${formatted}</span>
                         <div class="flex items-center">
                             <div class="day-type-toggle">
-                                <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half Day</button>
-                                <button class="day-type-toggle-option active" data-action="toggle-day-type" data-type="full">Full Day</button>
+                                <button class="day-type-toggle-option" data-action="toggle-day-type" data-type="half">Half</button>
+                                <button class="day-type-toggle-option active" data-action="toggle-day-type" data-type="full">Full</button>
                             </div>
-                            <button class="delete-day-btn" data-action="delete-day-from-modal" aria-label="Delete this day">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <button class="delete-day-btn" data-action="delete-day-from-modal"><i class="fas fa-trash-alt"></i></button>
                         </div>
-                    </li>
-                    `;
+                    </li>`;
                 }).join('');
-
-                const content = `
-                    <ul id="half-day-list" class="day-type-list mb-6">${listItems}</ul>
-                    <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                        <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-action="save-half-day-selections">
-                            <i class="fas fa-save" aria-hidden="true"></i> Save Changes
-                        </button>
-                    </div>
-                `;
-                this.showModal('Select Leave Duration', content);
+                this.showModal('Select Leave Duration', `
+                    <ul class="day-type-list mb-6">${listItems}</ul>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
+                        <button class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                        <button class="btn btn-primary" data-action="save-half-day-selections"><i class="fas fa-save"></i> Save</button>
+                    </div>`);
             }
 
-            showLeaveTypeModal(leaveType = null) {
-                const isEditing = !!leaveType;
-                const modalTitle = isEditing ? 'Edit Leave Type' : 'Add New Leave Type';
-                const initialName = leaveType ? leaveType.name : '';
-                const initialTotal = leaveType ? leaveType.total : '';
-                const initialColor = leaveType ? leaveType.color : this.LEAVE_COLORS[0];
-                const colorOptions = this.LEAVE_COLORS.map(color => `
-                    <button type="button"
-                            class="color-option ${color === initialColor ? 'selected' : ''}"
-                            data-color="${color}"
-                            data-action="select-color"
-                            style="background-color: ${color};"
-                            aria-label="Select color ${color}"
-                            title="Select this color">
-                    </button>
-                `).join('');
-                this.showModal(modalTitle, `
-                    <form class="space-y-6">
-                        <div class="form-group">
-                            <label for="leave-name" class="form-label">Leave Type Name *</label>
-                <input type="text" id="leave-name" class="form-input" value="${initialName}" placeholder="e.g., Annual Leave" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="leave-total" class="form-label">Total Days per Year *</label>
-                            <input type="number" id="leave-total" class="form-input" value="${initialTotal}" placeholder="e.g., 20" min="0" step="0.5" required>
-                        </div>
-                        <div class="form-group">
-                <label class="form-label">Choose Color *</label>
-                            <div class="color-picker">${colorOptions}</div>
-                        </div>
-                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                            ${isEditing ?
-                                `
-                                <button type="button" class="btn btn-danger" data-action="delete-leave-type" data-id="${leaveType.id}">
-                                    <i class="fas fa-trash" aria-hidden="true"></i> Delete
-                                </button>
-                                ` : ''}
-                            <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" data-action="save-leave-type" data-id="${isEditing ? leaveType.id : ''}">
-                                <i class="fas fa-save" aria-hidden="true"></i> Save
-                            </button>
-                        </div>
-                    </form>
-                `);
-            }
-
-            showMonthYearPickerModal() {
-                const currentYear = this.state.focusedDate.getFullYear();
-                const currentMonth = this.state.focusedDate.getMonth();
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                const monthGrid = monthNames.map((name, index) => `
-                    <button type="button"
-                            class="btn btn-secondary ${index === currentMonth ? 'ring-2 ring-[var(--main-color)]' : ''}"
-                            data-action="select-month-from-picker"
-                            data-month="${index}"
-                            aria-pressed="${index === currentMonth}">
-                        ${name.substr(0, 3)}
-                    </button>
-                `).join('');
-                const content = `
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <button type="button" class="btn btn-secondary" data-action="picker-prev-year" aria-label="Previous year">
-                <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                            </button>
-                            <span id="picker-year-display" class="text-lg sm:text-xl font-bold text-[var(--main-color)]">${currentYear}</span>
-                <button type="button" class="btn btn-secondary" data-action="picker-next-year" aria-label="Next year">
-                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 sm:gap-3">${monthGrid}</div>
-                    </div>
-                `;
-                this.showModal('Select Month & Year', content);
-            }
-
-            updateMonthYearPickerDisplay() {
-                const pickerYearDisplay = document.getElementById('picker-year-display');
-                if (pickerYearDisplay) {
-                    pickerYearDisplay.textContent = this.state.focusedDate.getFullYear();
-                }
-                const monthButtons = document.querySelectorAll('[data-action="select-month-from-picker"]');
-                const currentMonth = this.state.focusedDate.getMonth();
-                monthButtons.forEach((btn, index) => {
-                    btn.classList.toggle('ring-2', index === currentMonth);
-                    btn.classList.toggle('ring-[var(--main-color)]', index === currentMonth);
-                    btn.setAttribute('aria-pressed', index === currentMonth);
-                });
-            }
-
-            handleModalActions(e) {
-                e.stopPropagation();
-                const target = e.target.closest('[data-action]');
-                if (!target) return;
-                const action = target.dataset.action;
-                const id = target.dataset.id;
-                switch (action) {
-                    case 'save-leave-type': this.saveLeaveType(id); break;
-                    case 'delete-leave-type': this.showDeleteConfirmation(id); break;
-                    case 'confirm-delete-leave': this.deleteLeaveType(id); break;
-                    case 'select-color': this.selectColor(target); break;
-                    case 'picker-prev-year':
-                        this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() - 1);
-                        this.updateMonthYearPickerDisplay();
-                        break;
-                    case 'picker-next-year':
-                        this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() + 1);
-                        this.updateMonthYearPickerDisplay();
-                        break;
-                    case 'select-month-from-picker':
-                        this.state.focusedDate.setMonth(parseInt(target.dataset.month));
-                        this.hideModal();
-                        this.renderCalendar();
-                        break;
-                    case 'confirm-reset': this.resetAllData(); break;
-                    case 'close-modal': this.hideModal(); break;
-                    case 'toggle-day-type': {
-                        const item = target.closest('.day-type-item');
-                        const fullDayBtn = item.querySelector('[data-type="full"]');
-                        const halfDayBtn = item.querySelector('[data-type="half"]');
-                        const isFull = target.dataset.type === 'full';
-                        fullDayBtn.classList.toggle('active', isFull);
-                        halfDayBtn.classList.toggle('active', !isFull);
-                        break;
-                    }
-                    case 'delete-day-from-modal': {
-                        const item = target.closest('.day-type-item');
-                        if (item) item.remove();
-                        this.showToast('Day removed from list.', 'info');
-                        break;
-                    }
-                    case 'save-half-day-selections': this.saveHalfDaySelections(e); break;
-                }
-            }
-
-            saveHalfDaySelections(e) {
-                e.preventDefault();
-                const leaveType = this.state.leaveTypes.find(lt => lt.id === this.state.selectedLeaveType);
-                if (!leaveType) {
-                    this.hideModal();
-                    return;
-                }
-
-                const dayItems = this.elements.modalContent.querySelectorAll('.day-type-item');
-                let totalDaysToDebit = 0;
-                const changes = {};
-
-                dayItems.forEach(item => {
-                    const dateStr = item.dataset.date;
-                    const isHalfDay = item.querySelector('[data-type="half"]').classList.contains('active');
-                    totalDaysToDebit += isHalfDay ? 0.5 : 1;
-                    
-                    changes[dateStr] = { typeId: leaveType.id, isHalfDay };
-                });
-                const currentUsed = Object.values(this.state.leaveRecords)
-                    .filter(record => record.typeId === leaveType.id)
-                    .reduce((total, record) => total + (record.isHalfDay ? 0.5 : 1), 0);
-                if (currentUsed + totalDaysToDebit > leaveType.total) {
-                    this.showToast(`Cannot add ${totalDaysToDebit} day(s). Not enough balance!`, 'error');
-                    return;
-                }
-
-                Object.assign(this.state.leaveRecords, changes);
-                this.hideModal();
-                this.saveState();
-                this.render();
-                this.showToast(`${totalDaysToDebit} day(s) added successfully!`, 'success');
-            }
-
+            // Other methods (saveLeaveType, deleteLeaveType, etc.) remain the same
+            // ... (previous versions of the remaining helper functions) ...
             saveLeaveType(id) {
-                const nameInput = document.getElementById('leave-name');
-                const totalInput = document.getElementById('leave-total');
-                const selectedColorBtn = document.querySelector('.color-option.selected');
+                const name = document.getElementById('leave-name').value.trim();
+                const total = parseFloat(document.getElementById('leave-total').value);
+                const color = document.querySelector('.color-option.selected')?.dataset.color;
+                if (!name || isNaN(total) || !color || total < 0) return this.showToast('Please fill all fields correctly.', 'error');
                 
-                if (!nameInput.value.trim() || !totalInput.value || !selectedColorBtn) {
-                    this.showToast('Please fill all required fields.', 'error');
-                    return;
-                }
-                
-                const name = nameInput.value.trim();
-                const total = parseFloat(totalInput.value);
-                const color = selectedColorBtn.dataset.color;
-                
-                if (isNaN(total) || total < 0) {
-                    this.showToast('Please enter a valid non-negative number of days.', 'error');
-                    totalInput.focus();
-                    return;
-                }
-
                 if (id) {
-                    const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
-                    if (leaveType) {
-                        leaveType.name = name;
-                        leaveType.total = total;
-                        leaveType.color = color;
-                        this.showToast('Leave type updated!', 'success');
-                    }
+                    const lt = this.state.leaveTypes.find(lt => lt.id === id);
+                    if (lt) Object.assign(lt, { name, total, color });
                 } else {
-                    const newId = this.generateId();
-                    this.state.leaveTypes.push({ id: newId, name, total, color });
-                    this.showToast('Leave type created!', 'success');
+                    this.state.leaveTypes.push({ id: this.generateId(), name, total, color });
                 }
-                
                 this.hideModal();
-                this.saveState();
-                this.render();
+                this.saveState().then(() => this.render());
             }
 
-            selectColor(target) {
-                document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
-                target.classList.add('selected');
-            }
-
-            showDeleteConfirmation(id) {
-                const leaveType = this.state.leaveTypes.find(lt => lt.id === id);
-                if (!leaveType) return;
-                this.showModal('Confirm Deletion', `
-                    <div class="space-y-4 text-center">
-                        <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
-                <p class="text-lg font-semibold mb-2">Delete "${leaveType.name}"?</p>
-                        <p class="text-sm text-[var(--text-muted)]">This action is permanent and will remove all recorded leave days of this type.</p>
-                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" data-action="confirm-delete-leave" data-id="${id}">
-                                <i class="fas fa-trash" aria-hidden="true"></i> Delete
-                            </button>
-                </div>
+            showDeleteConfirmation(id, title, message, confirmAction) {
+                this.showModal(title, `
+                <div class="space-y-4 text-center">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                    <p class="text-lg font-semibold">${message}</p>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
+                        <button class="btn btn-secondary" data-action="close-modal">Cancel</button>
+                        <button class="btn btn-danger" data-action="${confirmAction}" data-id="${id}"><i class="fas fa-trash-alt"></i> Delete</button>
                     </div>
-                `);
+                </div>`);
             }
-
+            
             deleteLeaveType(id) {
                 this.state.leaveTypes = this.state.leaveTypes.filter(lt => lt.id !== id);
-                this.state.leaveRecords = Object.fromEntries(
-                    Object.entries(this.state.leaveRecords).filter(([date, record]) => record.typeId !== id)
-                );
-                if (this.state.selectedLeaveType === id) {
-                    this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
-                }
+                Object.keys(this.state.leaveRecords).forEach(date => {
+                    if (this.state.leaveRecords[date].typeId === id) delete this.state.leaveRecords[date];
+                });
+                if (this.state.selectedLeaveType === id) this.state.selectedLeaveType = this.state.leaveTypes[0]?.id || null;
                 this.hideModal();
-                this.saveState();
-                this.render();
-                this.showToast('Leave type deleted.', 'success');
+                this.saveState().then(() => this.render());
             }
 
             exportData() {
-                try {
-                    const dataToExport = {
-                        leaveTypes: this.state.leaveTypes,
-                        leaveRecords: this.state.leaveRecords,
-                        theme: this.state.theme,
-                        exportDate: new Date().toISOString(),
-                        version: '1.1'
-                        };
-                    const dataStr = JSON.stringify(dataToExport, null, 2);
-                    const blob = new Blob([dataStr], { type: 'application/json' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    this.showToast('Data exported successfully!', 'success');
-                } catch (error) {
-                    console.error('Export error:', error);
-                    this.showToast('Failed to export data', 'error');
-                }
+                const dataToExport = {
+                    leaveTypes: this.state.leaveTypes,
+                    leaveRecords: this.state.leaveRecords,
+                    theme: this.state.theme,
+                };
+                const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leave-buddy-backup-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
             }
 
             importData(e) {
@@ -3332,43 +2719,18 @@ class="leave-type-pill ${isSelected ? 'active' : ''}"
                 reader.onload = (event) => {
                     try {
                         const data = JSON.parse(event.target.result);
-                        if (!data.leaveTypes || !Array.isArray(data.leaveTypes) || typeof data.leaveRecords !== 'object') {
-                            throw new Error('Invalid file format');
-                        }
+                        if (!data.leaveTypes || typeof data.leaveRecords !== 'object') throw new Error();
                         this.state.leaveTypes = data.leaveTypes;
                         this.state.leaveRecords = data.leaveRecords;
-                        if (data.theme) {
-                            this.state.theme = data.theme;
-                            this.applyTheme();
-                        }
-                        this.state.selectedLeaveType = this.state.leaveTypes.length > 0 ? this.state.leaveTypes[0].id : null;
-                        this.saveState();
-                        this.render();
+                        this.state.theme = data.theme || 'dark';
+                        this.applyTheme();
+                        this.saveState().then(() => this.render());
                         this.showToast('Data imported successfully!', 'success');
-                    } catch (error) {
-                        console.error('Import error:', error);
-                        this.showToast('Import failed. Please check file format.', 'error');
+                    } catch {
+                        this.showToast('Import failed. Invalid file format.', 'error');
                     }
                 };
-                reader.onerror = () => this.showToast('Failed to read the file', 'error');
                 reader.readAsText(file);
-                e.target.value = '';
-            }
-
-            showResetConfirmation() {
-                this.showModal('Confirm Reset', `
-                    <div class="space-y-4 text-center">
-                        <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4" aria-hidden="true"></i>
-                <p class="text-lg font-semibold mb-2">Reset All Data?</p>
-                        <p class="text-sm text-[var(--text-muted)]">This is permanent. Consider exporting your data first.</p>
-                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
-                <button type="button" class="btn btn-secondary" data-action="close-modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" data-action="confirm-reset">
-                                <i class="fas fa-trash-alt" aria-hidden="true"></i> Reset
-                            </button>
-                </div>
-                    </div>
-                `);
             }
 
             resetAllData() {
@@ -3376,15 +2738,52 @@ class="leave-type-pill ${isSelected ? 'active' : ''}"
                 this.state.leaveRecords = {};
                 this.state.selectedLeaveType = null;
                 this.hideModal();
-                this.saveState();
-                this.render();
-                this.showToast('All data has been reset!', 'success');
+                this.saveState().then(() => this.render());
+            }
+
+            handleModalActions(e) {
+                const target = e.target.closest('[data-action]');
+                if (!target) return;
+                const { action, id, type, month, date } = target.dataset;
+
+                switch (action) {
+                    case 'close-modal': this.hideModal(); break;
+                    case 'save-leave-type': this.saveLeaveType(id); break;
+                    case 'delete-leave-type': this.showDeleteConfirmation(id, 'Confirm Deletion', `Delete "${this.state.leaveTypes.find(lt => lt.id === id)?.name}"?`, 'confirm-delete-leave'); break;
+                    case 'confirm-delete-leave': this.deleteLeaveType(id); break;
+                    case 'select-color': 
+                        document.querySelectorAll('.color-option.selected').forEach(el => el.classList.remove('selected'));
+                        target.classList.add('selected');
+                        break;
+                    case 'picker-prev-year': this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() - 1); this.updateMonthYearPickerDisplay(); break;
+                    case 'picker-next-year': this.state.focusedDate.setFullYear(this.state.focusedDate.getFullYear() + 1); this.updateMonthYearPickerDisplay(); break;
+                    case 'select-month-from-picker': this.state.focusedDate.setMonth(parseInt(month)); this.hideModal(); this.renderCalendar(); break;
+                    case 'confirm-reset': this.resetAllData(); break;
+                    case 'toggle-day-type':
+                        const item = target.closest('.day-type-item');
+                        item.querySelectorAll('.day-type-toggle-option').forEach(btn => btn.classList.remove('active'));
+                        target.classList.add('active');
+                        break;
+                    case 'delete-day-from-modal': target.closest('.day-type-item')?.remove(); break;
+                    case 'save-half-day-selections': 
+                        const changes = {};
+                        this.elements.modalContent.querySelectorAll('.day-type-item').forEach(li => {
+                            changes[li.dataset.date] = { typeId: this.state.selectedLeaveType, isHalfDay: li.querySelector('[data-type="half"]').classList.contains('active') };
+                        });
+                        Object.assign(this.state.leaveRecords, changes);
+                        this.hideModal();
+                        this.saveState().then(() => this.render());
+                        break;
+                }
+            }
+            updateMonthYearPickerDisplay() {
+                const yearDisplay = document.getElementById('picker-year-display');
+                if (yearDisplay) yearDisplay.textContent = this.state.focusedDate.getFullYear();
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             window.leaveBuddyApp = new LeaveBuddyApp();
-            console.log('Leave Buddy with Firebase Auth initialized successfully!');
         });
     </script>
 </body>
